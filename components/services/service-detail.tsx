@@ -2,13 +2,21 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
+  AlertCircle,
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
+  Calendar,
   Check,
+  Clock,
   Clock3,
+  CreditCard,
+  Loader2,
+  Lock,
   MapPin,
+  Phone,
   ShieldCheck,
   Sparkles,
   Star,
@@ -18,16 +26,44 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import { createBooking, createCheckoutSession } from "@/lib/bookings-payments-api";
 import { fetchServices, fetchTechnicianProfile, mapApiServiceToUI } from "@/lib/services-api";
 import type { RepairService } from "@/lib/services-data";
-import type { TechnicianProfile } from "@/types";
+import { cn } from "@/lib/utils";
+import type { Booking, TechnicianProfile } from "@/types";
 
 interface ServiceDetailProps {
   service: RepairService;
 }
 
+const AVAILABLE_TIME_SLOTS = [
+  "09:00-11:00",
+  "10:00-12:00",
+  "11:00-13:00",
+  "14:00-16:00",
+  "16:00-18:00",
+];
+
 export function ServiceDetail({ service }: ServiceDetailProps) {
-  const [booked, setBooked] = useState(false);
+  const router = useRouter();
+
+  // Booking Modal States
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [scheduledDate, setScheduledDate] = useState(() => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.toISOString().split("T")[0];
+  });
+  const [timeSlot, setTimeSlot] = useState("10:00-12:00");
+  const [contactNumber, setContactNumber] = useState("+8801700000000");
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRedirectingPayment, setIsRedirectingPayment] = useState(false);
+  const [bookingError, setBookingError] = useState<string | null>(null);
+  const [needAuth, setNeedAuth] = useState(false);
+  const [createdBooking, setCreatedBooking] = useState<Booking | null>(null);
+
+  // Dynamic Data States
   const [relatedServices, setRelatedServices] = useState<RepairService[]>([]);
   const [techProfile, setTechProfile] = useState<TechnicianProfile | null>(null);
 
@@ -42,7 +78,7 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
           }
         })
         .catch(() => {
-          /* Swallow error for fallback */
+          /* Fallback to initial mapping */
         });
     }
     return () => {
@@ -80,8 +116,55 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
   const techHourlyRate = techProfile?.hourlyRate || service.technician.hourlyRate;
   const techSkills = techProfile?.skills || service.technician.skills || [];
   const techRating = techProfile?.averageRating || service.technician.rating;
-  const techJobs = techProfile?.totalReviews || service.technician.jobs;
   const techIsVerified = techProfile?.isVerified ?? service.technician.isVerified ?? true;
+
+  // Handle Form Submission for Creating Booking
+  const handleBookingSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setBookingError(null);
+    setNeedAuth(false);
+
+    try {
+      const formattedDate = scheduledDate.split("T")[0];
+      const newBooking = await createBooking({
+        serviceId: service.id,
+        scheduledDate: formattedDate,
+        timeSlot,
+        contactNumber,
+      });
+      setCreatedBooking(newBooking);
+    } catch (err: unknown) {
+      const errorObj = err as { statusCode?: number; message?: string };
+      if (errorObj?.statusCode === 401) {
+        setNeedAuth(true);
+        setBookingError("Please log in as a Customer to complete your service booking.");
+      } else {
+        setBookingError(errorObj?.message || "Failed to create booking request. Please check input values.");
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Handle Stripe Payment Redirect
+  const handleProceedToPayment = async (bookingId: string) => {
+    setIsRedirectingPayment(true);
+    setBookingError(null);
+
+    try {
+      const checkoutRes = await createCheckoutSession(bookingId);
+      if (checkoutRes && checkoutRes.url) {
+        window.location.href = checkoutRes.url;
+      } else {
+        throw new Error("No checkout URL returned from payment server.");
+      }
+    } catch (err: unknown) {
+      const errorObj = err as { message?: string };
+      setBookingError(errorObj?.message || "Payment checkout failed. Ensure booking status is ACCEPTED or try again.");
+      setIsRedirectingPayment(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#F9F7F2] text-stone-900 selection:bg-amber-200 selection:text-amber-950">
@@ -221,7 +304,7 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
                 </div>
               </div>
 
-              {/* Dynamic Technician Details: Bio, Location, Hourly Rate, Skills */}
+              {/* Dynamic Technician Details */}
               <div className="mt-4 grid gap-4 sm:grid-cols-2 text-xs text-stone-600 font-medium pt-1">
                 {techBio ? (
                   <div className="sm:col-span-2 rounded-xl bg-stone-50/80 p-3 border border-stone-100">
@@ -304,7 +387,7 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
             ) : null}
           </div>
 
-          {/* Sticky Pricing Sidebar */}
+          {/* Sticky Pricing & Booking Action Sidebar */}
           <aside className="sticky top-28 rounded-3xl border border-stone-200/80 bg-white p-6 shadow-[0_20px_55px_-35px_rgba(41,37,36,0.45)]">
             <div className="flex items-start justify-between gap-4 border-b border-stone-100 pb-5">
               <div>
@@ -333,7 +416,11 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
 
             <button
               type="button"
-              onClick={() => setBooked(true)}
+              onClick={() => {
+                setCreatedBooking(null);
+                setBookingError(null);
+                setIsModalOpen(true);
+              }}
               className="flex w-full items-center justify-center gap-2 rounded-2xl bg-amber-500 px-5 py-4 text-sm font-extrabold text-stone-950 shadow-md shadow-amber-500/20 transition hover:bg-amber-400 focus:outline-none focus-visible:ring-4 focus-visible:ring-amber-200 cursor-pointer"
             >
               <span>Book Service Now</span>
@@ -341,44 +428,206 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
             </button>
 
             <p className="mt-3 text-center text-[11px] leading-5 text-stone-400 font-medium">
-              Select time slot and schedule instantly. No upfront deposit required.
+              Real API booking request with Stripe online checkout options.
             </p>
           </aside>
         </div>
       </main>
 
-      {/* Booking Confirmation Dialog */}
-      {booked ? (
+      {/* Interactive Booking & Payment Modal */}
+      {isModalOpen ? (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-stone-950/40 p-4 backdrop-blur-md">
-          <div className="relative w-full max-w-md rounded-3xl bg-white p-7 text-center shadow-2xl border border-stone-200">
+          <div className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-white p-6 sm:p-8 shadow-2xl border border-stone-200">
             <button
               type="button"
-              onClick={() => setBooked(false)}
-              className="absolute right-4 top-4 rounded-full p-2 text-stone-400 hover:bg-stone-100 hover:text-stone-700 cursor-pointer"
-              aria-label="Close confirmation"
+              onClick={() => {
+                setIsModalOpen(false);
+                setCreatedBooking(null);
+              }}
+              className="absolute right-4 top-4 rounded-full p-2 text-stone-400 hover:bg-stone-100 hover:text-stone-700 cursor-pointer transition"
+              aria-label="Close modal"
             >
-              <X className="h-4 w-4" />
+              <X className="h-5 w-5" />
             </button>
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-700">
-              <Check className="h-7 w-7" />
-            </div>
-            <p className="mt-5 text-xs font-bold uppercase tracking-wider text-amber-700">
-              Booking Request Received
-            </p>
-            <h2 className="mt-2 text-2xl font-extrabold text-stone-900">
-              Service Appointment Reserved
-            </h2>
-            <p className="mt-3 text-xs leading-6 text-stone-500">
-              We've created an appointment request for{" "}
-              <strong className="text-stone-800">{service.name}</strong>. Our local care coordinator will contact you shortly to confirm technician arrival details.
-            </p>
-            <button
-              type="button"
-              onClick={() => setBooked(false)}
-              className="mt-6 w-full rounded-2xl bg-stone-900 px-5 py-3 text-xs font-extrabold text-white hover:bg-stone-800 transition cursor-pointer"
-            >
-              Continue Browsing
-            </button>
+
+            {!createdBooking ? (
+              /* STEP 1: Booking Input Form */
+              <div>
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 text-amber-700">
+                    <Calendar className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-amber-700">
+                      Step 1 of 2
+                    </p>
+                    <h2 className="text-xl font-extrabold text-stone-900">
+                      Schedule Service Booking
+                    </h2>
+                  </div>
+                </div>
+
+                <p className="mt-3 text-xs text-stone-500">
+                  Reserving <strong className="text-stone-800">{service.name}</strong> (${service.price}). Select your preferred visit date & time slot.
+                </p>
+
+                {bookingError ? (
+                  <div className="mt-4 flex flex-col gap-2 rounded-2xl bg-red-50 p-3.5 text-xs text-red-800 border border-red-200">
+                    <div className="flex items-start gap-2">
+                      <AlertCircle className="h-4 w-4 text-red-600 shrink-0 mt-0.5" />
+                      <span>{bookingError}</span>
+                    </div>
+                    {needAuth ? (
+                      <button
+                        type="button"
+                        onClick={() => router.push(`/login?redirect=/services/${service.id}`)}
+                        className="mt-1 self-start rounded-xl bg-red-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-red-700 transition"
+                      >
+                        Log in to Continue →
+                      </button>
+                    ) : null}
+                  </div>
+                ) : null}
+
+                <form onSubmit={handleBookingSubmit} className="mt-5 space-y-4">
+                  {/* Scheduled Date */}
+                  <div>
+                    <label className="block text-xs font-extrabold uppercase text-stone-600 mb-1">
+                      Preferred Date
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="date"
+                        required
+                        value={scheduledDate}
+                        onChange={(e) => setScheduledDate(e.target.value)}
+                        className="h-11 w-full rounded-xl border border-stone-200 bg-stone-50 px-3 text-xs font-bold text-stone-900 outline-none focus:border-amber-500 focus:bg-white"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Time Slot Selection */}
+                  <div>
+                    <label className="block text-xs font-extrabold uppercase text-stone-600 mb-1.5">
+                      Select Time Slot
+                    </label>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      {AVAILABLE_TIME_SLOTS.map((slot) => (
+                        <button
+                          key={slot}
+                          type="button"
+                          onClick={() => setTimeSlot(slot)}
+                          className={cn(
+                            "flex items-center justify-center gap-1 rounded-xl px-3 py-2.5 text-xs font-extrabold border transition cursor-pointer",
+                            timeSlot === slot
+                              ? "bg-amber-500 text-stone-950 border-amber-400 shadow-xs"
+                              : "bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100"
+                          )}
+                        >
+                          <Clock className="h-3.5 w-3.5" />
+                          <span>{slot}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Contact Number */}
+                  <div>
+                    <label className="block text-xs font-extrabold uppercase text-stone-600 mb-1">
+                      Contact Phone Number
+                    </label>
+                    <div className="relative">
+                      <Phone className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-400" />
+                      <input
+                        type="tel"
+                        required
+                        value={contactNumber}
+                        onChange={(e) => setContactNumber(e.target.value)}
+                        placeholder="+8801700000000"
+                        className="h-11 w-full rounded-xl border border-stone-200 bg-stone-50 pl-9 pr-3 text-xs font-bold text-stone-900 outline-none focus:border-amber-500 focus:bg-white"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="pt-3">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full flex items-center justify-center gap-2 rounded-2xl bg-stone-900 px-5 py-3.5 text-xs font-extrabold text-white transition hover:bg-stone-800 disabled:opacity-50 cursor-pointer shadow-md"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin text-amber-400" />
+                          <span>Creating Booking Request...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Confirm Booking Request</span>
+                          <ArrowRight className="h-4 w-4 text-amber-400" />
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              /* STEP 2: Booking Created & Payment Options */
+              <div className="text-center">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-700">
+                  <Check className="h-7 w-7" />
+                </div>
+
+                <span className="mt-4 inline-block rounded-full bg-amber-100 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-amber-900">
+                  Booking Status: {createdBooking.status}
+                </span>
+
+                <h2 className="mt-2 text-2xl font-extrabold text-stone-900">
+                  Booking Request Created!
+                </h2>
+                <p className="mt-2 text-xs text-stone-500 leading-relaxed">
+                  Your appointment for <strong className="text-stone-800">{service.name}</strong> on{" "}
+                  <strong className="text-stone-800">{createdBooking.scheduledDate} ({createdBooking.timeSlot})</strong> has been logged in the backend system.
+                </p>
+
+                {bookingError ? (
+                  <div className="mt-4 rounded-xl bg-red-50 p-3 text-xs text-red-800 border border-red-200 flex items-start gap-2 text-left">
+                    <AlertCircle className="h-4 w-4 text-red-600 shrink-0 mt-0.5" />
+                    <span>{bookingError}</span>
+                  </div>
+                ) : null}
+
+                {/* Direct Action Buttons: Pay via Stripe or View Dashboard */}
+                <div className="mt-6 space-y-3">
+                  <button
+                    type="button"
+                    disabled={isRedirectingPayment}
+                    onClick={() => handleProceedToPayment(createdBooking.id)}
+                    className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-4 text-xs font-extrabold text-stone-950 shadow-lg shadow-amber-500/25 transition hover:from-amber-400 hover:to-amber-500 cursor-pointer disabled:opacity-50"
+                  >
+                    {isRedirectingPayment ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin text-stone-950" />
+                        <span>Redirecting to Stripe...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Lock className="h-4 w-4 text-stone-950" />
+                        <CreditCard className="h-4 w-4 text-stone-950" />
+                        <span>Proceed to Online Payment (Stripe)</span>
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => router.push("/dashboard/customer")}
+                    className="w-full flex items-center justify-center gap-2 rounded-2xl border border-stone-200 bg-white px-5 py-3 text-xs font-bold text-stone-700 hover:bg-stone-50 transition cursor-pointer"
+                  >
+                    <span>View My Bookings in Dashboard</span>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       ) : null}

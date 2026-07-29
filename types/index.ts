@@ -180,3 +180,45 @@ export interface GetServicesResponse {
   };
 }
 
+export type BookingStatus =
+  | "REQUESTED"
+  | "ACCEPTED"
+  | "DECLINED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "CANCELLED"
+  | "PAID";
+
+export type PaymentStatus = "PENDING" | "COMPLETED" | "FAILED" | "REFUNDED";
+
+export interface CreateBookingPayload {
+  serviceId: string;
+  scheduledDate: string;
+  timeSlot: string;
+  contactNumber: string;
+}
+
+export interface Booking {
+  id: string;
+  customerId: string;
+  serviceId: string;
+  technicianProfileId?: string;
+  servicePrice: number;
+  contactNumber: string;
+  scheduledDate: string;
+  timeSlot: string;
+  status: BookingStatus;
+  cancellationReason?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  service?: ApiService;
+  customer?: { name: string; email: string };
+  technicianProfile?: { id: string; user?: { name: string; email?: string } };
+}
+
+export interface CheckoutSessionResponse {
+  url: string;
+  sessionId: string;
+}
+
+
