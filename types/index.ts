@@ -112,3 +112,71 @@ export interface UpdateProfilePayload {
   hourlyRate?: number;
   location?: string;
 }
+
+export interface ApiServiceCategory {
+  id: string;
+  name: string;
+  description?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+  _count?: {
+    services: number;
+  };
+}
+
+export interface ApiTechnicianSummary {
+  id: string;
+  bio?: string | null;
+  skills?: string[] | null;
+  experience?: number | null;
+  hourlyRate?: number | null;
+  location?: string | null;
+  totalReviews?: number | null;
+  averageRating?: number | null;
+  isVerified?: boolean | null;
+  user?: {
+    name: string;
+    email: string;
+    status?: UserStatus;
+  };
+}
+
+export interface ApiService {
+  id: string;
+  title: string;
+  description: string;
+  price: number;
+  categoryId: string;
+  technicianProfileId?: string;
+  createdAt: string;
+  updatedAt: string;
+  category?: ApiServiceCategory;
+  technicianProfile?: ApiTechnicianSummary;
+  image?: string;
+  badge?: string;
+  rating?: number;
+  reviews?: number;
+  duration?: string;
+}
+
+export interface GetServicesParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  categoryId?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+}
+
+export interface GetServicesResponse {
+  data: ApiService[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPage: number;
+  };
+}
+

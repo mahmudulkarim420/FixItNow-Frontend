@@ -24,13 +24,21 @@ export interface RepairService {
   imagePosition?: string;
   includes: string[];
   features: string[];
+  technicianProfileId?: string;
   technician: {
+    id?: string;
     name: string;
+    email?: string;
     role: string;
     experience: string;
     rating: number;
     jobs: number;
     image: string;
+    bio?: string;
+    location?: string;
+    skills?: string[];
+    hourlyRate?: number;
+    isVerified?: boolean;
   };
 }
 
