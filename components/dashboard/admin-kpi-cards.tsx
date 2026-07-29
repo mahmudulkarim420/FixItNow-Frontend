@@ -1,8 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { ArrowUpRight, Plus, Download } from "lucide-react";
+import { AddServiceModal } from "@/components/dashboard/modals/add-service-modal";
 
 export function AdminKpiCards() {
+  const [isAddServiceOpen, setIsAddServiceOpen] = useState(false);
+
   return (
     <div className="space-y-5 sm:space-y-6">
       {/* Title & Action Buttons Header */}
@@ -19,9 +23,10 @@ export function AdminKpiCards() {
         <div className="flex items-center gap-2 self-start sm:self-auto w-full sm:w-auto">
           <button
             type="button"
-            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-2xl bg-stone-900 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-stone-800 active:scale-95"
+            onClick={() => setIsAddServiceOpen(true)}
+            className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-2xl bg-stone-900 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-stone-800 active:scale-95 cursor-pointer"
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-4 w-4 text-amber-400" />
             <span>Add Service</span>
           </button>
 
@@ -35,7 +40,7 @@ export function AdminKpiCards() {
         </div>
       </div>
 
-      {/* 4 Cards Grid responsive for mobile (1 col), tablet (2 cols), desktop (4 cols) */}
+      {/* 4 Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
         {/* Card 1: Featured Main Card */}
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-stone-900 via-stone-900 to-amber-950 p-4 sm:p-5 text-white shadow-md transition-transform hover:-translate-y-0.5">
@@ -136,6 +141,12 @@ export function AdminKpiCards() {
           </div>
         </div>
       </div>
+
+      {/* Add Service Modal Component */}
+      <AddServiceModal
+        isOpen={isAddServiceOpen}
+        onClose={() => setIsAddServiceOpen(false)}
+      />
     </div>
   );
 }

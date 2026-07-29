@@ -1,13 +1,22 @@
-import { requireRole } from "@/lib/auth";
-import { AdminDashboardClient } from "@/components/dashboard/admin-dashboard-client";
+import { AdminKpiCards } from "@/components/dashboard/admin-kpi-cards";
+import { AdminAnalyticsSection } from "@/components/dashboard/admin-analytics-section";
+import { AdminTeamWidget } from "@/components/dashboard/admin-team-widget";
 
 export const metadata = {
-  title: "Admin Dashboard · FixItNow",
-  description: "FixItNow Admin Dashboard - Manage bookings, services, and team dispatches.",
+  title: "Dashboard Overview · FixItNow Admin",
 };
 
-export default async function AdminDashboardPage() {
-  const user = await requireRole("ADMIN");
+export default function AdminOverviewPage() {
+  return (
+    <div className="flex flex-col gap-6">
+      {/* Top KPI Cards & Title Header */}
+      <AdminKpiCards />
 
-  return <AdminDashboardClient user={user} />;
+      {/* Middle Row: Analytics Bar Chart, Reminders & Projects List */}
+      <AdminAnalyticsSection />
+
+      {/* Bottom Row: Team Collaboration Roster, Donut Progress & Time Tracker */}
+      <AdminTeamWidget />
+    </div>
+  );
 }
