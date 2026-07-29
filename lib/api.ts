@@ -148,7 +148,7 @@ export function getTechnicianProfile(id: string): Promise<import("@/types").Tech
 export function updateMyProfile(payload: import("@/types").UpdateProfilePayload): Promise<User> {
   return apiRequest<User>("/auth/me", {
     method: "PATCH",
-    body: JSON.stringify(payload),
+    body: payload,
   });
 }
 

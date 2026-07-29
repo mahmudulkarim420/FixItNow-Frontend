@@ -1,19 +1,13 @@
 import { requireRole } from "@/lib/auth";
+import { AdminDashboardClient } from "@/components/dashboard/admin-dashboard-client";
 
-export const metadata = { title: "Admin Dashboard · FixItNow" };
+export const metadata = {
+  title: "Admin Dashboard · FixItNow",
+  description: "FixItNow Admin Dashboard - Manage bookings, services, and team dispatches.",
+};
 
-export default async function AdminDashboard() {
+export default async function AdminDashboardPage() {
   const user = await requireRole("ADMIN");
 
-  return (
-    <main className="mx-auto max-w-5xl px-6 py-16">
-      <h1 className="text-3xl font-bold tracking-tight text-zinc-900">
-        Admin Console
-      </h1>
-      <p className="mt-2 text-zinc-500">
-        Signed in as {user.name}. Manage users, bookings, payments, and
-        categories here.
-      </p>
-    </main>
-  );
+  return <AdminDashboardClient user={user} />;
 }
