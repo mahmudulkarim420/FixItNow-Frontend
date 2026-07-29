@@ -1,19 +1,13 @@
 import { requireRole } from "@/lib/auth";
+import { CustomerDashboardClient } from "@/components/dashboard/customer-dashboard-client";
 
-export const metadata = { title: "Customer Dashboard · FixItNow" };
+export const metadata = {
+  title: "Customer Dashboard · FixItNow",
+  description: "FixItNow Customer Dashboard - Manage your bookings, home repairs, and payment invoices.",
+};
 
-export default async function CustomerDashboard() {
+export default async function CustomerDashboardPage() {
   const user = await requireRole("CUSTOMER");
 
-  return (
-    <main className="mx-auto max-w-5xl px-6 py-16">
-      <h1 className="text-3xl font-bold tracking-tight text-zinc-900">
-        Welcome, {user.name.split(" ")[0]} 👋
-      </h1>
-      <p className="mt-2 text-zinc-500">
-        This is your customer dashboard. Book services, track bookings, and
-        manage payments here.
-      </p>
-    </main>
-  );
+  return <CustomerDashboardClient user={user} />;
 }
