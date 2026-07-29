@@ -1,0 +1,207 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { Star, Pause, Play, Square, ShieldCheck, CheckCircle2 } from "lucide-react";
+
+const RECENT_REVIEWS = [
+  {
+    id: "1",
+    customer: "David Miller",
+    rating: 5,
+    comment: "Punctual, super friendly, and fixed my kitchen leak in 20 minutes!",
+    service: "Plumbing Repair",
+    time: "2 hours ago",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80",
+  },
+  {
+    id: "2",
+    customer: "Sarah Jenkins",
+    rating: 5,
+    comment: "Extremely professional AC servicing. Highly recommended!",
+    service: "AC Inspection",
+    time: "Yesterday",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80",
+  },
+  {
+    id: "3",
+    customer: "James Wilson",
+    rating: 4.8,
+    comment: "Great work on the main breaker panel installation.",
+    service: "Electrical Repair",
+    time: "3 days ago",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80",
+  },
+];
+
+export function TechnicianWidget() {
+  const [seconds, setSeconds] = useState(2712); // 00:45:12 in seconds
+  const [isRunning, setIsRunning] = useState(true);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isRunning) {
+      interval = setInterval(() => {
+        setSeconds((prev) => prev + 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isRunning]);
+
+  const formatTime = (totalSec: number) => {
+    const hrs = Math.floor(totalSec / 3600);
+    const mins = Math.floor((totalSec % 3600) / 60);
+    const secs = totalSec % 60;
+    return `${hrs.toString().padStart(2, "0")}:${mins
+      .toString()
+      .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-5">
+      {/* 1. Recent Reviews Roster (5 cols wide on desktop) */}
+      <div className="md:col-span-2 lg:col-span-5 rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs">
+        <div className="flex items-center justify-between mb-3.5 sm:mb-4">
+          <h3 className="text-xs sm:text-sm font-bold text-stone-900">
+            Recent Customer Reviews
+          </h3>
+          <span className="text-[11px] font-extrabold text-amber-600">
+            4.9 ★ (52)
+          </span>
+        </div>
+
+        <div className="space-y-3">
+          {RECENT_REVIEWS.map((review) => (
+            <div
+              key={review.id}
+              className="flex flex-col gap-1.5 rounded-2xl p-2.5 bg-stone-50/80 border border-stone-100 transition-colors hover:bg-stone-100/80"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={review.avatar}
+                    alt={review.customer}
+                    className="h-7 w-7 rounded-xl object-cover ring-1 ring-stone-200"
+                  />
+                  <span className="text-xs font-bold text-stone-900">
+                    {review.customer}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-1 text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
+                  <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
+                  <span>{review.rating}</span>
+                </div>
+              </div>
+
+              <p className="text-[11px] text-stone-600 font-medium italic pl-1">
+                "{review.comment}"
+              </p>
+
+              <div className="flex items-center justify-between text-[9px] font-semibold text-stone-400 pt-1">
+                <span>{review.service}</span>
+                <span>{review.time}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 2. Verification & Skill Score Card (4 cols wide on desktop) */}
+      <div className="md:col-span-1 lg:col-span-4 rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs flex flex-col justify-between">
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-xs sm:text-sm font-bold text-stone-900">
+              Profile & Verification
+            </h3>
+            <span className="flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700 border border-emerald-100">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              Verified
+            </span>
+          </div>
+
+          <div className="my-4 p-4 rounded-2xl bg-amber-50/60 border border-amber-100 space-y-2">
+            <div className="flex justify-between items-center text-xs font-semibold">
+              <span className="text-stone-600">Hourly Rate</span>
+              <span className="text-stone-900 font-extrabold text-sm">$45.00 / hr</span>
+            </div>
+            <div className="flex justify-between items-center text-xs font-semibold">
+              <span className="text-stone-600">On-Time Score</span>
+              <span className="text-emerald-700 font-extrabold">96% Completed</span>
+            </div>
+          </div>
+
+          <div className="space-y-1.5">
+            <span className="text-[11px] font-bold text-stone-400 uppercase tracking-wider">
+              Verified Skills
+            </span>
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              <span className="rounded-full bg-stone-100 px-2.5 py-1 text-[10px] font-bold text-stone-700">
+                🔧 AC Repair
+              </span>
+              <span className="rounded-full bg-stone-100 px-2.5 py-1 text-[10px] font-bold text-stone-700">
+                🚰 Plumbing
+              </span>
+              <span className="rounded-full bg-stone-100 px-2.5 py-1 text-[10px] font-bold text-stone-700">
+                ⚡ Electrical
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-[10px] font-semibold text-stone-400">
+          <span>Member since 2024</span>
+          <span className="flex items-center gap-1 text-emerald-600 font-bold">
+            <CheckCircle2 className="h-3 w-3" />
+            Background Checked
+          </span>
+        </div>
+      </div>
+
+      {/* 3. Active Job Timer Widget (3 cols wide on desktop) */}
+      <div className="md:col-span-1 lg:col-span-3 relative overflow-hidden rounded-3xl bg-stone-900 p-4 sm:p-5 text-white shadow-md flex flex-col justify-between min-h-[180px]">
+        <div className="absolute -right-10 -bottom-10 h-32 w-32 rounded-full bg-amber-500/20 blur-2xl" />
+
+        <div className="relative z-10">
+          <h3 className="text-xs font-semibold text-stone-400">Active Job Timer</h3>
+          <p className="text-[11px] font-bold text-amber-400 truncate mt-0.5">
+            Job #204: AC Repair
+          </p>
+        </div>
+
+        <div className="relative z-10 my-3 sm:my-4 text-center">
+          <span className="text-2xl sm:text-3xl font-mono font-extrabold tracking-wider text-amber-400">
+            {formatTime(seconds)}
+          </span>
+        </div>
+
+        <div className="relative z-10 flex items-center justify-center gap-3">
+          <button
+            type="button"
+            onClick={() => setIsRunning(!isRunning)}
+            aria-label={isRunning ? "Pause job timer" : "Start job timer"}
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-stone-900 shadow-md transition-all hover:bg-stone-200 active:scale-90"
+          >
+            {isRunning ? (
+              <Pause className="h-4 w-4 fill-stone-900" />
+            ) : (
+              <Play className="h-4 w-4 fill-stone-900 ml-0.5" />
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
+              setIsRunning(false);
+              setSeconds(0);
+            }}
+            aria-label="Complete job"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-white shadow-md transition-all hover:bg-emerald-600 active:scale-90"
+          >
+            <Square className="h-4 w-4 fill-white" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
