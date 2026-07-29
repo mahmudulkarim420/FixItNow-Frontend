@@ -36,4 +36,25 @@ body {
   background-color: #F9F7F2;
 }
 
+/* Auth split-screen: form card entrance animation */
+@keyframes auth-form-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
+.auth-form-card {
+  animation: auth-form-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .auth-form-card {
+    animation: none;
+  }
+}

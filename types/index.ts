@@ -1,0 +1,114 @@
+/**
+ * Shared application types for FixItNow frontend.
+ * Mirrors the backend response envelope described in API_INTEGRATION.md.
+ */
+
+export type UserRole = "CUSTOMER" | "TECHNICIAN" | "ADMIN";
+
+export type UserStatus = "ACTIVE" | "BANNED";
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  status: UserStatus;
+  createdAt: string;
+  updatedAt: string;
+  /** Optional — present when the backend enriches the profile. */
+  phone?: string | null;
+  /** Optional — URL to the user's avatar image. */
+  avatar?: string | null;
+  technicianProfile?: {
+    id: string;
+  } | null;
+}
+
+export interface TechnicianProfile {
+  id: string;
+  userId: string;
+  bio?: string | null;
+  skills?: string[] | null;
+  experience?: number | null;
+  hourlyRate?: number | null;
+  location?: string | null;
+  totalReviews?: number;
+  averageRating?: number;
+  availability?: Record<string, string[]> | null;
+  isVerified?: boolean;
+  createdAt: string;
+  updatedAt: string;
+  user?: {
+    name: string;
+    email: string;
+    status?: UserStatus;
+  };
+  services?: Array<{
+    id: string;
+    title: string;
+    price: number;
+    description: string;
+  }>;
+  reviews?: Array<{
+    id: string;
+    rating: number;
+    comment: string;
+    customer?: { name: string };
+  }>;
+}
+
+export interface AuthSession {
+  user: User;
+}
+
+/** Standard success envelope returned by the backend. */
+export interface ApiSuccessResponse<T> {
+  success: true;
+  statusCode: number;
+  message: string;
+  meta?: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPage: number;
+  };
+  data: T;
+}
+
+/** Error envelope returned by the backend global error handler. */
+export interface ApiErrorResponse {
+  success: false;
+  message: string;
+  errorSources?: { path: string; message: string }[];
+  stack?: string;
+}
+
+export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
+
+/** Shape of the payload sent to POST /auth/register. */
+export interface RegisterPayload {
+  name: string;
+  email: string;
+  password: string;
+  role: "CUSTOMER" | "TECHNICIAN";
+}
+
+/** Shape of the payload sent to POST /auth/login. */
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+/** Shape of the payload sent to PATCH /auth/me. */
+export interface UpdateProfilePayload {
+  name?: string;
+  email?: string;
+  password?: string;
+  phone?: string;
+  avatar?: string;
+  bio?: string;
+  skills?: string[];
+  experience?: number;
+  hourlyRate?: number;
+  location?: string;
+}

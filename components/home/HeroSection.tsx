@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Sparkles, CreditCard, Video, ShieldAlert, Scale, GraduationCap, TrendingUp } from "lucide-react";
+import { ArrowUpRight, CreditCard, Video, ShieldAlert, Scale, GraduationCap, TrendingUp } from "lucide-react";
 
 export default function HeroSection() {
   const cards = [
