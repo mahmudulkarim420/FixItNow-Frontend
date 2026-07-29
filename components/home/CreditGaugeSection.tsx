@@ -1,25 +1,26 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, TrendingUp, CheckCircle2, DollarSign, Briefcase } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ShieldCheck, CheckCircle2, Clock, Star, Award } from "lucide-react";
 
 export default function CreditGaugeSection() {
   const bulletPoints = [
     {
-      icon: TrendingUp,
-      text: "Turn low scores into approval-ready scores",
+      icon: Award,
+      text: "Certified & background-checked local technicians",
     },
     {
       icon: CheckCircle2,
-      text: "Remove inaccurate marks from your credit report",
+      text: "Upfront transparent pricing with zero surprise fees",
     },
     {
-      icon: DollarSign,
-      text: "Lower interest rates on future loans & mortgages",
+      icon: Clock,
+      text: "Same-day response for urgent plumbing & AC repairs",
     },
     {
-      icon: Briefcase,
-      text: "Access 24/7 credit watch and alerts",
+      icon: ShieldCheck,
+      text: "Backed by our 30-day 100% satisfaction guarantee",
     },
   ];
 
@@ -36,12 +37,12 @@ export default function CreditGaugeSection() {
             className="lg:col-span-6 flex flex-col justify-center"
           >
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-[1.15] mb-6">
-              Credit repair that changes <br />
-              more than your score.
+              Home repairs made simple, <br />
+              reliable, and stress-free.
             </h2>
 
             <p className="text-stone-600 text-sm sm:text-base leading-relaxed mb-8">
-              Our credit restoration services empower you to qualify for better loan rates, secure your dream home, and unlock premier credit card rewards.
+              Over 10,000+ homeowners trust FixItNow for fast, dependable, and high-quality repairs across AC, plumbing, electrical, and household appliances.
             </p>
 
             {/* Bullet Points */}
@@ -61,17 +62,17 @@ export default function CreditGaugeSection() {
 
             {/* CTA Button */}
             <div>
-              <a
-                href="#get-started"
+              <Link
+                href="/services"
                 className="group inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-sm px-8 py-3.5 rounded-full shadow-md transition-all duration-200 hover:scale-105 active:scale-95"
               >
-                <span>Get Started</span>
+                <span>Find Your Service</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </Link>
             </div>
           </motion.div>
 
-          {/* Right Column: Visual Credit Score Gauge Meter Card */}
+          {/* Right Column: Visual Service Quality Gauge Meter Card */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -80,26 +81,26 @@ export default function CreditGaugeSection() {
             className="lg:col-span-6 relative flex justify-center"
           >
             <div className="relative w-full max-w-lg p-8 sm:p-10 rounded-3xl bg-white border border-stone-200/80 shadow-md">
-              {/* Floating Bureau Pills */}
-              {/* Experian Pill Top Right */}
+              {/* Floating Performance Pills */}
+              {/* Avg Rating Pill Top Right */}
               <div className="absolute top-6 right-6 px-3.5 py-1.5 rounded-full bg-stone-50 border border-stone-200 shadow-xs flex items-center gap-2 text-xs font-semibold">
-                <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-                <span className="text-stone-500">Credit Score</span>
-                <span className="text-stone-900 font-bold">750</span>
+                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                <span className="text-stone-500">Rating</span>
+                <span className="text-stone-900 font-bold">4.9 / 5.0</span>
               </div>
 
-              {/* TransUnion Pill Middle Left */}
+              {/* Arrival Time Pill Middle Left */}
               <div className="absolute top-24 left-6 px-3 py-1.5 rounded-full bg-stone-50 border border-stone-200 shadow-xs flex items-center gap-2 text-xs font-semibold">
-                <span className="w-2 h-2 rounded-full bg-sky-500"></span>
-                <span className="text-stone-500">TransUnion</span>
-                <span className="text-stone-900 font-bold">765</span>
+                <Clock className="w-3.5 h-3.5 text-sky-500" />
+                <span className="text-stone-500">Avg Arrival</span>
+                <span className="text-stone-900 font-bold">45 min</span>
               </div>
 
-              {/* Equifax Pill Bottom Left */}
+              {/* Satisfaction Pill Bottom Left */}
               <div className="absolute bottom-10 left-6 px-3 py-1.5 rounded-full bg-stone-50 border border-stone-200 shadow-xs flex items-center gap-2 text-xs font-semibold">
-                <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                <span className="text-stone-500">Equifax</span>
-                <span className="text-stone-900 font-bold">780</span>
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                <span className="text-stone-500">First Visit Fix</span>
+                <span className="text-stone-900 font-bold">99.4%</span>
               </div>
 
               {/* Semicircular SVG Gauge Meter */}
@@ -108,9 +109,8 @@ export default function CreditGaugeSection() {
                   <svg className="w-full h-full" viewBox="0 0 200 110">
                     <defs>
                       <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#EF4444" />
-                        <stop offset="40%" stopColor="#F59E0B" />
-                        <stop offset="75%" stopColor="#10B981" />
+                        <stop offset="0%" stopColor="#F59E0B" />
+                        <stop offset="50%" stopColor="#10B981" />
                         <stop offset="100%" stopColor="#059669" />
                       </linearGradient>
                     </defs>
@@ -131,7 +131,7 @@ export default function CreditGaugeSection() {
                       strokeLinecap="round"
                     />
                     {/* Gauge Needle */}
-                    <g transform="translate(100, 100) rotate(45)">
+                    <g transform="translate(100, 100) rotate(55)">
                       <polygon points="-4,-5 0,-70 4,-5" fill="#18181B" />
                       <circle cx="0" cy="0" r="7" fill="#18181B" />
                       <circle cx="0" cy="0" r="3" fill="#F59E0B" />
@@ -142,7 +142,10 @@ export default function CreditGaugeSection() {
                 {/* Score Text */}
                 <div className="text-center mt-2">
                   <div className="text-xs uppercase font-extrabold tracking-widest text-stone-900">
-                    CREDIT SCORE
+                    SERVICE QUALITY INDEX
+                  </div>
+                  <div className="text-xs font-semibold text-emerald-600 mt-1">
+                    Top Rated Household Platform
                   </div>
                 </div>
               </div>

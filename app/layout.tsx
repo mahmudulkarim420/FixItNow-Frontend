@@ -14,8 +14,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FixItNow - Premier Credit Repair & Restoration",
-  description: "FixItNow is a premier credit restoration and financial education platform.",
+  title: {
+    default: "FixItNow | Trusted Home Repair Services",
+    template: "%s | FixItNow",
+  },
+  description:
+    "Book trusted local experts for AC, plumbing, electrical, appliance, and everyday home repairs.",
 };
 
 export default function RootLayout({

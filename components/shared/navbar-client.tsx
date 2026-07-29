@@ -1,9 +1,9 @@
 "use client";
 
-import { Home, Layers, Compass, Star, Zap } from "lucide-react";
+import { Home, Wrench, Compass, Info, MessageCircle, Zap } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { UserMenu } from "@/components/shared/user-menu";
 import { cn } from "@/lib/utils";
@@ -14,37 +14,56 @@ interface NavbarClientProps {
 }
 
 const DESKTOP_NAV_LINKS = [
-  { name: "App", href: "#app" },
-  { name: "How It Works", href: "#process" },
-  { name: "Services", href: "#services" },
-  { name: "Pricing", href: "#pricing" },
-  { name: "Blog", href: "#blog" },
-  { name: "About Us", href: "#about" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home", href: "/" },
+  { name: "Services", href: "/services" },
+  { name: "How It Works", href: "/how-it-works" },
+  { name: "About Us", href: "/about" },
+  { name: "Contact", href: "/contact" },
 ];
 
 const MOBILE_TABS = [
   { id: "home", name: "Home", href: "/", icon: Home },
-  { id: "services", name: "Services", href: "#services", icon: Layers },
-  { id: "process", name: "Process", href: "#process", icon: Compass },
-  { id: "reviews", name: "Reviews", href: "#testimonials", icon: Star },
-  { id: "cta", name: "Start", href: "#get-started", icon: Zap, isCta: true },
+  { id: "services", name: "Services", href: "/services", icon: Wrench },
+  { id: "process", name: "How it works", href: "/how-it-works", icon: Compass },
+  { id: "about", name: "About", href: "/about", icon: Info },
+  { id: "contact", name: "Contact", href: "/contact", icon: MessageCircle },
 ];
 
 export function NavbarClient({ user }: NavbarClientProps) {
   const pathname = usePathname();
-  const [activeTab, setActiveTab] = useState("home");
+  const [hash, setHash] = useState("");
+
+  useEffect(() => {
+    setHash(window.location.hash);
+    const handleHashChange = () => setHash(window.location.hash);
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  const isActive = (href: string) => {
+    const [targetPath, targetHash] = href.split("#");
+
+    if (targetHash) {
+      return pathname === targetPath && hash === `#${targetHash}`;
+    }
+
+    if (targetPath === "/") {
+      return pathname === "/" && !hash;
+    }
+
+    return pathname === targetPath || pathname.startsWith(`${targetPath}/`);
+  };
 
   return (
     <>
       {/* Fixed Top Header */}
       <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3 sm:pt-4">
-          <div className="flex items-center justify-between h-14 sm:h-16 px-4 sm:px-6 rounded-full bg-white/90 backdrop-blur-md border border-stone-200/50 shadow-xs">
+          <div className="relative flex h-14 items-center justify-between rounded-full border border-stone-200/70 bg-white/90 px-4 shadow-sm backdrop-blur-md sm:h-16 sm:px-6">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-8 h-8 rounded-full bg-sky-600 flex items-center justify-center text-white font-black text-sm shadow-xs group-hover:scale-105 transition-transform">
-                <span className="leading-none">F</span>
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-500 text-stone-950 shadow-sm transition-transform group-hover:scale-105">
+                <Wrench className="h-4 w-4" />
               </div>
               <span className="font-bold text-lg sm:text-xl tracking-tight text-stone-900">
                 FixItNow<span className="text-amber-500 font-extrabold">.</span>
@@ -52,12 +71,17 @@ export function NavbarClient({ user }: NavbarClientProps) {
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-6">
+            <nav className="hidden items-center gap-1 lg:flex">
               {DESKTOP_NAV_LINKS.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}
-                  className="text-xs font-semibold text-stone-600 hover:text-stone-900 transition-colors"
+                  className={cn(
+                    "rounded-full px-3 py-2 text-xs font-semibold transition-colors",
+                    isActive(link.href)
+                      ? "bg-amber-50 text-amber-700"
+                      : "text-stone-600 hover:bg-stone-50 hover:text-stone-900",
+                  )}
                 >
                   {link.name}
                 </Link>
@@ -67,20 +91,19 @@ export function NavbarClient({ user }: NavbarClientProps) {
             {/* Right side: auth-aware */}
             <div className="flex items-center gap-2 sm:gap-3">
               {user ? (
-                <UserMenu user={user} />
+                <>
+                  <Link href="/dashboard/customer" className="hidden rounded-full bg-stone-900 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-stone-800 sm:inline-flex">
+                    Dashboard
+                  </Link>
+                  <UserMenu user={user} />
+                </>
               ) : (
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <Link
-                    href="/login"
-                    className="hidden sm:inline-flex items-center text-xs font-bold text-stone-700 hover:text-stone-900 px-4 py-2 rounded-full transition-colors hover:bg-stone-100"
-                  >
-                    Sign In
+                  <Link href="/login" className="hidden rounded-full px-4 py-2 text-xs font-bold text-stone-700 transition hover:bg-stone-100 sm:inline-flex">
+                    Log in
                   </Link>
-                  <Link
-                    href="/register"
-                    className="inline-flex items-center bg-stone-900 hover:bg-stone-800 text-white text-xs font-bold px-5 sm:px-6 py-2.5 rounded-full uppercase tracking-wider transition-all duration-200 shadow-xs active:scale-95"
-                  >
-                    Sign Up
+                  <Link href="/register" className="inline-flex rounded-full bg-stone-900 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-stone-800 sm:px-5">
+                    Register
                   </Link>
                 </div>
               )}
@@ -89,55 +112,32 @@ export function NavbarClient({ user }: NavbarClientProps) {
         </div>
       </header>
 
-      {/* Mobile Bottom Tab Bar */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-t border-stone-200/90 shadow-lg px-2 py-1.5 flex items-center justify-around">
+      {/* Mobile bottom utility navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 z-30 flex items-center justify-around border-t border-stone-200/90 bg-white/95 px-1.5 py-1.5 shadow-lg backdrop-blur-lg lg:hidden">
         {MOBILE_TABS.map((tab) => {
           const Icon = tab.icon;
-          const isActive = activeTab === tab.id || pathname === tab.href;
-
-          if (tab.isCta) {
-            return (
-              <Link
-                key={tab.id}
-                href={user ? "/dashboard/customer" : tab.href}
-                onClick={() => setActiveTab(tab.id)}
-                className="flex items-center gap-1.5 bg-amber-500 hover:bg-amber-600 text-white px-4 py-2 rounded-full font-bold text-xs shadow-xs active:scale-95 transition-all shrink-0"
-              >
-                <Zap className="w-3.5 h-3.5 fill-white text-white" />
-                <span>{tab.name}</span>
-              </Link>
-            );
-          }
-
+          const tabActive = isActive(tab.href);
           return (
             <Link
               key={tab.id}
               href={tab.href}
-              onClick={() => setActiveTab(tab.id)}
               className={cn(
-                "flex flex-col items-center justify-center flex-1 py-1 px-2 rounded-xl transition-all duration-200",
-                isActive
-                  ? "text-amber-600 font-bold bg-amber-50/70"
-                  : "text-stone-500 hover:text-stone-900 font-medium",
+                "flex flex-1 flex-col items-center rounded-xl px-1 py-1 text-[10px] transition-colors",
+                tabActive ? "bg-amber-50 font-bold text-amber-700" : "text-stone-500 hover:text-stone-900"
               )}
             >
-              <div className="relative">
-                <Icon
-                  className={cn(
-                    "w-4 h-4",
-                    isActive ? "text-amber-600" : "text-stone-500",
-                  )}
-                />
-                {isActive && (
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-amber-500" />
-                )}
-              </div>
-              <span className="text-[10px] tracking-tight mt-0.5">
-                {tab.name}
-              </span>
+              <Icon className="h-4 w-4" />
+              <span className="mt-0.5 whitespace-nowrap text-[9px] sm:text-[10px]">{tab.name}</span>
             </Link>
           );
         })}
+        <Link
+          href={user ? "/dashboard/customer" : "/register"}
+          className="ml-1 flex shrink-0 items-center gap-1 rounded-full bg-amber-500 px-2.5 py-1.5 text-[10px] font-bold text-stone-950 shadow-sm hover:bg-amber-600 transition-colors"
+        >
+          <Zap className="h-3.5 w-3.5" />
+          <span>Start</span>
+        </Link>
       </nav>
     </>
   );

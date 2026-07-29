@@ -21,8 +21,8 @@ export default function EmpowerSection() {
               {/* Back Top-Left Image */}
               <div className="absolute top-0 left-0 w-2/3 h-2/3 rounded-2xl overflow-hidden shadow-md border-4 border-white">
                 <Image
-                  src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&q=80&w=600"
-                  alt="Financial Documents Desk"
+                  src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&q=80&w=600"
+                  alt="Plumbing Repair Work"
                   fill
                   className="object-cover"
                 />
@@ -31,8 +31,8 @@ export default function EmpowerSection() {
               {/* Front Bottom-Right Overlapping Image */}
               <div className="absolute bottom-0 right-0 w-3/4 h-3/4 rounded-2xl overflow-hidden shadow-xl border-4 border-white">
                 <Image
-                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=700"
-                  alt="Analytics Strategy Meeting"
+                  src="https://images.unsplash.com/photo-1631545806609-1c2397f6c58d?auto=format&fit=crop&q=80&w=700"
+                  alt="HVAC Air Conditioning Service"
                   fill
                   className="object-cover"
                 />
@@ -50,7 +50,7 @@ export default function EmpowerSection() {
           >
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-[1.15] mb-6">
               Empowering Your <br />
-              Credit, Protecting Your <br />
+              Home, Protecting Your <br />
               Budget.
             </h2>
 
@@ -59,11 +59,11 @@ export default function EmpowerSection() {
               <div className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center">
                 <ShieldCheck className="w-3.5 h-3.5" />
               </div>
-              <span>Take Control of Your Future!</span>
+              <span>Transparent Upfront Pricing!</span>
             </div>
 
             <p className="text-stone-600 text-sm sm:text-base leading-relaxed font-normal">
-              We tailor credit restoration plans to align with your personal financial goals and budget. From removing negative marks to building positive payment histories, our team provides transparent guidance every step of the way.
+              We connect you with experienced, vetted local specialists who diagnose the root cause and repair with care. No hidden call-out fees, no inflated quotes — just clear, honest service for your peace of mind.
             </p>
           </motion.div>
         </div>

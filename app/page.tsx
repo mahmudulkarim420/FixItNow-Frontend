@@ -8,9 +8,9 @@ import TestimonialsSection from "@/components/home/TestimonialsSection";
 import Footer from "@/components/home/Footer";
 
 export const metadata = {
-  title: "FixItNow | Fix Your Credit, Change Your Life",
+  title: "FixItNow | Trusted Home Repair & Maintenance Services",
   description:
-    "A premier credit repair platform helping you analyze, dispute inaccurate negative items, rebuild your score, and achieve total financial freedom.",
+    "Book trusted local experts for AC, plumbing, electrical, appliance, and everyday home repairs with clear upfront pricing.",
 };
 
 export default function Home() {
@@ -24,16 +24,16 @@ export default function Home() {
         {/* 2. Hero Section */}
         <HeroSection />
 
-        {/* 3. Our Simple 3-Step Credit Repair Process */}
+        {/* 3. Our Simple 3-Step Home Repair Process */}
         <ProcessSection />
 
         {/* 4. Call-to-Action Banner */}
         <CtaBanner />
 
-        {/* 5. Empowering Your Credit... Section */}
+        {/* 5. Empowering Your Home Section */}
         <EmpowerSection />
 
-        {/* 6. Stats & Credit Gauge Section */}
+        {/* 6. Stats & Quality Guarantee Section */}
         <CreditGaugeSection />
 
         {/* 7. Testimonials Section */}

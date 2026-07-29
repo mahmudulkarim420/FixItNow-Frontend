@@ -1,24 +1,25 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, CreditCard, Video, ShieldAlert, Scale, GraduationCap, TrendingUp } from "lucide-react";
+import Link from "next/link";
+import { ArrowUpRight, Wrench, Droplets, Zap, ShieldCheck, Clock, Award } from "lucide-react";
 
 export default function HeroSection() {
   const cards = [
     {
-      icon: Scale,
-      title: "Fix Your Score",
-      description: "We challenge questionable negative items with the credit bureaus and creditors to help improve your score.",
+      icon: Clock,
+      title: "Fast Local Booking",
+      description: "Book certified local technicians in under 60 seconds with clear upfront pricing and zero hidden fees.",
     },
     {
-      icon: GraduationCap,
-      title: "FixIt Masterclass",
-      description: "Master financial literacy, dispute strategies, and score building with our step-by-step masterclass.",
+      icon: Award,
+      title: "Verified Experts",
+      description: "Every plumber, electrician, and HVAC specialist is background-checked, licensed, and top-rated.",
     },
     {
-      icon: TrendingUp,
-      title: "FixIt Monitoring",
-      description: "Get real-time 24/7 bureau alerts, score updates, and identity watch to protect your financial profile.",
+      icon: ShieldCheck,
+      title: "30-Day Guarantee",
+      description: "All repairs and maintenance visits are backed by our 30-day quality and satisfaction guarantee.",
     },
   ];
 
@@ -34,11 +35,9 @@ export default function HeroSection() {
       <div className="absolute bottom-0 left-0 right-0 h-48 sm:h-64 bg-gradient-to-t from-[#FCD34D]/80 via-[#FDE68A]/40 to-transparent pointer-events-none" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-       
-
         {/* Hero Title & Floating Badges Container */}
         <div className="relative max-w-4xl mx-auto text-center px-1 sm:px-0">
-          {/* Floating Badge 1: Top Left - Credit Review */}
+          {/* Floating Badge 1: Top Left - AC & Cooling */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8, x: -20 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -50,15 +49,15 @@ export default function HeroSection() {
               transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
               className="flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#DDF4FF] border border-[#BDE8FF] shadow-xs text-[#00A3FF] text-[10px] sm:text-xs font-bold"
             >
-              <CreditCard className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              <span>Credit Review</span>
+              <Wrench className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>AC & Cooling</span>
             </motion.div>
             <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#00A3FF] fill-current mr-3 sm:mr-4 -mt-0.5 sm:-mt-1 drop-shadow-xs" viewBox="0 0 24 24">
               <path d="M3 3l7 18 3-7 7-3L3 3z" />
             </svg>
           </motion.div>
 
-          {/* Floating Badge 2: Top Right - Video */}
+          {/* Floating Badge 2: Top Right - Plumbing */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8, x: 20 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -70,15 +69,15 @@ export default function HeroSection() {
               transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 0.5 }}
               className="flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#FFF3D6] border border-[#FFE7B3] shadow-xs text-[#E59800] text-[10px] sm:text-xs font-bold"
             >
-              <Video className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              <span>Video</span>
+              <Droplets className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>Plumbing Care</span>
             </motion.div>
             <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#E59800] fill-current ml-2 -mt-0.5 sm:-mt-1 drop-shadow-xs" viewBox="0 0 24 24">
               <path d="M3 3l7 18 3-7 7-3L3 3z" />
             </svg>
           </motion.div>
 
-          {/* Floating Badge 3: Bottom Left - Disputes */}
+          {/* Floating Badge 3: Bottom Left - Electrical */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8, x: -20 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -93,12 +92,12 @@ export default function HeroSection() {
               transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut", delay: 1 }}
               className="flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#F0EBFF] border border-[#E1D5FF] shadow-xs text-[#8B5CF6] text-[10px] sm:text-xs font-bold"
             >
-              <Scale className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              <span>Disputes</span>
+              <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>Electrical Safety</span>
             </motion.div>
           </motion.div>
 
-          {/* Floating Badge 4: Bottom Right - Monitoring */}
+          {/* Floating Badge 4: Bottom Right - Appliances */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8, x: 20 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -113,8 +112,8 @@ export default function HeroSection() {
               transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut", delay: 1.5 }}
               className="flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#FFEBEB] border border-[#FFD6D6] shadow-xs text-[#FF5252] text-[10px] sm:text-xs font-bold"
             >
-              <ShieldAlert className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              <span>Monitoring</span>
+              <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>Appliance Repair</span>
             </motion.div>
           </motion.div>
 
@@ -126,7 +125,7 @@ export default function HeroSection() {
             className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-stone-900 leading-[1.18] sm:leading-[1.12] py-4 sm:py-0"
           >
             Fix It Now, <br />
-            Change Your Life.
+            Bring Comfort Home.
           </motion.h1>
 
           {/* Subtitle */}
@@ -136,7 +135,7 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mt-4 sm:mt-6 text-xs sm:text-base text-stone-600 max-w-2xl mx-auto leading-relaxed font-normal px-2"
           >
-            We help you remove negative items from your credit report so you can qualify for loans, get better rates, and achieve financial freedom.
+            Book certified local experts for AC, plumbing, electrical, appliance, and everyday home repairs with clear upfront pricing.
           </motion.p>
 
           {/* Golden CTA Button */}
@@ -146,13 +145,13 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mt-6 sm:mt-8 flex justify-center"
           >
-            <a
-              href="#get-started"
+            <Link
+              href="/services"
               className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F59E0B] hover:bg-[#D97706] text-white font-bold text-sm sm:text-base px-8 py-3.5 rounded-xl shadow-md transition-all duration-200 hover:scale-105 active:scale-95"
             >
-              <span>Get Started</span>
+              <span>Book a Service</span>
               <ArrowUpRight className="w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </a>
+            </Link>
           </motion.div>
         </div>
 

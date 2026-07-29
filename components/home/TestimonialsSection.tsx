@@ -11,8 +11,8 @@ export default function TestimonialsSection() {
       name: "Sarah Mitchell",
       avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200",
       rating: 5,
-      text: "FixItNow helped me dispute 5 inaccurate collections on my report. My score jumped by 85 points in 90 days, allowing me to qualify for my first home loan!",
-      authorSign: "— Sarah M.",
+      text: "FixItNow sent an HVAC specialist within 45 minutes of booking when our AC unit cut out on a 90° day. Honest assessment, clean work, and cool air restored immediately!",
+      authorSign: "— Sarah M., AC Repair Customer",
       date: "12 January 2026",
       isYellowBg: true, // Yellow background
       colSpan: "md:col-span-7", // Big size
@@ -22,8 +22,8 @@ export default function TestimonialsSection() {
       name: "David Chen",
       avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200",
       rating: 5,
-      text: "The 24/7 credit watch and automated dispute tracking were a game changer. I went from a 580 to 745 and secured a low-interest auto loan.",
-      authorSign: "— David C.",
+      text: "The master plumber arrived right on time, explained the exact cause of our kitchen pipe leak, and gave a fair upfront price before starting. Excellent service!",
+      authorSign: "— David C., Plumbing Customer",
       date: "28 February 2026",
       isYellowBg: false, // White background
       colSpan: "md:col-span-5", // Smaller size
@@ -34,8 +34,8 @@ export default function TestimonialsSection() {
       name: "Marcus Vance",
       avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=200",
       rating: 5,
-      text: "Their credit masterclass and dispute tools gave me the exact strategy I needed to remove late payment marks. Highly effective service!",
-      authorSign: "— Marcus V.",
+      text: "Had 3 ceiling fans and smart light switches installed in one afternoon. The electrician was super tidy, friendly, and tested everything before leaving.",
+      authorSign: "— Marcus V., Electrical Customer",
       date: "15 March 2026",
       isYellowBg: false, // White background
       colSpan: "md:col-span-5", // Smaller size
@@ -45,8 +45,8 @@ export default function TestimonialsSection() {
       name: "Elena Rodriguez",
       avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=200",
       rating: 5,
-      text: "Professional, fast, and transparent. The FixItNow team took care of all communication with the major credit bureaus. Worth every penny!",
-      authorSign: "— Elena R.",
+      text: "Our washing machine was making an awful grinding noise. FixItNow diagnosed a worn belt, replaced it with an original part, and saved us from buying a new machine!",
+      authorSign: "— Elena R., Appliance Customer",
       date: "02 April 2026",
       isYellowBg: true, // Yellow background
       colSpan: "md:col-span-7", // Big size
@@ -59,10 +59,10 @@ export default function TestimonialsSection() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight mb-4">
-            {"Celebrating Our Clients' Success"}
+            {"What Homeowners Are Saying"}
           </h2>
           <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
-            Read authentic stories from real individuals who rebuilt their credit score and took control of their financial lives.
+            Read authentic stories from real clients who restored their home comfort with FixItNow.
           </p>
         </div>
 
@@ -96,16 +96,12 @@ export default function TestimonialsSection() {
                     <h3 className="text-lg font-bold text-stone-900 leading-tight">
                       {review.name}
                     </h3>
-                    {/* Star Rating: 4 Filled + 1 Hollow Outline */}
+                    {/* Star Rating: 5 Filled */}
                     <div className="flex items-center gap-1 mt-1">
                       {[...Array(5)].map((_, i) => (
                         <svg
                           key={i}
-                          className={`w-4 h-4 ${
-                            i < review.rating
-                              ? "fill-amber-400 text-amber-400"
-                              : "fill-none stroke-amber-400 stroke-2"
-                          }`}
+                          className="w-4 h-4 fill-amber-400 text-amber-400"
                           viewBox="0 0 24 24"
                         >
                           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
@@ -132,16 +128,6 @@ export default function TestimonialsSection() {
               </div>
             </motion.div>
           ))}
-        </div>
-
-        {/* Centered Load More Button */}
-        <div className="flex justify-center">
-          <button
-            type="button"
-            className="text-base font-bold text-stone-900 hover:text-amber-600 transition-colors cursor-pointer"
-          >
-            Load more
-          </button>
         </div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 export default function CtaBanner() {
@@ -16,20 +17,20 @@ export default function CtaBanner() {
         >
           <div className="max-w-3xl mx-auto flex flex-col items-center">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-stone-900 leading-tight mb-4">
-              Earn points quickly and get approved instantly!
+              Need an urgent fix or routine home maintenance?
             </h2>
 
             <p className="text-stone-700 text-sm sm:text-base max-w-2xl mb-8 leading-relaxed font-normal">
-              Take control of your financial journey with our streamlined credit evaluation and rapid approval engine.
+              Connect with top-rated local repair experts today. Instant booking, transparent quotes, and zero hidden fees.
             </p>
 
-            <a
-              href="#get-started"
+            <Link
+              href="/services"
               className="group inline-flex items-center gap-2 bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs sm:text-sm uppercase tracking-wider px-8 py-3.5 rounded-full transition-all duration-200 active:scale-95 shadow-sm"
             >
-              <span>Get Started</span>
+              <span>Explore All Services</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-amber-400" />
-            </a>
+            </Link>
           </div>
         </motion.div>
       </div>
