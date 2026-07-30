@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { X, FolderTree, Sparkles } from "lucide-react";
+import { X, FolderTree, Sparkles, Loader2 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { toast } from "sonner";
+import { createAdminCategory } from "@/lib/admin-api";
 
 interface AddCategoryModalProps {
   isOpen: boolean;
@@ -14,19 +15,29 @@ interface AddCategoryModalProps {
 export function AddCategoryModal({ isOpen, onClose, onSuccess }: AddCategoryModalProps) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name) {
       toast.error("Please fill in category name.");
       return;
     }
 
-    toast.success(`Category "${name}" added successfully!`);
-    if (onSuccess) onSuccess();
-    onClose();
-    setName("");
-    setDescription("");
+    try {
+      setLoading(true);
+      await createAdminCategory({ name, description: description || undefined });
+      toast.success(`Category "${name}" added successfully!`);
+      if (onSuccess) onSuccess();
+      onClose();
+      setName("");
+      setDescription("");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to create category";
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -101,9 +112,14 @@ export function AddCategoryModal({ isOpen, onClose, onSuccess }: AddCategoryModa
                 </button>
                 <button
                   type="submit"
-                  className="flex items-center gap-1.5 rounded-2xl bg-stone-900 px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-stone-800 transition-all active:scale-95"
+                  disabled={loading}
+                  className="flex items-center gap-1.5 rounded-2xl bg-stone-900 px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-stone-800 transition-all active:scale-95 disabled:opacity-50"
                 >
-                  <Sparkles className="h-4 w-4 text-amber-400" />
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin text-amber-400" />
+                  ) : (
+                    <Sparkles className="h-4 w-4 text-amber-400" />
+                  )}
                   <span>Save Category</span>
                 </button>
               </div>

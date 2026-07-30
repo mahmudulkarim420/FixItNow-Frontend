@@ -1,22 +1,91 @@
 "use client";
 
-import { useState } from "react";
-import { Settings, Shield, Bell, Save, Lock, Globe } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Settings, Shield, Bell, Save, Lock, Globe, Zap, Mail, Loader2, CheckCircle2 } from "lucide-react";
+import { toast } from "sonner";
+
+interface SettingsState {
+  platformFee: string;
+  defaultCurrency: string;
+  minWithdrawal: string;
+  autoDispatch: boolean;
+  maxDistanceKm: string;
+  maintenanceMode: boolean;
+  enforce2FA: boolean;
+  sessionTimeoutMin: string;
+  emailAlerts: boolean;
+  smsAlerts: boolean;
+}
+
+const DEFAULT_SETTINGS: SettingsState = {
+  platformFee: "10",
+  defaultCurrency: "USD",
+  minWithdrawal: "50",
+  autoDispatch: true,
+  maxDistanceKm: "25",
+  maintenanceMode: false,
+  enforce2FA: false,
+  sessionTimeoutMin: "60",
+  emailAlerts: true,
+  smsAlerts: true,
+};
 
 export default function AdminSettingsPage() {
-  const [platformFee, setPlatformFee] = useState("10");
-  const [maintenanceMode, setMaintenanceMode] = useState(false);
+  const [settings, setSettings] = useState<SettingsState>(DEFAULT_SETTINGS);
+  const [saving, setSaving] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const saved = localStorage.getItem("fixitnow_admin_settings");
+    if (saved) {
+      try {
+        setSettings(JSON.parse(saved));
+      } catch {
+        /* Fallback */
+      }
+    }
+  }, []);
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaving(true);
+
+    try {
+      // Simulate API call delay
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      localStorage.setItem("fixitnow_admin_settings", JSON.stringify(settings));
+      toast.success("Platform settings saved & updated successfully!");
+    } catch {
+      toast.error("Failed to update settings.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  if (!mounted) {
+    return (
+      <div className="p-12 flex flex-col items-center justify-center gap-2 text-stone-500 bg-white rounded-3xl border border-stone-200/80">
+        <Loader2 className="h-6 w-6 animate-spin text-amber-500" />
+        <span className="text-xs font-bold">Loading settings...</span>
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <form onSubmit={handleSave} className="space-y-6 max-w-4xl">
       {/* Title */}
-      <div>
-        <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-stone-900">
-          Platform System Settings
-        </h1>
-        <p className="mt-0.5 text-xs sm:text-sm font-medium text-stone-500">
-          Configure platform parameters, commission fees, and system security defaults.
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-stone-900">
+            Platform System Settings
+          </h1>
+          <p className="mt-0.5 text-xs sm:text-sm font-medium text-stone-500">
+            Configure platform parameters, commission fees, automated dispatches, and system security defaults.
+          </p>
+        </div>
+
+     
       </div>
 
       {/* Settings Form Container */}
@@ -28,19 +97,19 @@ export default function AdminSettingsPage() {
             <span>Financial & Platform Fees</span>
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div>
               <label className="block text-xs font-bold text-stone-700 mb-1">
                 Platform Commission Fee (%)
               </label>
               <input
                 type="number"
-                value={platformFee}
-                onChange={(e) => setPlatformFee(e.target.value)}
+                value={settings.platformFee}
+                onChange={(e) => setSettings({ ...settings, platformFee: e.target.value })}
                 className="w-full rounded-2xl border border-stone-200 bg-stone-50 p-2.5 text-xs font-semibold text-stone-900 outline-none focus:border-amber-500 focus:bg-white"
               />
-              <span className="text-[10px] text-stone-400 font-medium">
-                Percentage retained by FixItNow per completed booking.
+              <span className="text-[10px] text-stone-400 font-medium block mt-1">
+                Retained per completed job.
               </span>
             </div>
 
@@ -48,53 +117,214 @@ export default function AdminSettingsPage() {
               <label className="block text-xs font-bold text-stone-700 mb-1">
                 Default Currency
               </label>
-              <select className="w-full rounded-2xl border border-stone-200 bg-stone-50 p-2.5 text-xs font-semibold text-stone-900 outline-none focus:border-amber-500 focus:bg-white">
+              <select
+                value={settings.defaultCurrency}
+                onChange={(e) => setSettings({ ...settings, defaultCurrency: e.target.value })}
+                className="w-full rounded-2xl border border-stone-200 bg-stone-50 p-2.5 text-xs font-semibold text-stone-900 outline-none focus:border-amber-500 focus:bg-white"
+              >
                 <option value="USD">USD ($)</option>
                 <option value="EUR">EUR (€)</option>
                 <option value="GBP">GBP (£)</option>
+                <option value="CAD">CAD ($)</option>
               </select>
+              <span className="text-[10px] text-stone-400 font-medium block mt-1">
+                Primary billing currency.
+              </span>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-stone-700 mb-1">
+                Min Payout Withdrawal ($)
+              </label>
+              <input
+                type="number"
+                value={settings.minWithdrawal}
+                onChange={(e) => setSettings({ ...settings, minWithdrawal: e.target.value })}
+                className="w-full rounded-2xl border border-stone-200 bg-stone-50 p-2.5 text-xs font-semibold text-stone-900 outline-none focus:border-amber-500 focus:bg-white"
+              />
+              <span className="text-[10px] text-stone-400 font-medium block mt-1">
+                Technician minimum threshold.
+              </span>
             </div>
           </div>
         </div>
 
         <hr className="border-stone-100" />
 
-        {/* Section 2: System Security & Controls */}
+        {/* Section 2: Automated Dispatch & Matching */}
         <div className="space-y-4">
           <h3 className="text-sm font-bold text-stone-900 flex items-center gap-2">
-            <Shield className="h-4 w-4 text-amber-500" />
-            <span>System Maintenance Controls</span>
+            <Zap className="h-4 w-4 text-amber-500" />
+            <span>Automated Technician Matching</span>
           </h3>
 
-          <div className="flex items-center justify-between p-4 rounded-2xl bg-stone-50 border border-stone-100">
-            <div>
-              <h4 className="text-xs font-bold text-stone-900">Maintenance Mode</h4>
-              <p className="text-[11px] text-stone-400">
-                Temporarily pause new customer booking dispatches for system updates.
-              </p>
-            </div>
-            <button
-              onClick={() => setMaintenanceMode(!maintenanceMode)}
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
-                maintenanceMode ? "bg-amber-500" : "bg-stone-300"
-              }`}
-            >
-              <span
-                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                  maintenanceMode ? "translate-x-5" : "translate-x-0"
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="flex items-center justify-between p-4 rounded-2xl bg-stone-50 border border-stone-100">
+              <div>
+                <h4 className="text-xs font-bold text-stone-900">Auto Smart Dispatch</h4>
+                <p className="text-[11px] text-stone-400 font-medium">
+                  Automatically assign nearest verified pro on job booking.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSettings({ ...settings, autoDispatch: !settings.autoDispatch })}
+                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
+                  settings.autoDispatch ? "bg-emerald-500" : "bg-stone-300"
                 }`}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                    settings.autoDispatch ? "translate-x-5" : "translate-x-0"
+                  }`}
+                />
+              </button>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-stone-700 mb-1">
+                Max Dispatch Radius (km)
+              </label>
+              <input
+                type="number"
+                value={settings.maxDistanceKm}
+                onChange={(e) => setSettings({ ...settings, maxDistanceKm: e.target.value })}
+                className="w-full rounded-2xl border border-stone-200 bg-stone-50 p-2.5 text-xs font-semibold text-stone-900 outline-none focus:border-amber-500 focus:bg-white"
               />
-            </button>
+              <span className="text-[10px] text-stone-400 font-medium block mt-1">
+                Maximum geographic radius for dispatches.
+              </span>
+            </div>
           </div>
         </div>
 
-        <div className="pt-2 flex justify-end">
-          <button className="flex items-center gap-2 rounded-2xl bg-stone-900 px-5 py-3 text-xs font-bold text-white shadow-sm transition hover:bg-stone-800 active:scale-95">
-            <Save className="h-4 w-4 text-amber-400" />
+        <hr className="border-stone-100" />
+
+        {/* Section 3: System Security & Controls */}
+        <div className="space-y-4">
+          <h3 className="text-sm font-bold text-stone-900 flex items-center gap-2">
+            <Shield className="h-4 w-4 text-amber-500" />
+            <span>System Maintenance & Security Controls</span>
+          </h3>
+
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-4 rounded-2xl bg-stone-50 border border-stone-100">
+              <div>
+                <h4 className="text-xs font-bold text-stone-900">Maintenance Mode</h4>
+                <p className="text-[11px] text-stone-400 font-medium">
+                  Temporarily pause new customer booking dispatches for system upgrades.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSettings({ ...settings, maintenanceMode: !settings.maintenanceMode })}
+                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
+                  settings.maintenanceMode ? "bg-rose-500" : "bg-stone-300"
+                }`}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                    settings.maintenanceMode ? "translate-x-5" : "translate-x-0"
+                  }`}
+                />
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between p-4 rounded-2xl bg-stone-50 border border-stone-100">
+              <div>
+                <h4 className="text-xs font-bold text-stone-900">Enforce Admin 2FA</h4>
+                <p className="text-[11px] text-stone-400 font-medium">
+                  Require two-factor authentication for administrative log ins.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSettings({ ...settings, enforce2FA: !settings.enforce2FA })}
+                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
+                  settings.enforce2FA ? "bg-amber-500" : "bg-stone-300"
+                }`}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                    settings.enforce2FA ? "translate-x-5" : "translate-x-0"
+                  }`}
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <hr className="border-stone-100" />
+
+        {/* Section 4: Notifications & Alerts */}
+        <div className="space-y-4">
+          <h3 className="text-sm font-bold text-stone-900 flex items-center gap-2">
+            <Bell className="h-4 w-4 text-amber-500" />
+            <span>Automated System Notifications</span>
+          </h3>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="flex items-center justify-between p-4 rounded-2xl bg-stone-50 border border-stone-100">
+              <div>
+                <h4 className="text-xs font-bold text-stone-900">Email Dispatch Alerts</h4>
+                <p className="text-[11px] text-stone-400 font-medium">
+                  Send instant email receipts to customers on booking.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSettings({ ...settings, emailAlerts: !settings.emailAlerts })}
+                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
+                  settings.emailAlerts ? "bg-amber-500" : "bg-stone-300"
+                }`}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                    settings.emailAlerts ? "translate-x-5" : "translate-x-0"
+                  }`}
+                />
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between p-4 rounded-2xl bg-stone-50 border border-stone-100">
+              <div>
+                <h4 className="text-xs font-bold text-stone-900">SMS Push Notifications</h4>
+                <p className="text-[11px] text-stone-400 font-medium">
+                  Dispatch SMS notifications to field technicians.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSettings({ ...settings, smsAlerts: !settings.smsAlerts })}
+                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
+                  settings.smsAlerts ? "bg-amber-500" : "bg-stone-300"
+                }`}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                    settings.smsAlerts ? "translate-x-5" : "translate-x-0"
+                  }`}
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-4 border-t border-stone-100 flex justify-end">
+          <button
+            type="submit"
+            disabled={saving}
+            className="flex items-center gap-2 rounded-2xl bg-stone-900 px-6 py-3 text-xs font-bold text-white shadow-md hover:bg-stone-800 transition-all cursor-pointer disabled:opacity-50"
+          >
+            {saving ? (
+              <Loader2 className="h-4 w-4 animate-spin text-amber-400" />
+            ) : (
+              <Save className="h-4 w-4 text-amber-400" />
+            )}
             <span>Save Settings</span>
           </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 }

@@ -13,12 +13,12 @@ import {
   CreditCard,
   BarChart3,
   Settings,
-  HelpCircle,
   LogOut,
   X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { logoutUser } from "@/lib/api";
 
 interface NavGroup {
   title: string;
@@ -44,15 +44,13 @@ const NAV_GROUPS: NavGroup[] = [
         name: "Bookings",
         href: "/dashboard/admin/bookings",
         icon: Calendar,
-        badge: "8 New",
-        badgeColor: "bg-amber-500 text-stone-950 font-extrabold",
+        badge: "Live",
+        badgeColor: "bg-amber-100 text-amber-900 font-bold",
       },
       {
-        name: "Services Catalog",
+        name: "Services",
         href: "/dashboard/admin/services",
         icon: Wrench,
-        badge: "12+",
-        badgeColor: "bg-stone-900 text-amber-400 font-bold",
       },
       {
         name: "Categories",
@@ -62,17 +60,17 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
   {
-    title: "People & Teams",
+    title: "User Management",
     items: [
       {
         name: "Technicians",
         href: "/dashboard/admin/technicians",
         icon: UserCheck,
-        badge: "3 Verify",
+        badge: "Verify",
         badgeColor: "bg-emerald-100 text-emerald-800 font-bold",
       },
       {
-        name: "Customers",
+        name: "Users",
         href: "/dashboard/admin/users",
         icon: Users,
       },
@@ -106,11 +104,6 @@ const NAV_GROUPS: NavGroup[] = [
         href: "/dashboard/admin/settings",
         icon: Settings,
       },
-      {
-        name: "Help & Docs",
-        href: "/dashboard/admin/help",
-        icon: HelpCircle,
-      },
     ],
   },
 ];
@@ -123,12 +116,27 @@ interface AdminSidebarProps {
 export function AdminSidebar({ mobileOpen, onCloseMobile }: AdminSidebarProps) {
   const pathname = usePathname();
 
+  const handleLogout = async () => {
+    if (onCloseMobile) onCloseMobile();
+    try {
+      await logoutUser();
+    } catch {
+      /* Swallow error and force redirect */
+    }
+    // Clear cookies/localStorage and redirect
+    document.cookie = "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    document.cookie = "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
+    window.location.href = "/login";
+  };
+
   const SidebarContent = (
     <div className="flex flex-col justify-between h-full min-h-0">
       <div className="flex flex-col flex-1 overflow-y-auto pr-1">
         {/* Brand Logo Header */}
         <div className="flex items-center justify-between px-2 py-2 mb-4 shrink-0">
-          <Link href="/dashboard/admin" onClick={onCloseMobile} className="flex items-center gap-3 group">
+          <Link href="/" onClick={onCloseMobile} className="flex items-center gap-3 group">
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-500 text-stone-950 shadow-sm transition-transform group-hover:scale-105">
               <Wrench className="h-5 w-5 stroke-[2.5]" />
             </div>
@@ -164,11 +172,8 @@ export function AdminSidebar({ mobileOpen, onCloseMobile }: AdminSidebarProps) {
               </p>
               <nav className="space-y-0.5">
                 {group.items.map((item) => {
+                  const isActive = pathname === item.href;
                   const Icon = item.icon;
-                  const isActive =
-                    item.href === "/dashboard/admin"
-                      ? pathname === "/dashboard/admin"
-                      : pathname.startsWith(item.href);
 
                   return (
                     <Link
@@ -176,20 +181,17 @@ export function AdminSidebar({ mobileOpen, onCloseMobile }: AdminSidebarProps) {
                       href={item.href}
                       onClick={onCloseMobile}
                       className={cn(
-                        "group relative flex items-center justify-between rounded-2xl px-3 py-2.5 text-xs font-semibold transition-all duration-200",
+                        "group flex items-center justify-between rounded-2xl px-3 py-2.5 text-xs font-semibold transition-all duration-200",
                         isActive
-                          ? "bg-amber-50 text-amber-900 font-bold shadow-xs"
-                          : "text-stone-600 hover:bg-stone-50 hover:text-stone-900"
+                          ? "bg-amber-500 text-stone-950 shadow-xs font-bold"
+                          : "text-stone-600 hover:bg-stone-100 hover:text-stone-900"
                       )}
                     >
                       <div className="flex items-center gap-2.5">
-                        {isActive && (
-                          <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-5 bg-amber-500 rounded-r-full" />
-                        )}
                         <Icon
                           className={cn(
-                            "h-4 w-4 transition-transform group-hover:scale-110",
-                            isActive ? "text-amber-600" : "text-stone-400 group-hover:text-stone-700"
+                            "h-4 w-4 transition-transform duration-200 group-hover:scale-110",
+                            isActive ? "text-stone-950" : "text-stone-400 group-hover:text-stone-900"
                           )}
                         />
                         <span>{item.name}</span>
@@ -198,8 +200,8 @@ export function AdminSidebar({ mobileOpen, onCloseMobile }: AdminSidebarProps) {
                       {item.badge && (
                         <span
                           className={cn(
-                            "rounded-full px-2 py-0.5 text-[9px] shadow-2xs",
-                            item.badgeColor || "bg-stone-900 text-amber-400 font-bold"
+                            "rounded-full px-2 py-0.5 text-[9px] font-extrabold",
+                            isActive ? "bg-stone-950 text-amber-400" : item.badgeColor
                           )}
                         >
                           {item.badge}
@@ -214,16 +216,16 @@ export function AdminSidebar({ mobileOpen, onCloseMobile }: AdminSidebarProps) {
 
           {/* Logout Action */}
           <div className="pt-2 border-t border-stone-100">
-            <Link
-              href="/logout"
-              onClick={onCloseMobile}
-              className="group flex items-center justify-between rounded-2xl px-3 py-2.5 text-xs font-semibold text-rose-600 transition-all duration-200 hover:bg-rose-50"
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="w-full group flex items-center justify-between rounded-2xl px-3 py-2.5 text-xs font-semibold text-rose-600 transition-all duration-200 hover:bg-rose-50 cursor-pointer"
             >
               <div className="flex items-center gap-2.5">
                 <LogOut className="h-4 w-4 text-rose-500 transition-transform group-hover:scale-110" />
                 <span>Logout</span>
               </div>
-            </Link>
+            </button>
           </div>
         </div>
       </div>
@@ -246,18 +248,17 @@ export function AdminSidebar({ mobileOpen, onCloseMobile }: AdminSidebarProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="fixed inset-0 bg-stone-900/60 backdrop-blur-xs"
               onClick={onCloseMobile}
+              className="fixed inset-0 bg-stone-950/60 backdrop-blur-xs"
             />
 
-            {/* Slide-in Drawer */}
+            {/* Sliding Drawer Panel */}
             <motion.div
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 220 }}
-              className="fixed inset-y-0 left-0 w-72 max-w-[85vw] bg-white p-5 shadow-2xl overflow-y-auto"
+              transition={{ type: "spring", damping: 25, stiffness: 280 }}
+              className="fixed inset-y-0 left-0 w-72 bg-white p-4 shadow-2xl flex flex-col justify-between"
             >
               {SidebarContent}
             </motion.div>

@@ -214,6 +214,7 @@ export interface Booking {
   service?: ApiService;
   customer?: { name: string; email: string };
   technicianProfile?: { id: string; user?: { name: string; email?: string } };
+  review?: { id?: string; rating?: number; comment?: string; createdAt?: string } | null;
 }
 
 export interface CheckoutSessionResponse {
