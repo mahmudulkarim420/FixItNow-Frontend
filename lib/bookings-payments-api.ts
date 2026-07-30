@@ -3,6 +3,7 @@ import type {
   Booking,
   CheckoutSessionResponse,
   CreateBookingPayload,
+  Payment,
 } from "@/types";
 
 /**
@@ -34,6 +35,16 @@ export function getUserBookings(): Promise<Booking[]> {
 }
 
 /**
+ * Cancels a booking owned by the authenticated customer (PATCH /api/bookings/{id}/cancel).
+ */
+export function cancelBooking(id: string, reason: string): Promise<Booking> {
+  return apiRequest<Booking>(`/bookings/${id}/cancel`, {
+    method: "PATCH",
+    body: { reason },
+  });
+}
+
+/**
  * Creates a Stripe Hosted Checkout session URL for an accepted booking (POST /api/payments/checkout).
  */
 export function createCheckoutSession(
@@ -44,3 +55,13 @@ export function createCheckoutSession(
     body: { bookingId },
   });
 }
+
+/**
+ * Fetches payment history for the authenticated customer (GET /api/payments).
+ */
+export function getUserPaymentHistory(): Promise<Payment[]> {
+  return apiRequest<Payment[]>("/payments", {
+    method: "GET",
+  });
+}
+

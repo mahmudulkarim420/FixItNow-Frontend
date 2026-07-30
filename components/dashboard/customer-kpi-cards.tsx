@@ -2,14 +2,35 @@
 
 import Link from "next/link";
 import { ArrowUpRight, Plus, Receipt } from "lucide-react";
-import type { User } from "@/types";
+import type { User, Booking, Payment } from "@/types";
 
 interface CustomerKpiCardsProps {
   user: User;
+  bookings?: Booking[];
+  payments?: Payment[];
+  loading?: boolean;
 }
 
-export function CustomerKpiCards({ user }: CustomerKpiCardsProps) {
+export function CustomerKpiCards({ user, bookings = [], payments = [], loading = false }: CustomerKpiCardsProps) {
   const firstName = user.name ? user.name.split(" ")[0] : "Customer";
+
+  const activeRepairsCount = bookings.filter((b) =>
+    ["REQUESTED", "ACCEPTED", "IN_PROGRESS"].includes(b.status)
+  ).length;
+
+  const completedServicesCount = bookings.filter((b) =>
+    ["COMPLETED", "PAID"].includes(b.status)
+  ).length;
+
+  const totalSpentFromPayments = payments.reduce(
+    (sum, p) => sum + Number(p.amount || 0),
+    0
+  );
+  const totalSpentFromBookings = bookings
+    .filter((b) => ["COMPLETED", "PAID"].includes(b.status))
+    .reduce((sum, b) => sum + Number(b.servicePrice || b.service?.price || 0), 0);
+
+  const totalInvestment = Math.max(totalSpentFromPayments, totalSpentFromBookings);
 
   return (
     <div className="space-y-5 sm:space-y-6">
@@ -58,14 +79,14 @@ export function CustomerKpiCards({ user }: CustomerKpiCardsProps) {
 
           <div className="mt-3 sm:mt-4 flex items-baseline gap-2">
             <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-              2
+              {loading ? "..." : activeRepairsCount}
             </span>
           </div>
 
           <div className="mt-3 sm:mt-4 flex items-center gap-1.5">
             <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/20 px-2.5 py-1 text-[10px] font-bold text-amber-300 backdrop-blur-md border border-amber-500/30">
               <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-ping" />
-              Technician En Route
+              {activeRepairsCount > 0 ? "Active Dispatch Live" : "No Active Dispatches"}
             </span>
           </div>
         </div>
@@ -83,14 +104,14 @@ export function CustomerKpiCards({ user }: CustomerKpiCardsProps) {
 
           <div className="mt-3 sm:mt-4 flex items-baseline gap-2">
             <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-stone-900">
-              14
+              {loading ? "..." : completedServicesCount}
             </span>
           </div>
 
           <div className="mt-3 sm:mt-4 flex items-center gap-1.5">
             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-bold text-emerald-700 border border-emerald-100">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              100% Satisfaction score
+              Verified & Guaranteed
             </span>
           </div>
         </div>
@@ -108,14 +129,14 @@ export function CustomerKpiCards({ user }: CustomerKpiCardsProps) {
 
           <div className="mt-3 sm:mt-4 flex items-baseline gap-2">
             <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-stone-900">
-              $1,280
+              {loading ? "..." : `$${totalInvestment.toLocaleString("en-US", { minimumFractionDigits: 2 })}`}
             </span>
           </div>
 
           <div className="mt-3 sm:mt-4 flex items-center gap-1.5">
             <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-bold text-amber-700 border border-amber-100">
               <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-              Across 14 bookings
+              Across {bookings.length} total bookings
             </span>
           </div>
         </div>
@@ -133,7 +154,7 @@ export function CustomerKpiCards({ user }: CustomerKpiCardsProps) {
 
           <div className="mt-3 sm:mt-4 flex items-baseline gap-2">
             <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-stone-900">
-              5
+              {loading ? "..." : 3}
             </span>
           </div>
 

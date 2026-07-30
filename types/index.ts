@@ -231,4 +231,16 @@ export interface CheckoutSessionResponse {
   sessionId: string;
 }
 
+export interface Payment {
+  id: string;
+  bookingId: string;
+  amount: number;
+  status: PaymentStatus;
+  transactionId?: string | null;
+  createdAt: string;
+  updatedAt: string;
+  booking?: Booking;
+}
+
+
 

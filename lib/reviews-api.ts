@@ -16,8 +16,9 @@ export interface Review {
   comment: string;
   createdAt: string;
   customer?: { name: string; email?: string };
-  technicianProfile?: { id: string; user?: { name: string } };
+  technicianProfile?: { id?: string; user?: { name: string } };
   service?: { title: string };
+  booking?: { service?: { title: string } };
 }
 
 /**
@@ -29,6 +30,42 @@ export function createReview(payload: CreateReviewPayload): Promise<Review> {
     method: "POST",
     body: payload,
   });
+}
+
+/**
+ * Fetches customer reviews by querying GET /api/reviews or extracting from customer bookings.
+ */
+export async function getMyCustomerReviews(): Promise<Review[]> {
+  try {
+    const res = await apiRequest<Review[]>("/reviews", { method: "GET" });
+    if (Array.isArray(res) && res.length > 0) return res;
+  } catch {
+    /* fallback to extracting from user bookings */
+  }
+
+  try {
+    const bookings = await apiRequest<Booking[]>("/bookings", { method: "GET" });
+    const reviews: Review[] = [];
+    (bookings || []).forEach((b) => {
+      if (b.review) {
+        reviews.push({
+          id: b.review.id || `REV-${b.id.substring(0, 4)}`,
+          bookingId: b.id,
+          customerId: b.customerId,
+          technicianProfileId: b.technicianProfileId,
+          rating: b.review.rating || 5,
+          comment: b.review.comment || "",
+          createdAt: b.review.createdAt || b.createdAt,
+          customer: b.customer,
+          technicianProfile: b.technicianProfile,
+          service: b.service ? { title: b.service.title } : undefined,
+        });
+      }
+    });
+    return reviews;
+  } catch {
+    return [];
+  }
 }
 
 /**

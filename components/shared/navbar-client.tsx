@@ -91,12 +91,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
             {/* Right side: auth-aware */}
             <div className="flex items-center gap-2 sm:gap-3">
               {user ? (
-                <>
-                  <Link href="/dashboard/customer" className="hidden rounded-full bg-stone-900 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-stone-800 sm:inline-flex">
-                    Dashboard
-                  </Link>
-                  <UserMenu user={user} />
-                </>
+                <UserMenu user={user} />
               ) : (
                 <div className="flex items-center gap-2 sm:gap-3">
                   <Link href="/login" className="hidden rounded-full px-4 py-2 text-xs font-bold text-stone-700 transition hover:bg-stone-100 sm:inline-flex">
