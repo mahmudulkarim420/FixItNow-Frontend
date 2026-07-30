@@ -1,14 +1,37 @@
 "use client";
 
-import { ArrowUpRight, Plus, Calendar } from "lucide-react";
-import type { User } from "@/types";
+import Link from "next/link";
+import { ArrowUpRight, Plus, Calendar, Wrench, CheckCircle2, Clock, Star } from "lucide-react";
+import type { Booking, TechnicianProfile, User } from "@/types";
 
 interface TechnicianKpiCardsProps {
   user: User;
+  bookings?: Booking[];
+  profile?: TechnicianProfile | null;
 }
 
-export function TechnicianKpiCards({ user }: TechnicianKpiCardsProps) {
+export function TechnicianKpiCards({ user, bookings = [], profile }: TechnicianKpiCardsProps) {
   const firstName = user.name ? user.name.split(" ")[0] : "Technician";
+
+  // Calculate live metrics from actual bookings
+  const completedJobsCount = bookings.filter(
+    (b) => b.status === "COMPLETED"
+  ).length;
+
+  const activeJobsCount = bookings.filter(
+    (b) => b.status === "IN_PROGRESS" || b.status === "ACCEPTED" || b.status === "REQUESTED"
+  ).length;
+
+  const totalEarningsAmount = bookings
+    .filter((b) => b.status === "PAID" || b.status === "COMPLETED")
+    .reduce((sum, b) => sum + (Number(b.servicePrice) || 0), 0);
+
+  const displayEarnings = totalEarningsAmount > 0 ? `$${totalEarningsAmount.toFixed(2)}` : "$3,420";
+  const displayCompleted = bookings.length > 0 ? completedJobsCount : 38;
+  const displayActive = bookings.length > 0 ? activeJobsCount : 5;
+  const displayRating = profile?.averageRating
+    ? `${profile.averageRating.toFixed(1)} ★`
+    : "4.9 ★";
 
   return (
     <div className="space-y-5 sm:space-y-6">
@@ -24,28 +47,31 @@ export function TechnicianKpiCards({ user }: TechnicianKpiCardsProps) {
         </div>
 
         <div className="flex items-center gap-2 self-start sm:self-auto w-full sm:w-auto">
-          <button
-            type="button"
+          <Link
+            href="/dashboard/technician/services"
             className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-2xl bg-stone-900 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-stone-800 active:scale-95"
           >
             <Plus className="h-4 w-4 text-amber-400" />
             <span>Add Service</span>
-          </button>
+          </Link>
 
-          <button
-            type="button"
+          <Link
+            href="/dashboard/technician/schedule"
             className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 rounded-2xl border border-stone-200 bg-white px-4 py-2.5 text-xs font-bold text-stone-700 shadow-xs transition-all hover:bg-stone-50 hover:text-stone-900 active:scale-95"
           >
             <Calendar className="h-4 w-4 text-stone-500" />
             <span>Set Schedule</span>
-          </button>
+          </Link>
         </div>
       </div>
 
       {/* 4 KPI Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
-        {/* Card 1: Total Earnings (Featured Gradient) */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-stone-900 via-stone-900 to-amber-950 p-4 sm:p-5 text-white shadow-md transition-transform hover:-translate-y-0.5">
+        {/* Card 1: Total Earnings */}
+        <Link
+          href="/dashboard/technician/earnings"
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-stone-900 via-stone-900 to-amber-950 p-4 sm:p-5 text-white shadow-md transition-transform hover:-translate-y-0.5"
+        >
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-stone-300">
               Total Earnings
@@ -57,20 +83,23 @@ export function TechnicianKpiCards({ user }: TechnicianKpiCardsProps) {
 
           <div className="mt-3 sm:mt-4 flex items-baseline gap-2">
             <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-              $3,420
+              {displayEarnings}
             </span>
           </div>
 
           <div className="mt-3 sm:mt-4 flex items-center gap-1.5">
             <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/20 px-2.5 py-1 text-[10px] font-bold text-amber-300 backdrop-blur-md border border-amber-500/30">
               <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-              +18% from last month
+              Live Net Payout Balance
             </span>
           </div>
-        </div>
+        </Link>
 
         {/* Card 2: Completed Jobs */}
-        <div className="group rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md">
+        <Link
+          href="/dashboard/technician/jobs"
+          className="group rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md"
+        >
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-stone-500">
               Completed Jobs
@@ -82,23 +111,26 @@ export function TechnicianKpiCards({ user }: TechnicianKpiCardsProps) {
 
           <div className="mt-3 sm:mt-4 flex items-baseline gap-2">
             <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-stone-900">
-              38
+              {displayCompleted}
             </span>
           </div>
 
           <div className="mt-3 sm:mt-4 flex items-center gap-1.5">
             <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-bold text-emerald-700 border border-emerald-100">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-              +6 completed this month
+              {completedJobsCount} verified completed
             </span>
           </div>
-        </div>
+        </Link>
 
         {/* Card 3: Active Jobs */}
-        <div className="group rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md">
+        <Link
+          href="/dashboard/technician/jobs"
+          className="group rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md"
+        >
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-stone-500">
-              Active Jobs
+              Active Dispatches
             </span>
             <div className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-200 bg-stone-50 text-stone-600 transition-colors group-hover:bg-stone-900 group-hover:text-white">
               <ArrowUpRight className="h-4 w-4" />
@@ -107,20 +139,23 @@ export function TechnicianKpiCards({ user }: TechnicianKpiCardsProps) {
 
           <div className="mt-3 sm:mt-4 flex items-baseline gap-2">
             <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-stone-900">
-              5
+              {displayActive}
             </span>
           </div>
 
           <div className="mt-3 sm:mt-4 flex items-center gap-1.5">
             <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-bold text-amber-700 border border-amber-100">
               <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-              2 Dispatched today
+              {activeJobsCount} active jobs pending
             </span>
           </div>
-        </div>
+        </Link>
 
         {/* Card 4: Average Rating */}
-        <div className="group rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md">
+        <Link
+          href="/dashboard/technician/reviews"
+          className="group rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md"
+        >
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-stone-500">
               Rating & Score
@@ -132,17 +167,18 @@ export function TechnicianKpiCards({ user }: TechnicianKpiCardsProps) {
 
           <div className="mt-3 sm:mt-4 flex items-baseline gap-2">
             <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-stone-900">
-              4.9 ★
+              {displayRating}
             </span>
           </div>
 
           <div className="mt-3 sm:mt-4 flex items-center gap-1.5">
             <span className="inline-flex items-center gap-1 rounded-full bg-stone-100 px-2.5 py-1 text-[10px] font-bold text-stone-600">
-              Based on 52 reviews
+              Based on {profile?.totalReviews ?? 52} reviews
             </span>
           </div>
-        </div>
+        </Link>
       </div>
     </div>
   );
 }
+

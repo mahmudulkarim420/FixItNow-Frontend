@@ -21,6 +21,15 @@ export interface User {
   avatar?: string | null;
   technicianProfile?: {
     id: string;
+    bio?: string | null;
+    skills?: string[] | null;
+    experience?: number | null;
+    hourlyRate?: number | null;
+    location?: string | null;
+    totalReviews?: number;
+    averageRating?: number;
+    availability?: Record<string, string[]> | null;
+    isVerified?: boolean;
   } | null;
 }
 

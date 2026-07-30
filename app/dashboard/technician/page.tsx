@@ -1,7 +1,5 @@
 import { getSessionUser } from "@/lib/auth";
-import { TechnicianKpiCards } from "@/components/dashboard/technician-kpi-cards";
-import { TechnicianAnalytics } from "@/components/dashboard/technician-analytics";
-import { TechnicianWidget } from "@/components/dashboard/technician-widget";
+import { TechnicianOverviewClient } from "@/components/dashboard/technician-overview-client";
 
 export const metadata = {
   title: "Dashboard Overview · FixItNow Technician",
@@ -12,16 +10,6 @@ export default async function TechnicianOverviewPage() {
 
   if (!user) return null;
 
-  return (
-    <div className="flex flex-col gap-6">
-      {/* Top KPI Cards & Welcome Header */}
-      <TechnicianKpiCards user={user} />
-
-      {/* Middle Row: Hours Chart, Next Dispatch Alert & Today's Schedule */}
-      <TechnicianAnalytics />
-
-      {/* Bottom Row: Customer Reviews, Verification Score & Active Job Timer */}
-      <TechnicianWidget />
-    </div>
-  );
+  return <TechnicianOverviewClient initialUser={user} />;
 }
+

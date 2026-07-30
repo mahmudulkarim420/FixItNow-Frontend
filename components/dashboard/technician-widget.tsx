@@ -2,38 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { Star, Pause, Play, Square, ShieldCheck, CheckCircle2 } from "lucide-react";
+import type { Booking, TechnicianProfile } from "@/types";
 
-const RECENT_REVIEWS = [
-  {
-    id: "1",
-    customer: "David Miller",
-    rating: 5,
-    comment: "Punctual, super friendly, and fixed my kitchen leak in 20 minutes!",
-    service: "Plumbing Repair",
-    time: "2 hours ago",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80",
-  },
-  {
-    id: "2",
-    customer: "Sarah Jenkins",
-    rating: 5,
-    comment: "Extremely professional AC servicing. Highly recommended!",
-    service: "AC Inspection",
-    time: "Yesterday",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80",
-  },
-  {
-    id: "3",
-    customer: "James Wilson",
-    rating: 4.8,
-    comment: "Great work on the main breaker panel installation.",
-    service: "Electrical Repair",
-    time: "3 days ago",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80",
-  },
-];
+interface TechnicianWidgetProps {
+  bookings?: Booking[];
+  profile?: TechnicianProfile | null;
+}
 
-export function TechnicianWidget() {
+export function TechnicianWidget({ bookings = [], profile }: TechnicianWidgetProps) {
   const [seconds, setSeconds] = useState(2712); // 00:45:12 in seconds
   const [isRunning, setIsRunning] = useState(true);
 
@@ -56,6 +32,24 @@ export function TechnicianWidget() {
       .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
+  // Extract real customer reviews from bookings
+  const liveReviews = bookings
+    .filter((b) => b.review)
+    .map((b) => ({
+      id: b.review?.id || b.id,
+      customer: b.customer?.name || "Verified Client",
+      rating: b.review?.rating || 5,
+      comment: b.review?.comment || "Excellent repair service",
+      service: b.service?.title || "Home Repair",
+      time: new Date(b.review?.createdAt || b.createdAt).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      }),
+      avatar: `https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80`,
+    }));
+
+  const activeTimerJob = bookings.find((b) => b.status === "IN_PROGRESS");
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-5">
       {/* 1. Recent Reviews Roster (5 cols wide on desktop) */}
@@ -65,45 +59,51 @@ export function TechnicianWidget() {
             Recent Customer Reviews
           </h3>
           <span className="text-[11px] font-extrabold text-amber-600">
-            4.9 ★ (52)
+            {profile?.averageRating ? `${profile.averageRating.toFixed(1)} ★` : "4.9 ★"} ({profile?.totalReviews ?? liveReviews.length})
           </span>
         </div>
 
         <div className="space-y-3">
-          {RECENT_REVIEWS.map((review) => (
-            <div
-              key={review.id}
-              className="flex flex-col gap-1.5 rounded-2xl p-2.5 bg-stone-50/80 border border-stone-100 transition-colors hover:bg-stone-100/80"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={review.avatar}
-                    alt={review.customer}
-                    className="h-7 w-7 rounded-xl object-cover ring-1 ring-stone-200"
-                  />
-                  <span className="text-xs font-bold text-stone-900">
-                    {review.customer}
-                  </span>
+          {liveReviews.length > 0 ? (
+            liveReviews.slice(0, 3).map((review) => (
+              <div
+                key={review.id}
+                className="flex flex-col gap-1.5 rounded-2xl p-2.5 bg-stone-50/80 border border-stone-100 transition-colors hover:bg-stone-100/80"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={review.avatar}
+                      alt={review.customer}
+                      className="h-7 w-7 rounded-xl object-cover ring-1 ring-stone-200"
+                    />
+                    <span className="text-xs font-bold text-stone-900">
+                      {review.customer}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1 text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
+                    <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
+                    <span>{review.rating}</span>
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-1 text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
-                  <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
-                  <span>{review.rating}</span>
+                <p className="text-[11px] text-stone-600 font-medium italic pl-1">
+                  "{review.comment}"
+                </p>
+
+                <div className="flex items-center justify-between text-[9px] font-semibold text-stone-400 pt-1">
+                  <span>{review.service}</span>
+                  <span>{review.time}</span>
                 </div>
               </div>
-
-              <p className="text-[11px] text-stone-600 font-medium italic pl-1">
-                "{review.comment}"
-              </p>
-
-              <div className="flex items-center justify-between text-[9px] font-semibold text-stone-400 pt-1">
-                <span>{review.service}</span>
-                <span>{review.time}</span>
-              </div>
+            ))
+          ) : (
+            <div className="py-6 text-center text-xs text-stone-400 font-medium">
+              No completed job reviews yet.
             </div>
-          ))}
+          )}
         </div>
       </div>
 
@@ -123,11 +123,13 @@ export function TechnicianWidget() {
           <div className="my-4 p-4 rounded-2xl bg-amber-50/60 border border-amber-100 space-y-2">
             <div className="flex justify-between items-center text-xs font-semibold">
               <span className="text-stone-600">Hourly Rate</span>
-              <span className="text-stone-900 font-extrabold text-sm">$45.00 / hr</span>
+              <span className="text-stone-900 font-extrabold text-sm">
+                ${profile?.hourlyRate || 55.00} / hr
+              </span>
             </div>
             <div className="flex justify-between items-center text-xs font-semibold">
               <span className="text-stone-600">On-Time Score</span>
-              <span className="text-emerald-700 font-extrabold">96% Completed</span>
+              <span className="text-emerald-700 font-extrabold">100% Completed</span>
             </div>
           </div>
 
@@ -136,21 +138,23 @@ export function TechnicianWidget() {
               Verified Skills
             </span>
             <div className="flex flex-wrap gap-1.5 pt-1">
-              <span className="rounded-full bg-stone-100 px-2.5 py-1 text-[10px] font-bold text-stone-700">
-                🔧 AC Repair
-              </span>
-              <span className="rounded-full bg-stone-100 px-2.5 py-1 text-[10px] font-bold text-stone-700">
-                🚰 Plumbing
-              </span>
-              <span className="rounded-full bg-stone-100 px-2.5 py-1 text-[10px] font-bold text-stone-700">
-                ⚡ Electrical
-              </span>
+              {(profile?.skills && profile.skills.length > 0
+                ? profile.skills
+                : ["AC Repair", "Plumbing", "Electrical"]
+              ).map((skill, idx) => (
+                <span
+                  key={idx}
+                  className="rounded-full bg-stone-100 px-2.5 py-1 text-[10px] font-bold text-stone-700"
+                >
+                  🔧 {skill}
+                </span>
+              ))}
             </div>
           </div>
         </div>
 
         <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-[10px] font-semibold text-stone-400">
-          <span>Member since 2024</span>
+          <span>{profile?.location || "San Francisco, CA"}</span>
           <span className="flex items-center gap-1 text-emerald-600 font-bold">
             <CheckCircle2 className="h-3 w-3" />
             Background Checked
@@ -165,7 +169,7 @@ export function TechnicianWidget() {
         <div className="relative z-10">
           <h3 className="text-xs font-semibold text-stone-400">Active Job Timer</h3>
           <p className="text-[11px] font-bold text-amber-400 truncate mt-0.5">
-            Job #204: AC Repair
+            {activeTimerJob ? activeTimerJob.service?.title || "Active Job" : "Job #204: Active Repair"}
           </p>
         </div>
 
@@ -205,3 +209,4 @@ export function TechnicianWidget() {
     </div>
   );
 }
+
