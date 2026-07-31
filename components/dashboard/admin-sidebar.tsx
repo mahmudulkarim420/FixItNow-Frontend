@@ -64,6 +64,13 @@ const NAV_GROUPS: NavGroup[] = [
     title: "User Management",
     items: [
       {
+        name: "Applications",
+        href: "/dashboard/admin/applications",
+        icon: UserCheck,
+        badge: "New",
+        badgeColor: "bg-amber-100 text-amber-900 font-bold",
+      },
+      {
         name: "Technicians",
         href: "/dashboard/admin/technicians",
         icon: UserCheck,

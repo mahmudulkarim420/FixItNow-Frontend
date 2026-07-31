@@ -11,7 +11,7 @@ const footerLinks = {
   Company: [
     { label: "About FixItNow", href: "/about" },
     { label: "Contact us", href: "/contact" },
-    { label: "Become a pro", href: "/register" },
+    { label: "Become a Technician", href: "/be-a-technician" },
   ],
 };
 

@@ -103,3 +103,34 @@ export function deleteTechnicianService(id: string): Promise<null> {
     method: "DELETE",
   });
 }
+
+export interface ApplyTechnicianPayload {
+  bio: string;
+  skills: string[];
+  experience: number;
+  hourlyRate: number;
+  location: string;
+  availability?: Record<string, string[]>;
+}
+
+/**
+ * Submits an application for a customer to become a technician (POST /api/technician/apply).
+ */
+export function applyForTechnician(
+  payload: ApplyTechnicianPayload
+): Promise<TechnicianProfile> {
+  return apiRequest<TechnicianProfile>("/technician/apply", {
+    method: "POST",
+    body: payload,
+  });
+}
+
+/**
+ * Fetches the current user's technician profile and application status (GET /api/technician/application-status).
+ */
+export function getTechnicianApplicationStatus(): Promise<TechnicianProfile | null> {
+  return apiRequest<TechnicianProfile>("/technician/application-status", {
+    method: "GET",
+  }).catch(() => null);
+}
+

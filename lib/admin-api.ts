@@ -192,3 +192,44 @@ export function deleteAdminReview(id: string): Promise<null> {
     method: "DELETE",
   });
 }
+
+export interface TechnicianApplication {
+  id: string;
+  userId: string;
+  bio?: string | null;
+  skills: string[];
+  experience: number;
+  hourlyRate: number;
+  location: string;
+  approvalStatus: "PENDING" | "APPROVED" | "REJECTED";
+  isVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
+  user?: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    status: string;
+    createdAt?: string;
+  };
+}
+
+/** GET /api/admin/technician-applications — Returns all technician applications. */
+export function getAdminTechnicianApplications(): Promise<TechnicianApplication[]> {
+  return apiRequest<TechnicianApplication[]>("/admin/technician-applications", {
+    method: "GET",
+  });
+}
+
+/** PATCH /api/admin/technician-applications/{id} — Reviews (APPROVE or REJECT) an application. */
+export function reviewAdminTechnicianApplication(
+  id: string,
+  status: "APPROVED" | "REJECTED"
+): Promise<TechnicianApplication> {
+  return apiRequest<TechnicianApplication>(`/admin/technician-applications/${id}`, {
+    method: "PATCH",
+    body: { status },
+  });
+}
+

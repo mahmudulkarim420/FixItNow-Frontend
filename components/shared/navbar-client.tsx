@@ -18,6 +18,7 @@ const DESKTOP_NAV_LINKS = [
   { name: "Home", href: "/" },
   { name: "Services", href: "/services" },
   { name: "How It Works", href: "/how-it-works" },
+  { name: "Be a Technician", href: "/be-a-technician" },
   { name: "About Us", href: "/about" },
   { name: "Contact", href: "/contact" },
 ];

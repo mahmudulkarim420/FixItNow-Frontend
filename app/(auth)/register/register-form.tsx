@@ -4,13 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Mail, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
-import { RoleSelect, type RegisterRole } from "@/components/ui/role-select";
 import { ApiError, registerUser } from "@/lib/api";
 import { ROLE_HOME } from "@/lib/auth-constants";
 import { registerSchema, type RegisterValues } from "@/lib/validations/auth";
@@ -22,8 +21,6 @@ export function RegisterForm() {
   const {
     register,
     handleSubmit,
-    setValue,
-    control,
     formState: { errors },
   } = useForm<RegisterValues>({
     resolver: zodResolver(registerSchema),
@@ -35,9 +32,6 @@ export function RegisterForm() {
       role: "CUSTOMER",
     },
   });
-
-  // useWatch is React Compiler-friendly (watch() is not memoizable).
-  const selectedRole = useWatch({ control, name: "role" });
 
   const onSubmit = async (values: RegisterValues) => {
     setSubmitting(true);
@@ -112,14 +106,6 @@ export function RegisterForm() {
         autoComplete="new-password"
         error={errors.confirmPassword?.message}
         {...register("confirmPassword")}
-      />
-
-      <RoleSelect
-        value={selectedRole}
-        onChange={(role: RegisterRole) =>
-          setValue("role", role, { shouldValidate: true })
-        }
-        error={errors.role?.message}
       />
 
       <Button type="submit" size="lg" isLoading={submitting} className="w-full">

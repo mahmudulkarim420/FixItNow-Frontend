@@ -45,6 +45,7 @@ export interface TechnicianProfile {
   averageRating?: number;
   availability?: Record<string, string[]> | null;
   isVerified?: boolean;
+  approvalStatus?: "PENDING" | "APPROVED" | "REJECTED";
   createdAt: string;
   updatedAt: string;
   user?: {
