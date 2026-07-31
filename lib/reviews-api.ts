@@ -130,3 +130,18 @@ export async function getTechnicianReviews(
     return [];
   }
 }
+
+/**
+ * Fetches public top-rated reviews for home page showcase (GET /api/reviews/top).
+ */
+export async function getTopReviews(limit: number = 4): Promise<Review[]> {
+  try {
+    const res = await apiRequest<Review[]>(`/reviews/top?limit=${limit}`, { method: "GET" });
+    if (Array.isArray(res)) return res;
+    return [];
+  } catch {
+    return [];
+  }
+}
+
+

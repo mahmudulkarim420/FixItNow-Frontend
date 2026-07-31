@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -119,8 +120,13 @@ export function TechnicianSidebar({ mobileOpen, onCloseMobile }: TechnicianSideb
         {/* Brand Logo Header */}
         <div className="flex items-center justify-between px-2 py-2 mb-4 shrink-0">
           <Link href="/" onClick={onCloseMobile} className="flex items-center gap-3 group">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-500 text-stone-950 shadow-sm transition-transform group-hover:scale-105">
-              <Wrench className="h-5 w-5 stroke-[2.5]" />
+            <div className="relative h-10 w-10 rounded-full overflow-hidden shrink-0 flex items-center justify-center border border-stone-200 bg-white">
+              <Image
+                src="/logo.png"
+                alt="FixItNow Logo"
+                fill
+                className="object-cover transition-transform group-hover:scale-105"
+              />
             </div>
             <div>
               <span className="font-bold text-xl tracking-tight text-stone-900">

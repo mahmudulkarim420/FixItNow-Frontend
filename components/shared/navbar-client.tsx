@@ -1,6 +1,7 @@
 "use client";
 
 import { Home, Wrench, Compass, Info, MessageCircle, Zap } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -61,9 +62,15 @@ export function NavbarClient({ user }: NavbarClientProps) {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-3 sm:pt-4">
           <div className="relative flex h-14 items-center justify-between rounded-full border border-stone-200/70 bg-white/90 px-4 shadow-sm backdrop-blur-md sm:h-16 sm:px-6">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-500 text-stone-950 shadow-sm transition-transform group-hover:scale-105">
-                <Wrench className="h-4 w-4" />
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <div className="relative h-9 w-9 rounded-full overflow-hidden shrink-0 flex items-center justify-center border border-stone-200/80 shadow-2xs bg-white">
+                <Image
+                  src="/logo.png"
+                  alt="FixItNow Logo"
+                  fill
+                  className="object-cover transition-transform group-hover:scale-105"
+                  priority
+                />
               </div>
               <span className="font-bold text-lg sm:text-xl tracking-tight text-stone-900">
                 FixItNow<span className="text-amber-500 font-extrabold">.</span>

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Mail, MapPin, Phone, Send, Share2, Wrench } from "lucide-react";
 
@@ -33,11 +34,16 @@ export default function Footer() {
 
         <div className="grid gap-10 py-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-12 lg:py-12">
           <div className="sm:col-span-2 lg:col-span-2">
-            <Link href="/" className="inline-flex items-center gap-2">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-500 text-stone-950">
-                <Wrench className="h-4 w-4" />
-              </span>
-              <span className="text-xl font-bold tracking-tight text-stone-900">FixItNow<span className="text-amber-500">.</span></span>
+            <Link href="/" className="inline-flex items-center gap-2.5">
+              <div className="relative h-9 w-9 rounded-full overflow-hidden shrink-0 flex items-center justify-center border border-stone-200/80 bg-white">
+                <Image
+                  src="/logo.png"
+                  alt="FixItNow Logo"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <span className="text-xl font-bold tracking-tight text-stone-900">FixItNow<span className="text-amber-500 font-extrabold">.</span></span>
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-6 text-stone-500">
               Trusted repair professionals for the everyday moments that keep your home running beautifully.

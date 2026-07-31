@@ -123,7 +123,16 @@ export async function fetchServices(
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch services (HTTP ${response.status})`);
+    console.warn(`[fetchServices] Server returned HTTP ${response.status}`);
+    return {
+      data: [],
+      meta: {
+        page: params.page || 1,
+        limit: params.limit || 8,
+        total: 0,
+        totalPage: 1,
+      },
+    };
   }
 
   const result = await response.json();

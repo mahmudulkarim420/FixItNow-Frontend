@@ -43,7 +43,7 @@ const categoryIcons: Record<string, React.ElementType> = {
   Programming: Wrench,
 };
 
-const ITEMS_PER_PAGE = 4;
+const ITEMS_PER_PAGE = 8;
 
 export function ServicesCatalog() {
   const [query, setQuery] = useState("");
@@ -267,7 +267,7 @@ export function ServicesCatalog() {
           {/* Loading Skeletons */}
           {isLoading ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {Array.from({ length: 4 }).map((_, idx) => (
+              {Array.from({ length: 8 }).map((_, idx) => (
                 <div
                   key={idx}
                   className="flex flex-col overflow-hidden rounded-3xl border border-stone-200/80 bg-white/70 shadow-xs backdrop-blur-md animate-pulse"

@@ -31,7 +31,7 @@ export default function EmpowerSection() {
               {/* Front Bottom-Right Overlapping Image */}
               <div className="absolute bottom-0 right-0 w-3/4 h-3/4 rounded-2xl overflow-hidden shadow-xl border-4 border-white">
                 <Image
-                  src="https://images.unsplash.com/photo-1631545806609-1c2397f6c58d?auto=format&fit=crop&q=80&w=700"
+                  src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=700"
                   alt="HVAC Air Conditioning Service"
                   fill
                   className="object-cover"

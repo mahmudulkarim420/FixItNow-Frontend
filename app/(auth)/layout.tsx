@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Wrench } from "lucide-react";
@@ -45,9 +46,14 @@ export default async function AuthLayout({
             href="/"
             className="mb-8 flex items-center justify-center gap-2 text-zinc-900 lg:hidden"
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500 text-white shadow-lg shadow-amber-500/30">
-              <Wrench className="h-5 w-5" />
-            </span>
+            <div className="relative h-10 w-10 rounded-full overflow-hidden shrink-0 flex items-center justify-center border border-stone-200 bg-white">
+              <Image
+                src="/logo.png"
+                alt="FixItNow Logo"
+                fill
+                className="object-cover"
+              />
+            </div>
             <span className="text-xl font-bold tracking-tight">FixItNow</span>
           </Link>
 

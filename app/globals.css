@@ -20,6 +20,28 @@ body {
   scroll-behavior: smooth;
 }
 
+/* Ensure all buttons and clickable elements across the entire project have cursor-pointer */
+button,
+a,
+[role="button"],
+[onclick],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="checkbox"],
+input[type="radio"],
+select,
+label[for],
+summary {
+  cursor: pointer !important;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"],
+input:disabled {
+  cursor: not-allowed !important;
+}
+
 /* Glassmorphism & custom utility classes */
 .glass-card {
   background: rgba(255, 255, 255, 0.85);
