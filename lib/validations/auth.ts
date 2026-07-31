@@ -34,6 +34,7 @@ export const registerSchema = z
     role: z.enum(["CUSTOMER", "TECHNICIAN"], {
       error: "Please select an account type.",
     }),
+    avatar: z.string().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],

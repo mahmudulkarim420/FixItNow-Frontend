@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { UserMenu } from "@/components/shared/user-menu";
+import { ROLE_HOME } from "@/lib/auth-constants";
 import { cn } from "@/lib/utils";
 import type { User } from "@/types";
 
@@ -31,9 +32,21 @@ const MOBILE_TABS = [
   { id: "contact", name: "Contact", href: "/contact", icon: MessageCircle },
 ];
 
-export function NavbarClient({ user }: NavbarClientProps) {
+import { getCurrentUser } from "@/lib/api";
+
+export function NavbarClient({ user: initialUser }: NavbarClientProps) {
   const pathname = usePathname();
+  const [currentUser, setCurrentUser] = useState<User | null>(initialUser);
   const [hash, setHash] = useState("");
+
+  useEffect(() => {
+    setCurrentUser(initialUser);
+    getCurrentUser()
+      .then((u) => {
+        if (u) setCurrentUser(u);
+      })
+      .catch(() => null);
+  }, [initialUser, pathname]);
 
   useEffect(() => {
     setHash(window.location.hash);
@@ -98,8 +111,8 @@ export function NavbarClient({ user }: NavbarClientProps) {
 
             {/* Right side: auth-aware */}
             <div className="flex items-center gap-2 sm:gap-3">
-              {user ? (
-                <UserMenu user={user} />
+              {currentUser ? (
+                <UserMenu user={currentUser} />
               ) : (
                 <div className="flex items-center gap-2 sm:gap-3">
                   <Link href="/login" className="hidden rounded-full px-4 py-2 text-xs font-bold text-stone-700 transition hover:bg-stone-100 sm:inline-flex">
@@ -135,7 +148,7 @@ export function NavbarClient({ user }: NavbarClientProps) {
           );
         })}
         <Link
-          href={user ? "/dashboard/customer" : "/register"}
+          href={currentUser ? ROLE_HOME[currentUser.role] : "/register"}
           className="ml-1 flex shrink-0 items-center gap-1 rounded-full bg-amber-500 px-2.5 py-1.5 text-[10px] font-bold text-stone-950 shadow-sm hover:bg-amber-600 transition-colors"
         >
           <Zap className="h-3.5 w-3.5" />

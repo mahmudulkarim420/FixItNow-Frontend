@@ -101,6 +101,7 @@ export interface RegisterPayload {
   email: string;
   password: string;
   role: "CUSTOMER" | "TECHNICIAN";
+  avatar?: string;
 }
 
 /** Shape of the payload sent to POST /auth/login. */
