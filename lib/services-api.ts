@@ -1,4 +1,4 @@
-import { API_BASE_URL, apiRequest } from "@/lib/api";
+import { getApiBaseUrl, apiRequest } from "@/lib/api";
 import type { RepairService, ServiceCategory } from "@/lib/services-data";
 import type {
   ApiService,
@@ -113,7 +113,7 @@ export async function fetchServices(
   const queryString = searchParams.toString();
   const path = `/services${queryString ? `?${queryString}` : ""}`;
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const response = await fetch(`${getApiBaseUrl()}${path}`, {
     method: "GET",
     headers: {
       Accept: "application/json",

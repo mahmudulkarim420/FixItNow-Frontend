@@ -17,9 +17,16 @@ import type {
   User,
 } from "@/types";
 
-export const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ??
-  "/api";
+export function getApiBaseUrl(): string {
+  if (typeof window === "undefined") {
+    const envUrl = process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL;
+    if (envUrl) return `${envUrl.replace(/\/$/, "")}/api`;
+    return "https://fixitnow-backend-production-4c0e.up.railway.app/api";
+  }
+  return process.env.NEXT_PUBLIC_API_BASE_URL ?? "/api";
+}
+
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "/api";
 
 /** A typed error thrown when the backend returns a non-2xx response. */
 export class ApiError extends Error {
@@ -56,8 +63,9 @@ export async function apiRequest<T>(
   options: RequestOptions = {},
 ): Promise<T> {
   const { body, headers, _retry, ...rest } = options;
+  const baseUrl = getApiBaseUrl();
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const response = await fetch(`${baseUrl}${path}`, {
     ...rest,
     headers: {
       "Content-Type": "application/json",
@@ -96,7 +104,8 @@ export async function apiRequest<T>(
 /** Calls POST /auth/refresh to rotate the HTTP-only cookies. */
 export async function refreshAccessToken(): Promise<boolean> {
   try {
-    const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+    const baseUrl = getApiBaseUrl();
+    const response = await fetch(`${baseUrl}/auth/refresh`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
