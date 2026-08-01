@@ -19,8 +19,7 @@ import type {
 
 export const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ??
-  process.env.NEXT_PUBLIC_API_URL ??
-  "http://localhost:5000/api";
+  "/api";
 
 /** A typed error thrown when the backend returns a non-2xx response. */
 export class ApiError extends Error {

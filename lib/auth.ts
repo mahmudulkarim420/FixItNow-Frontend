@@ -28,6 +28,13 @@ import type { ApiResponse, User, UserRole } from "@/types";
 // Re-export shared constants so callers can import everything from one place.
 export { AUTH_COOKIES, ROLE_HOME, isPublicRoute };
 
+const BACKEND_API_URL =
+  process.env.BACKEND_URL
+    ? `${process.env.BACKEND_URL.replace(/\/$/, "")}/api`
+    : process.env.NEXT_PUBLIC_BACKEND_URL
+    ? `${process.env.NEXT_PUBLIC_BACKEND_URL.replace(/\/$/, "")}/api`
+    : "https://fixitnow-backend-production-4c0e.up.railway.app/api";
+
 /**
  * Returns the currently authenticated user by forwarding the incoming request
  * cookies to GET /auth/me. Returns `null` when unauthenticated (never throws).
@@ -48,7 +55,7 @@ export async function getSessionUser(): Promise<User | null> {
     .join("; ");
 
   try {
-    const response = await fetch(`${API_BASE_URL}/auth/me`, {
+    const response = await fetch(`${BACKEND_API_URL}/auth/me`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +87,7 @@ export async function refreshServerSession(): Promise<boolean> {
     .join("; ");
 
   try {
-    const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+    const response = await fetch(`${BACKEND_API_URL}/auth/refresh`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
