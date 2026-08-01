@@ -9,13 +9,13 @@ export function PremiumPreloader() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Check if preloader was already shown in this session for instant loading
+    // Check if preloader was already shown in this session for instant subsequent loads
     if (typeof window !== "undefined" && sessionStorage.getItem("fixitnow_preloader_seen")) {
       setIsLoaded(true);
       return;
     }
 
-    // Fast, elegant progress animation that doesn't block Speed Index
+    // Smooth, elegant progress animation with extended display time for luxury feel
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -23,13 +23,13 @@ export function PremiumPreloader() {
           if (typeof window !== "undefined") {
             sessionStorage.setItem("fixitnow_preloader_seen", "true");
           }
-          setTimeout(() => setIsLoaded(true), 60);
+          setTimeout(() => setIsLoaded(true), 250);
           return 100;
         }
-        const next = prev + 25;
+        const next = prev + Math.floor(Math.random() * 8) + 7;
         return next > 100 ? 100 : next;
       });
-    }, 25);
+    }, 45);
 
     return () => clearInterval(interval);
   }, []);
