@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
+import { getUserBookings } from "@/lib/bookings-payments-api";
 import {
   fetchServiceCategories,
   fetchServices,
@@ -31,7 +32,7 @@ import {
 import { services as mockServices, type RepairService } from "@/lib/services-data";
 import { getSavedServices, toggleSaveService } from "@/lib/saved-services";
 import { cn } from "@/lib/utils";
-import type { ApiServiceCategory } from "@/types";
+import type { ApiServiceCategory, Booking } from "@/types";
 
 const categoryIcons: Record<string, React.ElementType> = {
   "All Services": Layers,
@@ -59,6 +60,16 @@ export function ServicesCatalog() {
 
   // Saved / Wishlist IDs state
   const [savedIds, setSavedIds] = useState<string[]>([]);
+  // User active bookings
+  const [userBookings, setUserBookings] = useState<Booking[]>([]);
+
+  useEffect(() => {
+    getUserBookings()
+      .then((res) => {
+        if (Array.isArray(res)) setUserBookings(res);
+      })
+      .catch(() => null);
+  }, []);
 
   useEffect(() => {
     const syncSaved = () => {
@@ -290,6 +301,13 @@ export function ServicesCatalog() {
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {servicesList.map((service) => {
                   const isSaved = savedIds.includes(service.id);
+                  const activeBooking = userBookings.find(
+                    (b) =>
+                      (b.serviceId === service.id || b.service?.id === service.id) &&
+                      b.status !== "COMPLETED" &&
+                      b.status !== "CANCELLED" &&
+                      b.status !== "DECLINED"
+                  );
 
                   return (
                     <article
@@ -329,9 +347,15 @@ export function ServicesCatalog() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-stone-950/50 via-transparent to-transparent" />
 
-                        <span className="absolute left-3 top-3 rounded-full border border-white/70 bg-white/90 px-3 py-1 text-[11px] font-bold text-stone-900 shadow-xs backdrop-blur-md">
-                          {service.badge}
-                        </span>
+                        {activeBooking ? (
+                          <span className="absolute left-3 top-3 rounded-full border border-amber-300 bg-amber-500 px-3 py-1 text-[10px] font-black uppercase text-stone-950 shadow-md">
+                            Active Booking ({activeBooking.status})
+                          </span>
+                        ) : (
+                          <span className="absolute left-3 top-3 rounded-full border border-white/70 bg-white/90 px-3 py-1 text-[11px] font-bold text-stone-900 shadow-xs backdrop-blur-md">
+                            {service.badge}
+                          </span>
+                        )}
 
                         <span className="absolute bottom-3 left-3 rounded-full bg-stone-950/80 px-3 py-1 text-[10px] font-bold text-white backdrop-blur-md">
                           {service.category}

@@ -17,6 +17,7 @@ import {
   Lock,
   MapPin,
   Phone,
+  RefreshCw,
   ShieldCheck,
   Sparkles,
   Star,
@@ -26,7 +27,13 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { createBooking, createCheckoutSession } from "@/lib/bookings-payments-api";
+import {
+  cancelBooking,
+  createBooking,
+  createCheckoutSession,
+  getBookingById,
+  getUserBookings,
+} from "@/lib/bookings-payments-api";
 import { fetchServices, fetchTechnicianProfile, mapApiServiceToUI } from "@/lib/services-api";
 import type { RepairService } from "@/lib/services-data";
 import { cn } from "@/lib/utils";
@@ -47,7 +54,7 @@ const AVAILABLE_TIME_SLOTS = [
 export function ServiceDetail({ service }: ServiceDetailProps) {
   const router = useRouter();
 
-  // Booking Modal States
+  // Booking Modal & Active Booking States
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [scheduledDate, setScheduledDate] = useState(() => {
     const tomorrow = new Date();
@@ -59,13 +66,78 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRedirectingPayment, setIsRedirectingPayment] = useState(false);
+  const [isCheckingStatus, setIsCheckingStatus] = useState(false);
   const [bookingError, setBookingError] = useState<string | null>(null);
   const [needAuth, setNeedAuth] = useState(false);
   const [createdBooking, setCreatedBooking] = useState<Booking | null>(null);
+  const [activeBooking, setActiveBooking] = useState<Booking | null>(null);
 
   // Dynamic Data States
   const [relatedServices, setRelatedServices] = useState<RepairService[]>([]);
   const [techProfile, setTechProfile] = useState<TechnicianProfile | null>(null);
+
+  // Fetch User Bookings to check if user already has an active booking for this service
+  const refreshActiveBooking = () => {
+    getUserBookings()
+      .then((bookings) => {
+        if (!Array.isArray(bookings)) return;
+        const found = bookings.find(
+          (b) =>
+            (b.serviceId === service.id || b.service?.id === service.id) &&
+            b.status !== "COMPLETED" &&
+            b.status !== "CANCELLED" &&
+            b.status !== "DECLINED"
+        );
+        setActiveBooking(found || null);
+      })
+      .catch(() => {
+        /* Unauthenticated or fetch error */
+      });
+  };
+
+  useEffect(() => {
+    refreshActiveBooking();
+  }, [service.id]);
+
+  // Live status polling when booking is in REQUESTED state
+  useEffect(() => {
+    const target = createdBooking || activeBooking;
+    if (!target || target.status !== "REQUESTED") {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      getBookingById(target.id)
+        .then((updated) => {
+          if (updated) {
+            if (createdBooking && createdBooking.id === updated.id) {
+              setCreatedBooking(updated);
+            }
+            if (activeBooking && activeBooking.id === updated.id) {
+              setActiveBooking(updated);
+            }
+          }
+        })
+        .catch(() => null);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [createdBooking, activeBooking]);
+
+  const handleManualStatusCheck = async (bookingId: string) => {
+    setIsCheckingStatus(true);
+    try {
+      const updated = await getBookingById(bookingId);
+      if (updated) {
+        setCreatedBooking(updated);
+        setActiveBooking(updated);
+      }
+    } catch {
+      /* swallow */
+    } finally {
+      setIsCheckingStatus(false);
+    }
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -78,7 +150,7 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
           }
         })
         .catch(() => {
-          /* Fallback to initial mapping */
+          /* Fallback */
         });
     }
     return () => {
@@ -99,7 +171,7 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
         }
       })
       .catch(() => {
-        /* Swallow error for related services fallback */
+        /* Fallback */
       });
     return () => {
       isMounted = false;
@@ -121,6 +193,11 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
   // Handle Form Submission for Creating Booking
   const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (activeBooking) {
+      setBookingError("You already have an active booking for this service.");
+      return;
+    }
+
     setIsSubmitting(true);
     setBookingError(null);
     setNeedAuth(false);
@@ -134,6 +211,7 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
         contactNumber,
       });
       setCreatedBooking(newBooking);
+      setActiveBooking(newBooking);
     } catch (err: unknown) {
       const errorObj = err as { statusCode?: number; message?: string };
       if (errorObj?.statusCode === 401) {
@@ -161,10 +239,12 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
       }
     } catch (err: unknown) {
       const errorObj = err as { message?: string };
-      setBookingError(errorObj?.message || "Payment checkout failed. Ensure booking status is ACCEPTED or try again.");
+      setBookingError(errorObj?.message || "Payment checkout failed. Ensure technician has accepted the booking.");
       setIsRedirectingPayment(false);
     }
   };
+
+  const currentDisplayBooking = createdBooking || activeBooking;
 
   return (
     <div className="min-h-screen bg-[#F9F7F2] text-stone-900 selection:bg-amber-200 selection:text-amber-950">
@@ -176,6 +256,57 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
           <ArrowLeft className="h-4 w-4 text-amber-600" />
           <span>Back to all services</span>
         </Link>
+
+        {/* Banner if User Already Has Active Booking for this Service */}
+        {activeBooking ? (
+          <div className="mt-6 rounded-3xl border border-amber-300 bg-amber-50/90 p-5 shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-start gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-amber-500 text-stone-950 shadow-xs">
+                  <Clock className="h-5 w-5 animate-pulse" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-900">
+                      Existing Booking Detected
+                    </span>
+                    <span className="rounded-full bg-amber-200/90 px-2.5 py-0.5 text-[10px] font-black uppercase text-amber-950">
+                      Status: {activeBooking.status}
+                    </span>
+                  </div>
+                  <h2 className="mt-0.5 text-base font-extrabold text-stone-900">
+                    You already have an active booking for this service!
+                  </h2>
+                  <p className="mt-1 text-xs text-stone-700 leading-relaxed max-w-2xl font-medium">
+                    Scheduled for <strong>{activeBooking.scheduledDate}</strong> ({activeBooking.timeSlot}). You cannot order the same service again until your active booking is completed or cancelled.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                {activeBooking.status === "ACCEPTED" ? (
+                  <button
+                    type="button"
+                    onClick={() => handleProceedToPayment(activeBooking.id)}
+                    className="flex items-center gap-2 rounded-2xl bg-emerald-600 px-4 py-2.5 text-xs font-extrabold text-white hover:bg-emerald-700 transition shadow-sm cursor-pointer"
+                  >
+                    <CreditCard className="h-4 w-4" />
+                    <span>Pay Now</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(true)}
+                    className="flex items-center gap-2 rounded-2xl bg-stone-900 px-4 py-2.5 text-xs font-extrabold text-white hover:bg-stone-800 transition cursor-pointer"
+                  >
+                    <span>View Booking Status</span>
+                    <ArrowRight className="h-4 w-4 text-amber-400" />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : null}
 
         <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_390px] lg:items-start">
           {/* Main Detail Content */}
@@ -414,27 +545,55 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
               </p>
             </div>
 
-            <button
-              type="button"
-              onClick={() => {
-                setCreatedBooking(null);
-                setBookingError(null);
-                setIsModalOpen(true);
-              }}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-amber-500 px-5 py-4 text-sm font-extrabold text-stone-950 shadow-md shadow-amber-500/20 transition hover:bg-amber-400 focus:outline-none focus-visible:ring-4 focus-visible:ring-amber-200 cursor-pointer"
-            >
-              <span>Book Service Now</span>
-              <ArrowRight className="h-4 w-4 text-stone-950" />
-            </button>
+            {/* Dynamic Action Button depending on Active Booking status */}
+            {activeBooking ? (
+              activeBooking.status === "ACCEPTED" ? (
+                <button
+                  type="button"
+                  onClick={() => handleProceedToPayment(activeBooking.id)}
+                  disabled={isRedirectingPayment}
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-5 py-4 text-sm font-extrabold text-white shadow-md shadow-emerald-500/20 transition hover:from-emerald-600 hover:to-emerald-700 cursor-pointer disabled:opacity-50"
+                >
+                  {isRedirectingPayment ? (
+                    <Loader2 className="h-4 w-4 animate-spin text-white" />
+                  ) : (
+                    <CreditCard className="h-4 w-4 text-white" />
+                  )}
+                  <span>Pay Now (${service.price})</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(true)}
+                  className="flex w-full items-center justify-center gap-2 rounded-2xl bg-amber-500 px-5 py-4 text-sm font-extrabold text-stone-950 shadow-md shadow-amber-500/20 transition hover:bg-amber-400 cursor-pointer"
+                >
+                  <span>View Active Booking Status</span>
+                  <ArrowRight className="h-4 w-4 text-stone-950" />
+                </button>
+              )
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  setCreatedBooking(null);
+                  setBookingError(null);
+                  setIsModalOpen(true);
+                }}
+                className="flex w-full items-center justify-center gap-2 rounded-2xl bg-amber-500 px-5 py-4 text-sm font-extrabold text-stone-950 shadow-md shadow-amber-500/20 transition hover:bg-amber-400 focus:outline-none focus-visible:ring-4 focus-visible:ring-amber-200 cursor-pointer"
+              >
+                <span>Book Service Now</span>
+                <ArrowRight className="h-4 w-4 text-stone-950" />
+              </button>
+            )}
 
             <p className="mt-3 text-center text-[11px] leading-5 text-stone-400 font-medium">
-              Real API booking request with Stripe online checkout options.
+              Payment is unlocked after a technician accepts your booking.
             </p>
           </aside>
         </div>
       </main>
 
-      {/* Interactive Booking & Payment Modal */}
+      {/* Interactive Booking & Status Progression Modal */}
       {isModalOpen ? (
         <div className="fixed inset-0 z-[60] flex items-center justify-center bg-stone-950/40 p-4 backdrop-blur-md">
           <div className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-white p-6 sm:p-8 shadow-2xl border border-stone-200">
@@ -442,7 +601,6 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
               type="button"
               onClick={() => {
                 setIsModalOpen(false);
-                setCreatedBooking(null);
               }}
               className="absolute right-4 top-4 rounded-full p-2 text-stone-400 hover:bg-stone-100 hover:text-stone-700 cursor-pointer transition"
               aria-label="Close modal"
@@ -450,7 +608,7 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
               <X className="h-5 w-5" />
             </button>
 
-            {!createdBooking ? (
+            {!currentDisplayBooking ? (
               /* STEP 1: Booking Input Form */
               <div>
                 <div className="flex items-center gap-3">
@@ -558,7 +716,7 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
                       {isSubmitting ? (
                         <>
                           <Loader2 className="h-4 w-4 animate-spin text-amber-400" />
-                          <span>Creating Booking Request...</span>
+                          <span>Submitting Request...</span>
                         </>
                       ) : (
                         <>
@@ -571,60 +729,141 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
                 </form>
               </div>
             ) : (
-              /* STEP 2: Booking Created & Payment Options */
-              <div className="text-center">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-100 text-amber-700">
-                  <Check className="h-7 w-7" />
+              /* STEP 2: Booking Status Tracker & Payment Gate */
+              <div>
+                <div className="flex items-center justify-between gap-2 border-b border-stone-100 pb-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-700">
+                      Booking Tracker
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => handleManualStatusCheck(currentDisplayBooking.id)}
+                    disabled={isCheckingStatus}
+                    className="flex items-center gap-1.5 rounded-xl bg-stone-100 px-2.5 py-1 text-[11px] font-bold text-stone-700 hover:bg-stone-200 transition cursor-pointer"
+                  >
+                    <RefreshCw className={cn("h-3.5 w-3.5", isCheckingStatus ? "animate-spin text-amber-600" : "")} />
+                    <span>Check Status</span>
+                  </button>
                 </div>
 
-                <span className="mt-4 inline-block rounded-full bg-amber-100 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-amber-900">
-                  Booking Status: {createdBooking.status}
-                </span>
+                <div className="mt-4 text-center">
+                  {/* Dynamic Status Badges */}
+                  {currentDisplayBooking.status === "REQUESTED" ? (
+                    <div className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3.5 py-1 text-xs font-black uppercase text-amber-950 border border-amber-300 shadow-2xs animate-pulse">
+                      <Clock className="h-4 w-4 text-amber-700" />
+                      <span>Status: Waiting for Technician Acceptance</span>
+                    </div>
+                  ) : currentDisplayBooking.status === "ACCEPTED" ? (
+                    <div className="inline-flex items-center gap-2 rounded-full bg-emerald-100 px-3.5 py-1 text-xs font-black uppercase text-emerald-950 border border-emerald-300 shadow-2xs">
+                      <Check className="h-4 w-4 text-emerald-700" />
+                      <span>Status: ACCEPTED by Technician</span>
+                    </div>
+                  ) : currentDisplayBooking.status === "PAID" || currentDisplayBooking.status === "IN_PROGRESS" ? (
+                    <div className="inline-flex items-center gap-2 rounded-full bg-sky-100 px-3.5 py-1 text-xs font-black uppercase text-sky-950 border border-sky-300 shadow-2xs">
+                      <ShieldCheck className="h-4 w-4 text-sky-700" />
+                      <span>Status: PAID & IN PROGRESS</span>
+                    </div>
+                  ) : (
+                    <div className="inline-flex items-center gap-2 rounded-full bg-stone-100 px-3.5 py-1 text-xs font-black uppercase text-stone-800">
+                      <span>Status: {currentDisplayBooking.status}</span>
+                    </div>
+                  )}
 
-                <h2 className="mt-2 text-2xl font-extrabold text-stone-900">
-                  Booking Request Created!
-                </h2>
-                <p className="mt-2 text-xs text-stone-500 leading-relaxed">
-                  Your appointment for <strong className="text-stone-800">{service.name}</strong> on{" "}
-                  <strong className="text-stone-800">{createdBooking.scheduledDate} ({createdBooking.timeSlot})</strong> has been logged in the backend system.
-                </p>
+                  <h2 className="mt-4 text-2xl font-extrabold text-stone-900">
+                    {currentDisplayBooking.status === "ACCEPTED"
+                      ? "Technician Accepted Your Booking!"
+                      : currentDisplayBooking.status === "PAID" || currentDisplayBooking.status === "IN_PROGRESS"
+                      ? "Booking Confirmed & Paid!"
+                      : "Booking Request Received!"}
+                  </h2>
 
-                {bookingError ? (
-                  <div className="mt-4 rounded-xl bg-red-50 p-3 text-xs text-red-800 border border-red-200 flex items-start gap-2 text-left">
-                    <AlertCircle className="h-4 w-4 text-red-600 shrink-0 mt-0.5" />
-                    <span>{bookingError}</span>
+                  <p className="mt-2 text-xs text-stone-600 leading-relaxed max-w-md mx-auto">
+                    {currentDisplayBooking.status === "ACCEPTED"
+                      ? "A certified technician has accepted your appointment! Complete payment below to lock in your visit."
+                      : currentDisplayBooking.status === "PAID" || currentDisplayBooking.status === "IN_PROGRESS"
+                      ? "Your booking is paid and scheduled for your technician visit."
+                      : "Your request is currently waiting for a technician to accept. Once accepted by the technician, the payment button below will unlock automatically."}
+                  </p>
+
+                  <div className="mt-4 rounded-2xl bg-stone-50 p-4 border border-stone-200/80 text-left text-xs space-y-2 font-medium">
+                    <div className="flex justify-between">
+                      <span className="text-stone-400">Service:</span>
+                      <strong className="text-stone-900">{service.name}</strong>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-stone-400">Scheduled Visit:</span>
+                      <strong className="text-stone-900">
+                        {currentDisplayBooking.scheduledDate} ({currentDisplayBooking.timeSlot})
+                      </strong>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-stone-400">Total Price:</span>
+                      <strong className="text-amber-700 text-sm font-black">${service.price}</strong>
+                    </div>
                   </div>
-                ) : null}
 
-                {/* Direct Action Buttons: Pay via Stripe or View Dashboard */}
-                <div className="mt-6 space-y-3">
-                  <button
-                    type="button"
-                    disabled={isRedirectingPayment}
-                    onClick={() => handleProceedToPayment(createdBooking.id)}
-                    className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-4 text-xs font-extrabold text-stone-950 shadow-lg shadow-amber-500/25 transition hover:from-amber-400 hover:to-amber-500 cursor-pointer disabled:opacity-50"
-                  >
-                    {isRedirectingPayment ? (
-                      <>
-                        <Loader2 className="h-4 w-4 animate-spin text-stone-950" />
-                        <span>Redirecting to Stripe...</span>
-                      </>
+                  {bookingError ? (
+                    <div className="mt-4 rounded-xl bg-red-50 p-3 text-xs text-red-800 border border-red-200 flex items-start gap-2 text-left">
+                      <AlertCircle className="h-4 w-4 text-red-600 shrink-0 mt-0.5" />
+                      <span>{bookingError}</span>
+                    </div>
+                  ) : null}
+
+                  {/* Payment Button Gate */}
+                  <div className="mt-6 space-y-3">
+                    {currentDisplayBooking.status === "ACCEPTED" ? (
+                      <button
+                        type="button"
+                        disabled={isRedirectingPayment}
+                        onClick={() => handleProceedToPayment(currentDisplayBooking.id)}
+                        className="w-full flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-5 py-4 text-xs font-extrabold text-white shadow-lg shadow-emerald-500/25 transition hover:from-emerald-600 hover:to-emerald-700 cursor-pointer disabled:opacity-50"
+                      >
+                        {isRedirectingPayment ? (
+                          <>
+                            <Loader2 className="h-4 w-4 animate-spin text-white" />
+                            <span>Redirecting to Stripe...</span>
+                          </>
+                        ) : (
+                          <>
+                            <CreditCard className="h-4 w-4 text-white" />
+                            <span>Proceed to Online Payment (Stripe)</span>
+                            <ArrowRight className="h-4 w-4 text-white" />
+                          </>
+                        )}
+                      </button>
+                    ) : currentDisplayBooking.status === "PAID" || currentDisplayBooking.status === "IN_PROGRESS" ? (
+                      <div className="flex items-center justify-center gap-2 rounded-2xl bg-emerald-50 p-3.5 text-xs font-bold text-emerald-900 border border-emerald-200">
+                        <Check className="h-4 w-4 text-emerald-600" />
+                        <span>Payment Completed Successfully</span>
+                      </div>
                     ) : (
-                      <>
-                        <Lock className="h-4 w-4 text-stone-950" />
-                        <CreditCard className="h-4 w-4 text-stone-950" />
-                        <span>Proceed to Online Payment (Stripe)</span>
-                      </>
+                      <div className="space-y-2">
+                        <button
+                          type="button"
+                          disabled
+                          className="w-full flex items-center justify-center gap-2 rounded-2xl bg-stone-100 px-5 py-4 text-xs font-extrabold text-stone-400 border border-stone-200/80 cursor-not-allowed"
+                        >
+                          <Lock className="h-4 w-4 text-stone-400" />
+                          <span>Payment Locked (Waiting for Acceptance)</span>
+                        </button>
+                        <p className="text-[11px] text-amber-700 font-semibold flex items-center justify-center gap-1">
+                          <Loader2 className="h-3 w-3 animate-spin text-amber-600" />
+                          <span>Auto-refreshing status every few seconds...</span>
+                        </p>
+                      </div>
                     )}
-                  </button>
 
-                  <button
-                    type="button"
-                    onClick={() => router.push("/dashboard/customer")}
-                    className="w-full flex items-center justify-center gap-2 rounded-2xl border border-stone-200 bg-white px-5 py-3 text-xs font-bold text-stone-700 hover:bg-stone-50 transition cursor-pointer"
-                  >
-                    <span>View My Bookings in Dashboard</span>
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => router.push("/dashboard/customer/bookings")}
+                      className="w-full flex items-center justify-center gap-2 rounded-2xl border border-stone-200 bg-white px-5 py-3 text-xs font-bold text-stone-700 hover:bg-stone-50 transition cursor-pointer"
+                    >
+                      <span>View All My Bookings in Dashboard</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
