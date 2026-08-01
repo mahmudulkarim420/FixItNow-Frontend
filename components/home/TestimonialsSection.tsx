@@ -179,6 +179,8 @@ export default function TestimonialsSection() {
                       alt={review.name}
                       fill
                       sizes="48px"
+                      quality={80}
+                      loading="lazy"
                       className="object-cover"
                     />
                   </div>

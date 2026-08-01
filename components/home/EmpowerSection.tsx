@@ -25,6 +25,8 @@ export default function EmpowerSection() {
                   alt="Plumbing Repair Work"
                   fill
                   sizes="(max-width: 768px) 60vw, 300px"
+                  quality={80}
+                  loading="lazy"
                   className="object-cover"
                 />
               </div>
@@ -36,6 +38,8 @@ export default function EmpowerSection() {
                   alt="HVAC Air Conditioning Service"
                   fill
                   sizes="(max-width: 768px) 75vw, 350px"
+                  quality={80}
+                  loading="lazy"
                   className="object-cover"
                 />
               </div>

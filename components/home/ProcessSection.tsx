@@ -38,6 +38,8 @@ export default function ProcessSection() {
                     alt="Select Repair Service"
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
+                    quality={80}
+                    loading="lazy"
                     className="object-cover"
                   />
                   <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-amber-100/90 text-amber-900 text-xs font-bold shadow-xs flex items-center gap-1.5">
@@ -64,6 +66,8 @@ export default function ProcessSection() {
                     alt="Schedule Expert Technician"
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
+                    quality={80}
+                    loading="lazy"
                     className="object-cover"
                   />
                   <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-amber-100/90 text-amber-900 text-xs font-bold shadow-xs flex items-center gap-1.5">
@@ -92,6 +96,8 @@ export default function ProcessSection() {
                   alt="Comfortable restored home"
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
+                  quality={80}
+                  loading="lazy"
                   className="object-cover"
                 />
               </div>

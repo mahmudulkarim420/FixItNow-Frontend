@@ -9,18 +9,27 @@ export function PremiumPreloader() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Smooth, elegant progress animation
+    // Check if preloader was already shown in this session for instant loading
+    if (typeof window !== "undefined" && sessionStorage.getItem("fixitnow_preloader_seen")) {
+      setIsLoaded(true);
+      return;
+    }
+
+    // Fast, elegant progress animation that doesn't block Speed Index
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(() => setIsLoaded(true), 400);
+          if (typeof window !== "undefined") {
+            sessionStorage.setItem("fixitnow_preloader_seen", "true");
+          }
+          setTimeout(() => setIsLoaded(true), 60);
           return 100;
         }
-        const next = prev + Math.floor(Math.random() * 8) + 6;
+        const next = prev + 25;
         return next > 100 ? 100 : next;
       });
-    }, 70);
+    }, 25);
 
     return () => clearInterval(interval);
   }, []);
