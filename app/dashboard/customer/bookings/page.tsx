@@ -121,8 +121,9 @@ export default function CustomerBookingsPage() {
         return <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[10px] font-bold text-blue-700 border border-blue-100">Accepted - Payment Due</span>;
       case "REQUESTED":
         return <span className="rounded-full bg-stone-100 px-2.5 py-1 text-[10px] font-bold text-stone-700 border border-stone-200">Pending Acceptance</span>;
-      case "COMPLETED":
       case "PAID":
+        return <span className="rounded-full bg-sky-50 px-2.5 py-1 text-[10px] font-bold text-sky-700 border border-sky-100">Paid & Scheduled</span>;
+      case "COMPLETED":
         return <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-bold text-emerald-700 border border-emerald-100">Completed</span>;
       case "CANCELLED":
         return <span className="rounded-full bg-rose-50 px-2.5 py-1 text-[10px] font-bold text-rose-700 border border-rose-100">Cancelled</span>;
@@ -210,8 +211,12 @@ export default function CustomerBookingsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
           {filteredBookings.map((b) => {
             const isAccepted = b.status === "ACCEPTED";
-            const isCompleted = b.status === "COMPLETED" || b.status === "PAID";
-            const isCancelable = b.status === "REQUESTED" || b.status === "ACCEPTED";
+            const isCompleted = b.status === "COMPLETED";
+            const isCancelable =
+              b.status !== "IN_PROGRESS" &&
+              b.status !== "COMPLETED" &&
+              b.status !== "CANCELLED" &&
+              b.status !== "DECLINED";
             const hasReview = Boolean(b.review);
 
             return (

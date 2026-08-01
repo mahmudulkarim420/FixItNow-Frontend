@@ -190,6 +190,29 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
   const techRating = techProfile?.averageRating || service.technician.rating;
   const techIsVerified = techProfile?.isVerified ?? service.technician.isVerified ?? true;
 
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [cancelReasonInput, setCancelReasonInput] = useState("");
+  const [showCancelPrompt, setShowCancelPrompt] = useState(false);
+
+  // Handle Booking Cancellation
+  const handleCancelBooking = async (bookingId: string) => {
+    setIsCancelling(true);
+    setBookingError(null);
+    try {
+      await cancelBooking(bookingId, cancelReasonInput || "Customer requested cancellation");
+      setActiveBooking(null);
+      setCreatedBooking(null);
+      setShowCancelPrompt(false);
+      setCancelReasonInput("");
+      setIsModalOpen(false);
+    } catch (err: unknown) {
+      const errorObj = err as { message?: string };
+      setBookingError(errorObj?.message || "Failed to cancel booking.");
+    } finally {
+      setIsCancelling(false);
+    }
+  };
+
   // Handle Form Submission for Creating Booking
   const handleBookingSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -761,10 +784,15 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
                       <Check className="h-4 w-4 text-emerald-700" />
                       <span>Status: ACCEPTED by Technician</span>
                     </div>
-                  ) : currentDisplayBooking.status === "PAID" || currentDisplayBooking.status === "IN_PROGRESS" ? (
+                  ) : currentDisplayBooking.status === "PAID" ? (
                     <div className="inline-flex items-center gap-2 rounded-full bg-sky-100 px-3.5 py-1 text-xs font-black uppercase text-sky-950 border border-sky-300 shadow-2xs">
                       <ShieldCheck className="h-4 w-4 text-sky-700" />
-                      <span>Status: PAID & IN PROGRESS</span>
+                      <span>Status: PAID & SCHEDULED</span>
+                    </div>
+                  ) : currentDisplayBooking.status === "IN_PROGRESS" ? (
+                    <div className="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3.5 py-1 text-xs font-black uppercase text-amber-950 border border-amber-300 shadow-2xs animate-pulse">
+                      <Clock className="h-4 w-4 text-amber-700" />
+                      <span>Status: REPAIR IN PROGRESS</span>
                     </div>
                   ) : (
                     <div className="inline-flex items-center gap-2 rounded-full bg-stone-100 px-3.5 py-1 text-xs font-black uppercase text-stone-800">
@@ -775,16 +803,20 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
                   <h2 className="mt-4 text-2xl font-extrabold text-stone-900">
                     {currentDisplayBooking.status === "ACCEPTED"
                       ? "Technician Accepted Your Booking!"
-                      : currentDisplayBooking.status === "PAID" || currentDisplayBooking.status === "IN_PROGRESS"
-                      ? "Booking Confirmed & Paid!"
+                      : currentDisplayBooking.status === "PAID"
+                      ? "Booking Paid & Scheduled!"
+                      : currentDisplayBooking.status === "IN_PROGRESS"
+                      ? "Repair Service in Progress"
                       : "Booking Request Received!"}
                   </h2>
 
                   <p className="mt-2 text-xs text-stone-600 leading-relaxed max-w-md mx-auto">
                     {currentDisplayBooking.status === "ACCEPTED"
                       ? "A certified technician has accepted your appointment! Complete payment below to lock in your visit."
-                      : currentDisplayBooking.status === "PAID" || currentDisplayBooking.status === "IN_PROGRESS"
-                      ? "Your booking is paid and scheduled for your technician visit."
+                      : currentDisplayBooking.status === "PAID"
+                      ? "Your payment was successful and your appointment is scheduled for your technician visit."
+                      : currentDisplayBooking.status === "IN_PROGRESS"
+                      ? "The technician is currently performing the repair service."
                       : "Your request is currently waiting for a technician to accept. Once accepted by the technician, the payment button below will unlock automatically."}
                   </p>
 
@@ -812,7 +844,7 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
                     </div>
                   ) : null}
 
-                  {/* Payment Button Gate */}
+                  {/* Payment Button & Cancellation Gate */}
                   <div className="mt-6 space-y-3">
                     {currentDisplayBooking.status === "ACCEPTED" ? (
                       <button
@@ -834,10 +866,15 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
                           </>
                         )}
                       </button>
-                    ) : currentDisplayBooking.status === "PAID" || currentDisplayBooking.status === "IN_PROGRESS" ? (
-                      <div className="flex items-center justify-center gap-2 rounded-2xl bg-emerald-50 p-3.5 text-xs font-bold text-emerald-900 border border-emerald-200">
-                        <Check className="h-4 w-4 text-emerald-600" />
-                        <span>Payment Completed Successfully</span>
+                    ) : currentDisplayBooking.status === "PAID" ? (
+                      <div className="flex items-center justify-center gap-2 rounded-2xl bg-sky-50 p-3.5 text-xs font-bold text-sky-900 border border-sky-200">
+                        <Check className="h-4 w-4 text-sky-600" />
+                        <span>Payment Received (Paid & Scheduled)</span>
+                      </div>
+                    ) : currentDisplayBooking.status === "IN_PROGRESS" ? (
+                      <div className="flex items-center justify-center gap-2 rounded-2xl bg-amber-50 p-3.5 text-xs font-bold text-amber-900 border border-amber-200">
+                        <Clock className="h-4 w-4 text-amber-600 animate-spin" />
+                        <span>Repair Work In Progress</span>
                       </div>
                     ) : (
                       <div className="space-y-2">
@@ -855,6 +892,53 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
                         </p>
                       </div>
                     )}
+
+                    {/* Cancellation Action (Allowed if not IN_PROGRESS and not COMPLETED) */}
+                    {currentDisplayBooking.status !== "IN_PROGRESS" &&
+                    currentDisplayBooking.status !== "COMPLETED" &&
+                    currentDisplayBooking.status !== "CANCELLED" &&
+                    currentDisplayBooking.status !== "DECLINED" ? (
+                      showCancelPrompt ? (
+                        <div className="mt-4 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-left space-y-3">
+                          <p className="text-xs font-bold text-rose-900">
+                            Provide cancellation reason:
+                          </p>
+                          <textarea
+                            rows={2}
+                            value={cancelReasonInput}
+                            onChange={(e) => setCancelReasonInput(e.target.value)}
+                            placeholder="E.g., Plans changed, date mistake..."
+                            className="w-full rounded-xl border border-rose-200 p-2.5 text-xs text-stone-900 font-medium outline-none focus:border-rose-500 bg-white"
+                          />
+                          <div className="flex items-center justify-end gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setShowCancelPrompt(false)}
+                              className="rounded-xl border border-stone-200 bg-white px-3 py-1.5 text-xs font-bold text-stone-700 hover:bg-stone-50"
+                            >
+                              Back
+                            </button>
+                            <button
+                              type="button"
+                              disabled={isCancelling}
+                              onClick={() => handleCancelBooking(currentDisplayBooking.id)}
+                              className="flex items-center gap-1.5 rounded-xl bg-rose-600 px-4 py-1.5 text-xs font-bold text-white hover:bg-rose-700 disabled:opacity-50"
+                            >
+                              {isCancelling ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
+                              <span>Confirm Cancel</span>
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setShowCancelPrompt(true)}
+                          className="w-full flex items-center justify-center gap-2 rounded-2xl border border-rose-200 bg-rose-50/60 px-4 py-2.5 text-xs font-bold text-rose-700 hover:bg-rose-100 transition cursor-pointer"
+                        >
+                          <span>Cancel This Service Booking</span>
+                        </button>
+                      )
+                    ) : null}
 
                     <button
                       type="button"
