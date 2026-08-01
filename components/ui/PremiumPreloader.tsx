@@ -23,7 +23,7 @@ export function PremiumPreloader() {
           if (typeof window !== "undefined") {
             sessionStorage.setItem("fixitnow_preloader_seen", "true");
           }
-          setTimeout(() => setIsLoaded(true), 250);
+          setTimeout(() => setIsLoaded(true), 400);
           return 100;
         }
         const next = prev + Math.floor(Math.random() * 8) + 7;
