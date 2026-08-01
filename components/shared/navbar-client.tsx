@@ -41,11 +41,17 @@ export function NavbarClient({ user: initialUser }: NavbarClientProps) {
 
   useEffect(() => {
     setCurrentUser(initialUser);
-    getCurrentUser()
-      .then((u) => {
-        if (u) setCurrentUser(u);
-      })
-      .catch(() => null);
+  }, [initialUser]);
+
+  useEffect(() => {
+    // Only verify session on client side if initialUser was not supplied from SSR
+    if (initialUser === undefined) {
+      getCurrentUser()
+        .then((u) => {
+          if (u) setCurrentUser(u);
+        })
+        .catch(() => null);
+    }
   }, [initialUser, pathname]);
 
   useEffect(() => {
@@ -82,6 +88,7 @@ export function NavbarClient({ user: initialUser }: NavbarClientProps) {
                   src="/logo.png"
                   alt="FixItNow Logo"
                   fill
+                  sizes="36px"
                   className="object-cover transition-transform group-hover:scale-105"
                   priority
                 />

@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -8,13 +5,7 @@ export default function CtaBanner() {
   return (
     <section className="py-14 relative bg-[#F9F7F2]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-          className="rounded-2xl bg-[#FEF3C7] border border-amber-200/80 py-12 px-6 sm:px-12 text-center shadow-2xs"
-        >
+        <div className="rounded-2xl bg-[#FEF3C7] border border-amber-200/80 py-12 px-6 sm:px-12 text-center shadow-2xs">
           <div className="max-w-3xl mx-auto flex flex-col items-center">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-stone-900 leading-tight mb-4">
               Need an urgent fix or routine home maintenance?
@@ -32,7 +23,7 @@ export default function CtaBanner() {
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform text-amber-400" />
             </Link>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -37,6 +37,7 @@ export default function ProcessSection() {
                     src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=600"
                     alt="Select Repair Service"
                     fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
                     className="object-cover"
                   />
                   <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-amber-100/90 text-amber-900 text-xs font-bold shadow-xs flex items-center gap-1.5">
@@ -62,6 +63,7 @@ export default function ProcessSection() {
                     src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=600"
                     alt="Schedule Expert Technician"
                     fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 360px"
                     className="object-cover"
                   />
                   <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-amber-100/90 text-amber-900 text-xs font-bold shadow-xs flex items-center gap-1.5">
@@ -89,6 +91,7 @@ export default function ProcessSection() {
                   src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=800"
                   alt="Comfortable restored home"
                   fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 420px"
                   className="object-cover"
                 />
               </div>

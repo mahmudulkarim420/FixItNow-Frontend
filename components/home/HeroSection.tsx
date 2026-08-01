@@ -29,7 +29,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:3rem_3rem] sm:bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_20%,#000_70%,transparent_100%)] opacity-60 pointer-events-none" />
 
       {/* Bright Ambient Golden Glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-64 sm:h-80 bg-amber-300/40 blur-[80px] sm:blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-64 sm:h-80 bg-amber-300/40 blur-[40px] sm:blur-[60px] rounded-full pointer-events-none" />
 
       {/* Bottom Warm Gradient Transition */}
       <div className="absolute bottom-0 left-0 right-0 h-48 sm:h-64 bg-gradient-to-t from-[#FCD34D]/80 via-[#FDE68A]/40 to-transparent pointer-events-none" />
@@ -44,14 +44,10 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="absolute -top-3 sm:-top-6 left-0 sm:-left-12 lg:-left-16 flex flex-col items-end z-20"
           >
-            <motion.div
-              animate={{ y: [0, -6, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#DDF4FF] border border-[#BDE8FF] shadow-xs text-[#00A3FF] text-[10px] sm:text-xs font-bold"
-            >
+            <div className="animate-float-1 flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#DDF4FF] border border-[#BDE8FF] shadow-xs text-[#00A3FF] text-[10px] sm:text-xs font-bold">
               <Wrench className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>AC & Cooling</span>
-            </motion.div>
+            </div>
             <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#00A3FF] fill-current mr-3 sm:mr-4 -mt-0.5 sm:-mt-1 drop-shadow-xs" viewBox="0 0 24 24">
               <path d="M3 3l7 18 3-7 7-3L3 3z" />
             </svg>
@@ -64,14 +60,10 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="absolute -top-3 sm:-top-6 right-0 sm:-right-10 lg:-right-12 flex flex-col items-start z-20"
           >
-            <motion.div
-              animate={{ y: [0, -6, 0] }}
-              transition={{ repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 0.5 }}
-              className="flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#FFF3D6] border border-[#FFE7B3] shadow-xs text-[#E59800] text-[10px] sm:text-xs font-bold"
-            >
+            <div className="animate-float-2 flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#FFF3D6] border border-[#FFE7B3] shadow-xs text-[#E59800] text-[10px] sm:text-xs font-bold">
               <Droplets className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>Plumbing Care</span>
-            </motion.div>
+            </div>
             <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#E59800] fill-current ml-2 -mt-0.5 sm:-mt-1 drop-shadow-xs" viewBox="0 0 24 24">
               <path d="M3 3l7 18 3-7 7-3L3 3z" />
             </svg>
@@ -87,14 +79,10 @@ export default function HeroSection() {
             <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#8B5CF6] fill-current mr-2 -mb-0.5 sm:-mb-1 rotate-90 drop-shadow-xs z-10" viewBox="0 0 24 24">
               <path d="M3 3l7 18 3-7 7-3L3 3z" />
             </svg>
-            <motion.div
-              animate={{ y: [0, -6, 0] }}
-              transition={{ repeat: Infinity, duration: 3.8, ease: "easeInOut", delay: 1 }}
-              className="flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#F0EBFF] border border-[#E1D5FF] shadow-xs text-[#8B5CF6] text-[10px] sm:text-xs font-bold"
-            >
+            <div className="animate-float-3 flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#F0EBFF] border border-[#E1D5FF] shadow-xs text-[#8B5CF6] text-[10px] sm:text-xs font-bold">
               <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>Electrical Safety</span>
-            </motion.div>
+            </div>
           </motion.div>
 
           {/* Floating Badge 4: Bottom Right - Appliances */}
@@ -107,14 +95,10 @@ export default function HeroSection() {
             <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#FF5252] fill-current ml-2 -mb-0.5 sm:-mb-1 -rotate-45 drop-shadow-xs z-10" viewBox="0 0 24 24">
               <path d="M3 3l7 18 3-7 7-3L3 3z" />
             </svg>
-            <motion.div
-              animate={{ y: [0, -6, 0] }}
-              transition={{ repeat: Infinity, duration: 4.2, ease: "easeInOut", delay: 1.5 }}
-              className="flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#FFEBEB] border border-[#FFD6D6] shadow-xs text-[#FF5252] text-[10px] sm:text-xs font-bold"
-            >
+            <div className="animate-float-4 flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#FFEBEB] border border-[#FFD6D6] shadow-xs text-[#FF5252] text-[10px] sm:text-xs font-bold">
               <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>Appliance Repair</span>
-            </motion.div>
+            </div>
           </motion.div>
 
           {/* Main Headline */}

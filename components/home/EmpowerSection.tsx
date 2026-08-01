@@ -24,6 +24,7 @@ export default function EmpowerSection() {
                   src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&q=80&w=600"
                   alt="Plumbing Repair Work"
                   fill
+                  sizes="(max-width: 768px) 60vw, 300px"
                   className="object-cover"
                 />
               </div>
@@ -34,6 +35,7 @@ export default function EmpowerSection() {
                   src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=700"
                   alt="HVAC Air Conditioning Service"
                   fill
+                  sizes="(max-width: 768px) 75vw, 350px"
                   className="object-cover"
                 />
               </div>

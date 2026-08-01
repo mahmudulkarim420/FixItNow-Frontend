@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, CheckCircle2, Clock, Star, Award } from "lucide-react";
 
@@ -29,13 +26,7 @@ export default function CreditGaugeSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Heading, Subtitle, Bullet List & CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-6 flex flex-col justify-center"
-          >
+          <div className="lg:col-span-6 flex flex-col justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-[1.15] mb-6">
               Home repairs made simple, <br />
               reliable, and stress-free.
@@ -70,16 +61,10 @@ export default function CreditGaugeSection() {
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
-          </motion.div>
+          </div>
 
           {/* Right Column: Visual Service Quality Gauge Meter Card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-6 relative flex justify-center"
-          >
+          <div className="lg:col-span-6 relative flex justify-center">
             <div className="relative w-full max-w-lg p-8 sm:p-10 rounded-3xl bg-white border border-stone-200/80 shadow-md">
               {/* Floating Performance Pills */}
               {/* Avg Rating Pill Top Right */}
@@ -150,7 +135,7 @@ export default function CreditGaugeSection() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

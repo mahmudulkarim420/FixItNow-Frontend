@@ -40,6 +40,7 @@ export default function Footer() {
                   src="/logo.png"
                   alt="FixItNow Logo"
                   fill
+                  sizes="36px"
                   className="object-cover"
                 />
               </div>
