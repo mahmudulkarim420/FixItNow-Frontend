@@ -13,7 +13,7 @@ import {
   Filter,
 } from "lucide-react";
 import { getAdminReviews, deleteAdminReview, type AdminReview } from "@/lib/admin-api";
-import { DeleteConfirmModal } from "@/components/dashboard/modals/delete-confirm-modal";
+import { DeleteConfirmModal } from "@/components/dashboard/admin/modals/delete-confirm-modal";
 import { toast } from "sonner";
 
 interface ReviewItem {

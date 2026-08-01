@@ -1,5 +1,5 @@
 import { requireRole } from "@/lib/auth";
-import { CustomerLayoutClient } from "@/components/dashboard/customer-layout-client";
+import { CustomerLayoutClient } from "@/components/dashboard/customer/layout/customer-layout-client";
 
 export default async function CustomerLayout({
   children,

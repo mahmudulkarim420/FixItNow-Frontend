@@ -47,7 +47,6 @@ export function RegisterForm() {
       return;
     }
 
-    // Limit image file size to 3MB
     if (file.size > 3 * 1024 * 1024) {
       toast.error("Image size must be under 3MB.");
       return;
@@ -83,7 +82,6 @@ export function RegisterForm() {
 
       toast.success(`Account created! Welcome, ${user.name.split(" ")[0]}.`);
 
-      // Auto-login after registration by calling login endpoint.
       try {
         await import("@/lib/api").then(({ loginUser }) =>
           loginUser({ email: values.email, password: values.password }),
@@ -110,7 +108,6 @@ export function RegisterForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5" noValidate>
-      {/* Profile Picture Upload Section */}
       <div className="flex flex-col items-center justify-center gap-2 mb-2">
         <label className="text-xs font-bold text-stone-700">Profile Picture (Optional)</label>
         <div className="relative group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
@@ -126,14 +123,12 @@ export function RegisterForm() {
               <User className="h-9 w-9 text-amber-700/60" />
             )}
 
-            {/* Hover Camera Overlay */}
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white">
               <Camera className="h-5 w-5" />
               <span className="text-[9px] font-bold mt-0.5">Upload</span>
             </div>
           </div>
 
-          {/* Remove Avatar Button */}
           {avatarPreview && (
             <button
               type="button"

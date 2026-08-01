@@ -17,7 +17,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { API_BASE_URL, ApiError } from "@/lib/api";
+import { ApiError } from "@/lib/api";
 import {
   AUTH_COOKIES,
   ROLE_HOME,

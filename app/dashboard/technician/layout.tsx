@@ -1,5 +1,5 @@
 import { requireRole } from "@/lib/auth";
-import { TechnicianLayoutClient } from "@/components/dashboard/technician-layout-client";
+import { TechnicianLayoutClient } from "@/components/dashboard/technician/layout/technician-layout-client";
 
 export default async function TechnicianLayout({
   children,

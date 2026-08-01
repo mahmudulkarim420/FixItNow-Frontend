@@ -7,7 +7,6 @@ import {
   ArrowUpRight,
   ChevronLeft,
   ChevronRight,
-  Clock3,
   Droplets,
   Heart,
   Home,
@@ -462,7 +461,7 @@ export function ServicesCatalog() {
             <div className="rounded-3xl border border-dashed border-stone-300 bg-white p-12 text-center">
               <p className="text-base font-bold text-stone-800">No services match your search</p>
               <p className="mt-1 text-xs text-stone-500">
-                Try searching for general terms like "repair", "AC", "leak", or clear your filter.
+                Try searching for general terms like &quot;repair&quot;, &quot;AC&quot;, &quot;leak&quot;, or clear your filter.
               </p>
               <button
                 type="button"

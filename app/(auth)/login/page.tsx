@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { LoginForm } from "@/app/(auth)/login/login-form";
+import { LoginForm } from "@/components/auth/login-form";
 
 export const metadata = {
   title: "Sign in · FixItNow",

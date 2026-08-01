@@ -1,5 +1,5 @@
 import { requireRole } from "@/lib/auth";
-import { AdminLayoutClient } from "@/components/dashboard/admin-layout-client";
+import { AdminLayoutClient } from "@/components/dashboard/admin/layout/admin-layout-client";
 
 export default async function AdminLayout({
   children,

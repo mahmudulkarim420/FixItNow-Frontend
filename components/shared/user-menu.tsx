@@ -13,6 +13,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { Avatar } from "@/components/shared/avatar";
+import { logoutUser } from "@/lib/api";
 import { ROLE_HOME } from "@/lib/auth-constants";
 import { cn } from "@/lib/utils";
 import type { User } from "@/types";
@@ -117,7 +118,7 @@ export function UserMenu({ user }: UserMenuProps) {
   async function handleLogout() {
     setLoggingOut(true);
     try {
-      await fetch("/logout", { method: "POST" });
+      await logoutUser();
       toast.success("Signed out successfully");
       router.push("/login");
       router.refresh();

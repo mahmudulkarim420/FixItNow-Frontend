@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ArrowUpRight, Plus, Download } from "lucide-react";
-import { AddServiceModal } from "@/components/dashboard/modals/add-service-modal";
+import { AddServiceModal } from "@/components/dashboard/admin/modals/add-service-modal";
 import { getAdminBookings, getAdminUsers } from "@/lib/admin-api";
 
 export function AdminKpiCards() {

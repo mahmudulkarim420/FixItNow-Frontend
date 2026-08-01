@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { TechnicianSidebar } from "@/components/dashboard/technician-sidebar";
-import { TechnicianHeader } from "@/components/dashboard/technician-header";
-import { TechnicianKpiCards } from "@/components/dashboard/technician-kpi-cards";
-import { TechnicianAnalytics } from "@/components/dashboard/technician-analytics";
-import { TechnicianWidget } from "@/components/dashboard/technician-widget";
+import { TechnicianSidebar } from "@/components/dashboard/technician/layout/technician-sidebar";
+import { TechnicianHeader } from "@/components/dashboard/technician/layout/technician-header";
+import { TechnicianKpiCards } from "@/components/dashboard/technician/overview/technician-kpi-cards";
+import { TechnicianAnalytics } from "@/components/dashboard/technician/overview/technician-analytics";
+import { TechnicianWidget } from "@/components/dashboard/technician/overview/technician-widget";
 import type { User } from "@/types";
 
 interface TechnicianDashboardClientProps {

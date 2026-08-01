@@ -26,7 +26,7 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} className="p-5 sm:p-8">
-      <div className="mb-7"><p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">Send a note</p><h2 className="mt-2 text-2xl font-extrabold text-stone-900">How can we help?</h2><p className="mt-2 text-sm leading-6 text-stone-500">Tell us a little about what you need and we'll point you in the right direction.</p></div>
+      <div className="mb-7"><p className="text-xs font-bold uppercase tracking-[0.16em] text-amber-700">Send a note</p><h2 className="mt-2 text-2xl font-extrabold text-stone-900">How can we help?</h2><p className="mt-2 text-sm leading-6 text-stone-500">Tell us a little about what you need and we&apos;ll point you in the right direction.</p></div>
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="block"><span className="mb-2 block text-xs font-bold text-stone-700">Your name</span><input required name="name" autoComplete="name" placeholder="Alex Morgan" className="h-12 w-full rounded-xl border border-stone-200 bg-stone-50/70 px-4 text-sm outline-none transition placeholder:text-stone-400 focus:border-amber-400 focus:bg-white focus:ring-4 focus:ring-amber-100" /></label>
         <label className="block"><span className="mb-2 block text-xs font-bold text-stone-700">Email address</span><input required type="email" name="email" autoComplete="email" placeholder="alex@example.com" className="h-12 w-full rounded-xl border border-stone-200 bg-stone-50/70 px-4 text-sm outline-none transition placeholder:text-stone-400 focus:border-amber-400 focus:bg-white focus:ring-4 focus:ring-amber-100" /></label>

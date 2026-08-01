@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Plus, FolderTree, Trash2, Loader2 } from "lucide-react";
-import { AddCategoryModal } from "@/components/dashboard/modals/add-category-modal";
-import { DeleteConfirmModal } from "@/components/dashboard/modals/delete-confirm-modal";
+import { AddCategoryModal } from "@/components/dashboard/admin/modals/add-category-modal";
+import { DeleteConfirmModal } from "@/components/dashboard/admin/modals/delete-confirm-modal";
 import { getAdminCategories, deleteAdminCategory } from "@/lib/admin-api";
 import type { ApiServiceCategory } from "@/types";
 import { toast } from "sonner";

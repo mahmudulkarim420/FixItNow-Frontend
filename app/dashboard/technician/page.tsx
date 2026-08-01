@@ -1,5 +1,5 @@
 import { getSessionUser } from "@/lib/auth";
-import { TechnicianOverviewClient } from "@/components/dashboard/technician-overview-client";
+import { TechnicianOverviewClient } from "@/components/dashboard/technician/overview/technician-overview-client";
 
 export const metadata = {
   title: "Dashboard Overview · FixItNow Technician",

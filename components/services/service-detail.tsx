@@ -22,7 +22,6 @@ import {
   Sparkles,
   Star,
   Users,
-  Wrench,
   X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -378,7 +377,7 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
             <div className="mt-10 grid gap-6 border-t border-stone-200/80 pt-8 sm:grid-cols-2">
               <div className="rounded-2xl border border-stone-200/80 bg-white/70 p-5 backdrop-blur-md">
                 <h2 className="text-base font-extrabold text-stone-900 flex items-center gap-2">
-                  <Check className="h-4 w-4 text-amber-600" /> What's Included
+                  <Check className="h-4 w-4 text-amber-600" /> What&apos;s Included
                 </h2>
                 <ul className="mt-4 space-y-3">
                   {service.includes.map((item) => (

@@ -13,8 +13,8 @@ import {
   ChevronRight,
   PackageX,
 } from "lucide-react";
-import { AddServiceModal } from "@/components/dashboard/modals/add-service-modal";
-import { DeleteConfirmModal } from "@/components/dashboard/modals/delete-confirm-modal";
+import { AddServiceModal } from "@/components/dashboard/admin/modals/add-service-modal";
+import { DeleteConfirmModal } from "@/components/dashboard/admin/modals/delete-confirm-modal";
 import { fetchServices, mapApiServiceToUI } from "@/lib/services-api";
 import type { RepairService } from "@/lib/services-data";
 import { toast } from "sonner";

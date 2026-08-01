@@ -15,8 +15,8 @@ import {
   ChevronRight,
   Inbox,
 } from "lucide-react";
-import { CreateBookingModal } from "@/components/dashboard/modals/create-booking-modal";
-import { ViewBookingModal } from "@/components/dashboard/modals/view-booking-modal";
+import { CreateBookingModal } from "@/components/dashboard/customer/modals/create-booking-modal";
+import { ViewBookingModal } from "@/components/dashboard/admin/modals/view-booking-modal";
 import { getAdminBookings } from "@/lib/admin-api";
 import type { Booking } from "@/types";
 
