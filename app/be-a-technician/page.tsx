@@ -16,15 +16,15 @@ import {
   Sparkles,
   Calendar,
 } from "lucide-react";
-import { NavbarClient } from "@/components/shared/navbar-client";
+import Navbar from "@/components/home/Navbar";
 import Footer from "@/components/home/Footer";
-import { getCurrentUser } from "@/lib/api";
+import { useAuth } from "@/components/auth/auth-provider";
 import {
   applyForTechnician,
   getTechnicianApplicationStatus,
   type ApplyTechnicianPayload,
 } from "@/lib/technician-api";
-import type { User, TechnicianProfile } from "@/types";
+import type { TechnicianProfile } from "@/types";
 
 const SKILL_OPTIONS = [
   "Pipe Fitting & Plumbing",
@@ -40,7 +40,7 @@ const SKILL_OPTIONS = [
 const DEFAULT_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
 export default function BeATechnicianPage() {
-  const [user, setUser] = useState<User | null>(null);
+  const { user } = useAuth();
   const [profile, setProfile] = useState<TechnicianProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -60,21 +60,23 @@ export default function BeATechnicianPage() {
 
   useEffect(() => {
     async function init() {
+      if (!user) {
+        setProfile(null);
+        setIsLoading(false);
+        return;
+      }
+
       setIsLoading(true);
       try {
-        const u = await getCurrentUser().catch(() => null);
-        setUser(u);
-        if (u) {
-          const appStatus = await getTechnicianApplicationStatus().catch(() => null);
-          setProfile(appStatus);
-          if (appStatus) {
-            if (appStatus.bio) setBio(appStatus.bio);
-            if (appStatus.skills && appStatus.skills.length > 0)
-              setSelectedSkills(appStatus.skills);
-            if (appStatus.experience) setExperience(appStatus.experience);
-            if (appStatus.hourlyRate) setHourlyRate(appStatus.hourlyRate);
-            if (appStatus.location) setLocation(appStatus.location);
-          }
+        const appStatus = await getTechnicianApplicationStatus().catch(() => null);
+        setProfile(appStatus);
+        if (appStatus) {
+          if (appStatus.bio) setBio(appStatus.bio);
+          if (appStatus.skills && appStatus.skills.length > 0)
+            setSelectedSkills(appStatus.skills);
+          if (appStatus.experience) setExperience(appStatus.experience);
+          if (appStatus.hourlyRate) setHourlyRate(appStatus.hourlyRate);
+          if (appStatus.location) setLocation(appStatus.location);
         }
       } catch (err) {
         console.error("Initialization error:", err);
@@ -83,7 +85,7 @@ export default function BeATechnicianPage() {
       }
     }
     init();
-  }, []);
+  }, [user]);
 
   const toggleSkill = (skill: string) => {
     setSelectedSkills((prev) =>
@@ -155,7 +157,7 @@ export default function BeATechnicianPage() {
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-stone-900 flex flex-col font-sans selection:bg-amber-200 selection:text-amber-900">
-      <NavbarClient user={user} />
+      <Navbar />
 
       <main className="flex-1 pt-24 pb-20 px-4 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl space-y-10">
