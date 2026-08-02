@@ -7,20 +7,7 @@ FixItNow is a modern, full-stack home service repair booking platform built with
 ## 🚀 Live Links & Project Info
 
 * **Backend API Base URL:** `https://fixitnow-backend-production-4c0e.up.railway.app`
-* **Live Frontend Vercel URL:** `<ADD_VERCEL_LIVE_FRONTEND_URL>`
-* **Demo Video Walkthrough:** `<ADD_DEMO_VIDEO_URL>`
-
----
-
-## 🔑 Evaluator & Demo Credentials
-
-> **Notice:** Default production admin and role testing credentials for evaluator verification:
-
-| Role | Email | Password |
-| :--- | :--- | :--- |
-| **Admin** | `<ADD_ADMIN_EMAIL>` | `<ADD_ADMIN_PASSWORD>` |
-| **Technician / Provider** | `<ADD_TECHNICIAN_EMAIL>` | `<ADD_TECHNICIAN_PASSWORD>` |
-| **Customer** | `<ADD_CUSTOMER_EMAIL>` | `<ADD_CUSTOMER_PASSWORD>` |
+* **Live Frontend Vercel URL:** `https://fix-it-now-frontend-sandy.vercel.app`
 
 ---
 

@@ -981,6 +981,96 @@ Base path: `/api/technician` — see [`technician.route.ts`](src/modules/technic
 
 ---
 
+### `POST /technician/apply`
+
+**Access:** `CUSTOMER`
+
+**Description:** Submits an application for an authenticated customer to apply to become a technician. Frontend calling location: `lib/technician-api.ts` -> `applyForTechnician()`.
+
+**Request Body:**
+
+```json
+{
+  "bio": "Certified electrician with 6 years experience",
+  "skills": ["electrical", "wiring", "breaker panels"],
+  "experience": 6,
+  "hourlyRate": 40.0,
+  "location": "San Francisco, CA",
+  "availability": {
+    "monday": ["09:00-17:00"]
+  }
+}
+```
+
+| Field | Type | Required | Validation |
+|-------|------|----------|-----------|
+| `bio` | string | ✅ | non-empty |
+| `skills` | string[] | ✅ | at least 1 skill |
+| `experience` | integer | ✅ | `>= 0` |
+| `hourlyRate` | number | ✅ | `>= 0` |
+| `location` | string | ✅ | non-empty |
+| `availability` | object | ❌ | optional schedule |
+
+**Success Response (201):**
+
+```json
+{
+  "success": true,
+  "statusCode": 201,
+  "message": "Technician application submitted successfully!",
+  "data": {
+    "id": "uuid",
+    "userId": "uuid",
+    "bio": "Certified electrician with 6 years experience",
+    "skills": ["electrical", "wiring"],
+    "experience": 6,
+    "hourlyRate": 40.0,
+    "location": "San Francisco, CA",
+    "approvalStatus": "PENDING",
+    "isVerified": false,
+    "createdAt": "2026-07-31T10:00:00.000Z"
+  }
+}
+```
+
+**Error Responses:**
+
+- `400` — Validation error / application already submitted
+- `401` — Not authenticated
+
+---
+
+### `GET /technician/application-status`
+
+**Access:** `CUSTOMER`, `TECHNICIAN`
+
+**Description:** Returns the authenticated user's technician profile and application review status (`PENDING`, `APPROVED`, `REJECTED`). Frontend calling location: `lib/technician-api.ts` -> `getTechnicianApplicationStatus()`.
+
+**Success Response (200):**
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "Application status retrieved successfully!",
+  "data": {
+    "id": "uuid",
+    "userId": "uuid",
+    "approvalStatus": "PENDING",
+    "isVerified": false,
+    "bio": "Certified electrician",
+    "createdAt": "2026-07-31T10:00:00.000Z"
+  }
+}
+```
+
+**Error Responses:**
+
+- `401` — Not authenticated
+- `404` — No technician application found
+
+---
+
 ## Bookings APIs
 
 Base path: `/api/bookings` — see [`booking.route.ts`](src/modules/booking/booking.route.ts:51)
@@ -1426,6 +1516,40 @@ Base path: `/api/reviews` — see [`review.route.ts`](src/modules/review/review.
 
 ---
 
+### `GET /reviews/top`
+
+**Access:** Public
+
+**Description:** Returns top-rated customer reviews for landing page showcase. Frontend calling location: `lib/reviews-api.ts` -> `getTopReviews()`, `components/home/TestimonialsSection.tsx`.
+
+**Query Params:**
+
+| Param | Type | Default | Notes |
+|-------|------|---------|-------|
+| `limit` | number | `4` | Number of top reviews to fetch |
+
+**Success Response (200):**
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "Top reviews retrieved successfully!",
+  "data": [
+    {
+      "id": "uuid",
+      "rating": 5,
+      "comment": "Outstanding service! Fixed my AC leak in less than an hour.",
+      "createdAt": "2026-07-28T10:10:00.000Z",
+      "customer": { "name": "Sarah Jenkins" },
+      "service": { "title": "AC Repair & Servicing" }
+    }
+  ]
+}
+```
+
+---
+
 ## Admin — Users & Bookings & Payments APIs
 
 Base path: `/api/admin` — see [`admin.route.ts`](src/modules/admin/admin.route.ts:31)
@@ -1822,6 +1946,132 @@ Base path: `/api/admin/categories` — see [`category.route.ts`](src/modules/cat
 
 ---
 
+### `GET /admin/reviews`
+
+**Access:** `ADMIN`
+
+**Description:** Returns all platform reviews for admin audit and moderation. Frontend calling location: `lib/admin-api.ts` -> `getAdminReviews()`, `app/dashboard/admin/reviews/page.tsx`.
+
+**Success Response (200):**
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "Reviews retrieved successfully!",
+  "data": [
+    {
+      "id": "uuid",
+      "bookingId": "uuid",
+      "rating": 5,
+      "comment": "Great service!",
+      "createdAt": "2026-07-28T10:00:00.000Z",
+      "customer": { "name": "John Doe", "email": "john@example.com" },
+      "technicianProfile": { "id": "uuid", "user": { "name": "Jane Specialist" } }
+    }
+  ]
+}
+```
+
+---
+
+### `DELETE /admin/reviews/{id}`
+
+**Access:** `ADMIN`
+
+**Description:** Deletes a flagged or inappropriate review. Frontend calling location: `lib/admin-api.ts` -> `deleteAdminReview()`, `app/dashboard/admin/reviews/page.tsx`.
+
+**Path Params:** `id` (UUID)
+
+**Success Response (200):**
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "Review deleted successfully!",
+  "data": null
+}
+```
+
+---
+
+### `GET /admin/technician-applications`
+
+**Access:** `ADMIN`
+
+**Description:** Returns all pending and processed technician onboarding applications. Frontend calling location: `lib/admin-api.ts` -> `getAdminTechnicianApplications()`, `app/dashboard/admin/applications/page.tsx`.
+
+**Success Response (200):**
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "Technician applications retrieved successfully!",
+  "data": [
+    {
+      "id": "uuid",
+      "userId": "uuid",
+      "bio": "Certified electrician",
+      "skills": ["electrical", "wiring"],
+      "experience": 5,
+      "hourlyRate": 40.0,
+      "location": "New York",
+      "approvalStatus": "PENDING",
+      "isVerified": false,
+      "createdAt": "2026-07-28T10:00:00.000Z",
+      "user": {
+        "id": "uuid",
+        "name": "Jane Smith",
+        "email": "jane@example.com",
+        "role": "CUSTOMER"
+      }
+    }
+  ]
+}
+```
+
+---
+
+### `PATCH /admin/technician-applications/{id}`
+
+**Access:** `ADMIN`
+
+**Description:** Reviews an application and updates its status (`APPROVED` or `REJECTED`). Upon approval, the user's role is upgraded to `TECHNICIAN`. Frontend calling location: `lib/admin-api.ts` -> `reviewAdminTechnicianApplication()`, `app/dashboard/admin/applications/page.tsx`.
+
+**Path Params:** `id` (UUID)
+
+**Request Body:**
+
+```json
+{
+  "status": "APPROVED"
+}
+```
+
+| Field | Type | Required | Validation |
+|-------|------|----------|-----------|
+| `status` | enum | ✅ | `APPROVED` \| `REJECTED` |
+
+**Success Response (200):**
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "message": "Application status updated successfully!",
+  "data": {
+    "id": "uuid",
+    "approvalStatus": "APPROVED",
+    "isVerified": true,
+    "updatedAt": "2026-07-28T10:05:00.000Z"
+  }
+}
+```
+
+---
+
 ## Enums Reference
 
 Defined in [`prisma/schema/enums.prisma`](prisma/schema/enums.prisma:1):
@@ -1882,45 +2132,55 @@ COMPLETED, DECLINED, CANCELLED  ──> (terminal, no further transitions)
 
 ## Quick Endpoint Index
 
-| # | Method | Endpoint | Access |
-|---|--------|----------|--------|
-| 1 | `GET` | `/health` | Public |
-| 2 | `POST` | `/auth/register` | Public |
-| 3 | `POST` | `/auth/login` | Public |
-| 4 | `GET` | `/auth/me` | Customer, Technician, Admin |
-| 5 | `POST` | `/auth/logout` | Customer, Technician, Admin |
-| 6 | `POST` | `/auth/refresh` | Public (refresh cookie) |
-| 7 | `GET` | `/services` | Public |
-| 8 | `GET` | `/services/categories` | Public |
-| 9 | `GET` | `/services/{id}` | Public |
-| 10 | `POST` | `/services` | Technician |
-| 11 | `PATCH` | `/services/{id}` | Technician |
-| 12 | `DELETE` | `/services/{id}` | Technician |
-| 13 | `GET` | `/services/technicians` | Public |
-| 14 | `GET` | `/services/technicians/{id}` | Public |
-| 15 | `GET` | `/technician/bookings` | Technician |
-| 16 | `PATCH` | `/technician/bookings/{id}` | Technician |
-| 17 | `PUT` | `/technician/profile` | Technician |
-| 18 | `PUT` | `/technician/availability` | Technician |
-| 19 | `POST` | `/bookings` | Customer |
-| 20 | `GET` | `/bookings` | Customer, Technician, Admin |
-| 21 | `GET` | `/bookings/{id}` | Customer, Technician, Admin |
-| 22 | `PATCH` | `/bookings/{id}/cancel` | Customer |
-| 23 | `POST` | `/payments/checkout` | Customer |
-| 24 | `GET` | `/payments` | Customer, Admin |
-| 25 | `GET` | `/payments/{id}` | Customer, Admin |
-| 26 | `POST` | `/payments/webhook` | Public (Stripe) |
-| 27 | `POST` | `/reviews` | Customer |
-| 28 | `GET` | `/admin/users` | Admin |
-| 29 | `PATCH` | `/admin/users/{id}` | Admin |
-| 30 | `GET` | `/admin/bookings` | Admin |
-| 31 | `GET` | `/admin/bookings/{id}` | Admin |
-| 32 | `GET` | `/admin/payments` | Admin |
-| 33 | `GET` | `/admin/payments/{id}` | Admin |
-| 34 | `GET` | `/admin/categories` | Admin |
-| 35 | `POST` | `/admin/categories` | Admin |
-| 36 | `PATCH` | `/admin/categories/{id}` | Admin |
-| 37 | `DELETE` | `/admin/categories/{id}` | Admin |
+| # | Method | Endpoint | Access | Frontend Usage Location |
+|---|--------|----------|--------|-------------------------|
+| 1 | `GET` | `/health` | Public | Backend connectivity check |
+| 2 | `POST` | `/auth/register` | Public | `lib/api.ts` -> `registerUser()` |
+| 3 | `POST` | `/auth/login` | Public | `lib/api.ts` -> `loginUser()` |
+| 4 | `GET` | `/auth/me` | Customer, Technician, Admin | `lib/api.ts` -> `getCurrentUser()`, `lib/auth.ts` -> `getSessionUser()` |
+| 5 | `PATCH` | `/auth/me` | Customer, Technician, Admin | `lib/api.ts` -> `updateMyProfile()` |
+| 6 | `DELETE` | `/auth/me` | Customer, Technician, Admin | `lib/api.ts` -> `deleteMyProfile()` |
+| 7 | `POST` | `/auth/logout` | Customer, Technician, Admin | `lib/api.ts` -> `logoutUser()` |
+| 8 | `POST` | `/auth/refresh` | Public (refresh cookie) | `lib/api.ts` -> `refreshAccessToken()`, `lib/auth.ts` |
+| 9 | `GET` | `/services` | Public | `lib/services-api.ts` -> `fetchServices()` |
+| 10 | `GET` | `/services/categories` | Public | `lib/services-api.ts` -> `fetchServiceCategories()` |
+| 11 | `GET` | `/services/{id}` | Public | `lib/services-api.ts` -> `fetchServiceById()` |
+| 12 | `POST` | `/services` | Technician | `lib/technician-api.ts` -> `createTechnicianService()` |
+| 13 | `PATCH` | `/services/{id}` | Technician | `lib/technician-api.ts` -> `updateTechnicianService()` |
+| 14 | `DELETE` | `/services/{id}` | Technician | `lib/technician-api.ts` -> `deleteTechnicianService()` |
+| 15 | `GET` | `/services/technicians` | Public | Backend route (frontend uses single profile `GET /services/technicians/{id}`) |
+| 16 | `GET` | `/services/technicians/{id}` | Public | `lib/services-api.ts` -> `fetchTechnicianProfile()` |
+| 17 | `GET` | `/technician/bookings` | Technician | `lib/technician-api.ts` -> `getTechnicianBookings()` |
+| 18 | `PATCH` | `/technician/bookings/{id}` | Technician | `lib/technician-api.ts` -> `updateTechnicianBookingStatus()` |
+| 19 | `PUT` | `/technician/profile` | Technician | `lib/technician-api.ts` -> `updateTechnicianProfile()` |
+| 20 | `PUT` | `/technician/availability` | Technician | `lib/technician-api.ts` -> `updateTechnicianAvailability()` |
+| 21 | `POST` | `/technician/apply` | Customer | `lib/technician-api.ts` -> `applyForTechnician()` |
+| 22 | `GET` | `/technician/application-status` | Customer, Technician | `lib/technician-api.ts` -> `getTechnicianApplicationStatus()` |
+| 23 | `POST` | `/bookings` | Customer | `lib/bookings-payments-api.ts` -> `createBooking()` |
+| 24 | `GET` | `/bookings` | Customer, Technician, Admin | `lib/bookings-payments-api.ts` -> `getUserBookings()` |
+| 25 | `GET` | `/bookings/{id}` | Customer, Technician, Admin | `lib/bookings-payments-api.ts` -> `getBookingById()` |
+| 26 | `PATCH` | `/bookings/{id}/cancel` | Customer | `lib/bookings-payments-api.ts` -> `cancelBooking()` |
+| 27 | `POST` | `/payments/checkout` | Customer | `lib/bookings-payments-api.ts` -> `createCheckoutSession()` |
+| 28 | `GET` | `/payments` | Customer, Admin | `lib/bookings-payments-api.ts` -> `getUserPaymentHistory()` |
+| 29 | `GET` | `/payments/{id}` | Customer, Admin | Backend endpoint (frontend views payment history & booking receipt) |
+| 30 | `POST` | `/payments/webhook` | Public (Stripe) | Stripe webhook listener (updates booking to `PAID`) |
+| 31 | `POST` | `/reviews` | Customer | `lib/reviews-api.ts` -> `createReview()` |
+| 32 | `GET` | `/reviews` | Customer, Admin | `lib/reviews-api.ts` -> `getMyCustomerReviews()` |
+| 33 | `GET` | `/reviews/top` | Public | `lib/reviews-api.ts` -> `getTopReviews()`, `TestimonialsSection` |
+| 34 | `GET` | `/admin/users` | Admin | `lib/admin-api.ts` -> `getAdminUsers()` |
+| 35 | `PATCH` | `/admin/users/{id}` | Admin | `lib/admin-api.ts` -> `updateAdminUserStatus()` |
+| 36 | `GET` | `/admin/bookings` | Admin | `lib/admin-api.ts` -> `getAdminBookings()` |
+| 37 | `GET` | `/admin/bookings/{id}` | Admin | `lib/admin-api.ts` -> `getAdminBookingById()` |
+| 38 | `GET` | `/admin/payments` | Admin | `lib/admin-api.ts` -> `getAdminPayments()` |
+| 39 | `GET` | `/admin/payments/{id}` | Admin | `lib/admin-api.ts` -> `getAdminPaymentById()` |
+| 40 | `GET` | `/admin/categories` | Admin | `lib/admin-api.ts` -> `getAdminCategories()` |
+| 41 | `POST` | `/admin/categories` | Admin | `lib/admin-api.ts` -> `createAdminCategory()` |
+| 42 | `PATCH` | `/admin/categories/{id}` | Admin | `lib/admin-api.ts` -> `updateAdminCategory()` |
+| 43 | `DELETE` | `/admin/categories/{id}` | Admin | `lib/admin-api.ts` -> `deleteAdminCategory()` |
+| 44 | `GET` | `/admin/reviews` | Admin | `lib/admin-api.ts` -> `getAdminReviews()` |
+| 45 | `DELETE` | `/admin/reviews/{id}` | Admin | `lib/admin-api.ts` -> `deleteAdminReview()` |
+| 46 | `GET` | `/admin/technician-applications` | Admin | `lib/admin-api.ts` -> `getAdminTechnicianApplications()` |
+| 47 | `PATCH` | `/admin/technician-applications/{id}` | Admin | `lib/admin-api.ts` -> `reviewAdminTechnicianApplication()` |
 
 ---
 
