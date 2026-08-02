@@ -24,7 +24,7 @@ import {
   Users,
   X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import {
   cancelBooking,
@@ -40,6 +40,7 @@ import type { Booking, TechnicianProfile } from "@/types";
 
 interface ServiceDetailProps {
   service: RepairService;
+  isAuthenticated?: boolean;
 }
 
 const AVAILABLE_TIME_SLOTS = [
@@ -50,7 +51,7 @@ const AVAILABLE_TIME_SLOTS = [
   "16:00-18:00",
 ];
 
-export function ServiceDetail({ service }: ServiceDetailProps) {
+export function ServiceDetail({ service, isAuthenticated = false }: ServiceDetailProps) {
   const router = useRouter();
 
   // Booking Modal & Active Booking States
@@ -76,7 +77,7 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
   const [techProfile, setTechProfile] = useState<TechnicianProfile | null>(null);
 
   // Fetch User Bookings to check if user already has an active booking for this service
-  const refreshActiveBooking = () => {
+  const refreshActiveBooking = useCallback(() => {
     getUserBookings()
       .then((bookings) => {
         if (!Array.isArray(bookings)) return;
@@ -92,11 +93,11 @@ export function ServiceDetail({ service }: ServiceDetailProps) {
       .catch(() => {
         /* Unauthenticated or fetch error */
       });
-  };
+  }, [service.id]);
 
   useEffect(() => {
-    refreshActiveBooking();
-  }, [service.id]);
+    if (isAuthenticated) refreshActiveBooking();
+  }, [isAuthenticated, refreshActiveBooking]);
 
   // Live status polling when booking is in REQUESTED state
   useEffect(() => {

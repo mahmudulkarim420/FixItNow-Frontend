@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 
 import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
+import { getSessionUser } from "@/lib/auth";
 import { ServiceDetail, ServiceNotFound } from "@/components/services/service-detail";
-import { fetchServiceById, mapApiServiceToUI } from "@/lib/services-api";
+import { fetchServiceByIdCached, mapApiServiceToUI } from "@/lib/services-api";
 import { getServiceById as getMockServiceById } from "@/lib/services-data";
 
 type ServicePageProps = {
@@ -18,7 +19,7 @@ export async function generateMetadata({
   const { id } = await params;
 
   try {
-    const apiService = await fetchServiceById(id);
+    const apiService = await fetchServiceByIdCached(id);
     if (apiService) {
       return {
         title: `${apiService.title} | FixItNow Home Services`,
@@ -40,10 +41,11 @@ export async function generateMetadata({
 
 export default async function ServicePage({ params }: ServicePageProps) {
   const { id } = await params;
+  const userPromise = getSessionUser();
   let service = null;
 
   try {
-    const apiService = await fetchServiceById(id);
+    const apiService = await fetchServiceByIdCached(id);
     if (apiService) {
       service = mapApiServiceToUI(apiService);
     }
@@ -51,10 +53,12 @@ export default async function ServicePage({ params }: ServicePageProps) {
     service = getMockServiceById(id) || null;
   }
 
+  const user = await userPromise;
+
   if (!service) {
     return (
       <div className="bg-[#F9F7F2]">
-        <Navbar />
+        <Navbar user={user} />
         <ServiceNotFound />
         <Footer />
       </div>
@@ -63,8 +67,8 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   return (
     <div className="bg-[#F9F7F2]">
-      <Navbar />
-      <ServiceDetail service={service} />
+      <Navbar user={user} />
+      <ServiceDetail service={service} isAuthenticated={Boolean(user)} />
       <Footer />
     </div>
   );

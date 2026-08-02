@@ -5,6 +5,8 @@ import { BadgeCheck, CalendarCheck, ShieldCheck, Sparkles, Star, Wrench } from "
 import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
 import { ServicesCatalog } from "@/components/services/services-catalog";
+import { getSessionUser } from "@/lib/auth";
+import { fetchServiceCategoriesCached, fetchServices } from "@/lib/services-api";
 
 export const metadata: Metadata = {
   title: "Professional Repair & Maintenance Services",
@@ -18,10 +20,19 @@ const trustPoints = [
   { icon: CalendarCheck, label: "Same-day & scheduled visits" },
 ];
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const [user, initialCategories, initialServicesRes] = await Promise.all([
+    getSessionUser(),
+    fetchServiceCategoriesCached().catch(() => []),
+    fetchServices({ page: 1, limit: 8 }).catch(() => ({
+      data: [],
+      meta: { page: 1, limit: 8, total: 0, totalPage: 1 },
+    })),
+  ]);
+
   return (
     <div className="min-h-screen bg-[#F9F7F2] text-stone-900 selection:bg-amber-200 selection:text-amber-950">
-      <Navbar />
+      <Navbar user={user} />
       <main className="pt-20 sm:pt-24">
         {/* Header / Hero Section */}
         <section className="relative overflow-hidden px-4 pb-12 pt-12 sm:px-6 sm:pb-16 sm:pt-16 lg:px-8 lg:pb-20">
@@ -90,7 +101,11 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        <ServicesCatalog />
+        <ServicesCatalog
+          initialCategories={initialCategories}
+          initialServicesRes={initialServicesRes}
+          isAuthenticated={Boolean(user)}
+        />
       </main>
       <Footer />
     </div>

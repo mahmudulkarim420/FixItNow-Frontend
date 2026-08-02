@@ -1,5 +1,6 @@
 import { NavbarClient } from "@/components/shared/navbar-client";
 import { getSessionUser } from "@/lib/auth";
+import type { User } from "@/types";
 
 /**
  * Server Component navbar.
@@ -8,7 +9,11 @@ import { getSessionUser } from "@/lib/auth";
  * (or null) down to the interactive client component, which conditionally
  * renders either the auth buttons (guest) or the profile dropdown (signed in).
  */
-export default async function Navbar() {
-  const user = await getSessionUser();
+interface NavbarProps {
+  user?: User | null;
+}
+
+export default async function Navbar({ user: suppliedUser }: NavbarProps = {}) {
+  const user = suppliedUser === undefined ? await getSessionUser() : suppliedUser;
   return <NavbarClient user={user} />;
 }

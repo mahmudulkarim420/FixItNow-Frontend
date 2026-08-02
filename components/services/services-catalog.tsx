@@ -20,7 +20,7 @@ import {
   Wrench,
   Zap,
 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { getUserBookings } from "@/lib/bookings-payments-api";
 import {
@@ -31,7 +31,7 @@ import {
 import { services as mockServices, type RepairService } from "@/lib/services-data";
 import { getSavedServices, toggleSaveService } from "@/lib/saved-services";
 import { cn } from "@/lib/utils";
-import type { ApiServiceCategory, Booking } from "@/types";
+import type { ApiServiceCategory, Booking, GetServicesResponse } from "@/types";
 
 const categoryIcons: Record<string, React.ElementType> = {
   "All Services": Layers,
@@ -45,16 +45,39 @@ const categoryIcons: Record<string, React.ElementType> = {
 
 const ITEMS_PER_PAGE = 8;
 
-export function ServicesCatalog() {
+interface ServicesCatalogProps {
+  initialCategories?: ApiServiceCategory[];
+  initialServicesRes?: GetServicesResponse;
+  isAuthenticated?: boolean;
+}
+
+export function ServicesCatalog({
+  initialCategories = [],
+  initialServicesRes,
+  isAuthenticated = false,
+}: ServicesCatalogProps = {}) {
+  const initialServicesList =
+    initialServicesRes?.data && initialServicesRes.data.length > 0
+      ? initialServicesRes.data.map(mapApiServiceToUI)
+      : initialServicesRes
+      ? []
+      : mockServices.slice(0, ITEMS_PER_PAGE);
+
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string>("All Services");
-  const [categories, setCategories] = useState<ApiServiceCategory[]>([]);
-  const [servicesList, setServicesList] = useState<RepairService[]>([]);
+  const [categories, setCategories] = useState<ApiServiceCategory[]>(initialCategories);
+  const [servicesList, setServicesList] = useState<RepairService[]>(initialServicesList);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalServices, setTotalServices] = useState(0);
+  const [totalPages, setTotalPages] = useState(
+    initialServicesRes?.meta?.totalPage ??
+      (initialServicesRes ? 1 : Math.ceil(mockServices.length / ITEMS_PER_PAGE))
+  );
+  const [totalServices, setTotalServices] = useState(
+    initialServicesRes?.meta?.total ??
+      (initialServicesRes ? 0 : mockServices.length)
+  );
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!initialServicesRes);
   const [error, setError] = useState<string | null>(null);
 
   // Saved / Wishlist IDs state
@@ -62,13 +85,17 @@ export function ServicesCatalog() {
   // User active bookings
   const [userBookings, setUserBookings] = useState<Booking[]>([]);
 
+  const isInitialMount = useRef(true);
+
   useEffect(() => {
+    if (!isAuthenticated) return;
+
     getUserBookings()
       .then((res) => {
         if (Array.isArray(res)) setUserBookings(res);
       })
       .catch(() => null);
-  }, []);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     const syncSaved = () => {
@@ -81,8 +108,9 @@ export function ServicesCatalog() {
     }
   }, []);
 
-  // Load API categories on mount
+  // Load API categories on mount only if initialCategories were not supplied
   useEffect(() => {
+    if (initialCategories.length > 0) return;
     let isMounted = true;
     fetchServiceCategories()
       .then((data) => {
@@ -96,7 +124,7 @@ export function ServicesCatalog() {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [initialCategories]);
 
   // Fetch Services from Backend API
   const loadServices = useCallback(async () => {
@@ -149,8 +177,14 @@ export function ServicesCatalog() {
   }, [activeCategory, categories, currentPage, query]);
 
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      if (initialServicesRes) {
+        return; // Skip initial mount fetch since server provided data
+      }
+    }
     loadServices();
-  }, [loadServices]);
+  }, [loadServices, initialServicesRes]);
 
   // Reset to page 1 on search or category filter change
   const handleCategorySelect = (categoryName: string) => {

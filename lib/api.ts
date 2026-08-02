@@ -66,6 +66,7 @@ export async function apiRequest<T>(
   const baseUrl = getApiBaseUrl();
 
   const response = await fetch(`${baseUrl}${path}`, {
+    cache: "no-store",
     ...rest,
     headers: {
       "Content-Type": "application/json",
@@ -74,7 +75,6 @@ export async function apiRequest<T>(
     },
     body: body !== undefined ? JSON.stringify(body) : undefined,
     credentials: "include",
-    cache: "no-store",
   });
 
   // Attempt a single silent token refresh on 401, then replay the request.
@@ -101,20 +101,32 @@ export async function apiRequest<T>(
   return (payload as ApiSuccessResponse<T>).data;
 }
 
-/** Calls POST /auth/refresh to rotate the HTTP-only cookies. */
+let refreshPromise: Promise<boolean> | null = null;
+
+/** Calls POST /auth/refresh to rotate the HTTP-only cookies (deduplicated single-flight). */
 export async function refreshAccessToken(): Promise<boolean> {
-  try {
-    const baseUrl = getApiBaseUrl();
-    const response = await fetch(`${baseUrl}/auth/refresh`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      cache: "no-store",
-    });
-    return response.ok;
-  } catch {
-    return false;
+  if (refreshPromise) {
+    return refreshPromise;
   }
+
+  refreshPromise = (async () => {
+    try {
+      const baseUrl = getApiBaseUrl();
+      const response = await fetch(`${baseUrl}/auth/refresh`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        cache: "no-store",
+      });
+      return response.ok;
+    } catch {
+      return false;
+    } finally {
+      refreshPromise = null;
+    }
+  })();
+
+  return refreshPromise;
 }
 
 /* ------------------------------------------------------------------ */

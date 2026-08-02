@@ -1,4 +1,5 @@
-import { getApiBaseUrl, apiRequest } from "@/lib/api";
+import { cache } from "react";
+import { getApiBaseUrl } from "@/lib/api";
 import type { RepairService, ServiceCategory } from "@/lib/services-data";
 import type {
   ApiService,
@@ -16,6 +17,28 @@ const fallbackCategoryImages: Record<string, string> = {
   Programming: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=85&w=800",
   Default: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=85&w=800",
 };
+
+const PUBLIC_DATA_REVALIDATE_SECONDS = 300;
+
+async function publicApiRequest<T>(path: string): Promise<T> {
+  const cacheOptions =
+    typeof window === "undefined"
+      ? { next: { revalidate: PUBLIC_DATA_REVALIDATE_SECONDS } }
+      : { cache: "default" as RequestCache };
+
+  const response = await fetch(`${getApiBaseUrl()}${path}`, {
+    method: "GET",
+    headers: { Accept: "application/json" },
+    ...cacheOptions,
+  });
+  const result = await response.json().catch(() => null);
+
+  if (!response.ok || !result?.success) {
+    throw new Error(result?.message || `Request failed with status ${response.status}`);
+  }
+
+  return result.data as T;
+}
 
 /**
  * Maps raw backend ApiService model into the full UI RepairService model.
@@ -88,10 +111,10 @@ export function mapApiServiceToUI(apiService: ApiService): RepairService {
  * Fetch public technician profile details by technicianProfileId from GET /services/technicians/{id}.
  */
 export async function fetchTechnicianProfile(id: string) {
-  return apiRequest<import("@/types").TechnicianProfile>(`/services/technicians/${id}`, {
-    method: "GET",
-  });
+  return publicApiRequest<import("@/types").TechnicianProfile>(`/services/technicians/${id}`);
 }
+
+export const fetchTechnicianProfileCached = cache(fetchTechnicianProfile);
 
 /**
  * Fetch all services from GET /api/services with query filtering & pagination.
@@ -113,13 +136,14 @@ export async function fetchServices(
   const queryString = searchParams.toString();
   const path = `/services${queryString ? `?${queryString}` : ""}`;
 
+  const cacheOptions =
+    typeof window === "undefined"
+      ? { next: { revalidate: PUBLIC_DATA_REVALIDATE_SECONDS } }
+      : { cache: "default" as RequestCache };
   const response = await fetch(`${getApiBaseUrl()}${path}`, {
     method: "GET",
-    headers: {
-      Accept: "application/json",
-    },
-    credentials: "include",
-    cache: "no-store",
+    headers: { Accept: "application/json" },
+    ...cacheOptions,
   });
 
   if (!response.ok) {
@@ -156,17 +180,18 @@ export async function fetchServices(
  * Fetch single service detail by ID from GET /api/services/{id}.
  */
 export async function fetchServiceById(id: string): Promise<ApiService> {
-  return apiRequest<ApiService>(`/services/${id}`, {
-    method: "GET",
-  });
+  return publicApiRequest<ApiService>(`/services/${id}`);
 }
+
+export const fetchServiceByIdCached = cache(fetchServiceById);
 
 /**
  * Fetch all categories from GET /api/services/categories.
  */
 export async function fetchServiceCategories(): Promise<ApiServiceCategory[]> {
-  return apiRequest<ApiServiceCategory[]>("/services/categories", {
-    method: "GET",
-  });
+  return publicApiRequest<ApiServiceCategory[]>("/services/categories");
 }
+
+export const fetchServiceCategoriesCached = cache(fetchServiceCategories);
+
 
