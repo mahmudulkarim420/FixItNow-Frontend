@@ -167,10 +167,10 @@ export default function BeATechnicianPage() {
               <Sparkles className="w-4 h-4 text-amber-600" />
               Join Our Verified Pro Network
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-stone-900">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-stone-900">
               Become a FixItNow Technician
             </h1>
-            <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
+            <p className="text-stone-600 text-xs sm:text-sm md:text-base leading-relaxed">
               Earn steady income, choose your service areas, and connect with thousands of local homeowners needing skilled repairs.
             </p>
           </div>

@@ -35,8 +35,8 @@ export default function ContactPage() {
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#e7e5e4_1px,transparent_1px),linear-gradient(to_bottom,#e7e5e4_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30 [mask-image:radial-gradient(ellipse_65%_75%_at_50%_30%,#000,transparent)]" />
           <div className="relative mx-auto max-w-7xl text-center">
             <span className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-bold text-amber-800"><Sparkles className="h-3.5 w-3.5" /> Real people, ready to help</span>
-            <h1 className="mx-auto mt-6 max-w-3xl text-4xl font-extrabold tracking-[-0.045em] text-stone-950 sm:text-6xl">Let's get things sorted.</h1>
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-stone-600 sm:text-lg">Questions about a repair, an appointment, or joining our expert network? Send us a note and we'll help you find the next step.</p>
+            <h1 className="mx-auto mt-6 max-w-3xl text-3xl font-extrabold tracking-[-0.045em] text-stone-950 sm:text-5xl lg:text-6xl">Let's get things sorted.</h1>
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-stone-600 sm:text-base lg:text-lg">Questions about a repair, an appointment, or joining our expert network? Send us a note and we'll help you find the next step.</p>
           </div>
         </section>
 
@@ -55,7 +55,7 @@ export default function ContactPage() {
               <div className="absolute inset-0 opacity-40 bg-[linear-gradient(to_right,#44403c_1px,transparent_1px),linear-gradient(to_bottom,#44403c_1px,transparent_1px)] bg-[size:3rem_3rem]" />
               <div className="absolute -bottom-16 -right-16 h-72 w-72 rounded-full bg-amber-500/30 blur-3xl" />
               <div className="relative flex h-full flex-col justify-between">
-                <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-400">Support that listens</p><h2 className="mt-5 text-4xl font-extrabold leading-tight">Your home deserves a clear answer.</h2><p className="mt-5 text-sm leading-7 text-stone-300">Our care team knows the difference between an urgent leak and a long-term project. We'll listen first, then connect you to the right help.</p></div>
+                <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-400">Support that listens</p><h2 className="mt-5 text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight">Your home deserves a clear answer.</h2><p className="mt-5 text-sm leading-7 text-stone-300">Our care team knows the difference between an urgent leak and a long-term project. We'll listen first, then connect you to the right help.</p></div>
                 <div className="rounded-xl border border-white/10 bg-white/10 p-5 backdrop-blur"><Clock3 className="h-5 w-5 text-amber-400" /><p className="mt-4 text-sm font-bold">Need immediate booking help?</p><p className="mt-2 text-xs leading-5 text-stone-400">Call our support line Monday through Saturday, from 8am to 8pm.</p></div>
               </div>
             </div>

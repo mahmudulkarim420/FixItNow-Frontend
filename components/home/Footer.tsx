@@ -22,7 +22,7 @@ export default function Footer() {
         <div className="flex flex-col justify-between gap-6 border-b border-stone-200/80 pb-10 sm:flex-row sm:items-center sm:pb-12">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700">Ready when you are</p>
-            <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-stone-900 sm:text-3xl">
+            <h2 className="mt-2 text-xl font-extrabold tracking-tight text-stone-900 sm:text-2xl lg:text-3xl">
               A better home starts with one small fix.
             </h2>
           </div>

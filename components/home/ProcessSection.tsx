@@ -11,11 +11,11 @@ export default function ProcessSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Left Column: Heading & Paragraph */}
           <div className="lg:col-span-5 pt-4">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-[1.15] mb-6">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-[1.15] mb-6">
               Our Simple 3-Step <br />
               Home Repair Process
             </h2>
-            <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
+            <p className="text-stone-600 text-xs sm:text-sm md:text-base leading-relaxed">
               Getting your home back in top shape is quick, transparent, and hassle-free. Here is how we connect you with trusted local repair specialists.
             </p>
           </div>

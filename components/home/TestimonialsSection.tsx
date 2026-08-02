@@ -147,10 +147,10 @@ export default function TestimonialsSection() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight mb-4">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight mb-4">
             {"What Homeowners Are Saying"}
           </h2>
-          <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
+          <p className="text-stone-600 text-xs sm:text-sm md:text-base leading-relaxed">
             Read top authentic reviews from real clients who restored their home comfort with FixItNow.
           </p>
         </div>

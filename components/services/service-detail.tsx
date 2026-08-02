@@ -373,10 +373,10 @@ export function ServiceDetail({ service, isAuthenticated = false }: ServiceDetai
                 <Sparkles className="h-3.5 w-3.5 text-amber-600" />
                 <span>Verified Service Package</span>
               </div>
-              <h1 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.04em] text-stone-950">
+              <h1 className="mt-4 text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.04em] text-stone-950">
                 {service.name}
               </h1>
-              <p className="mt-4 text-base leading-8 text-stone-600">
+              <p className="mt-4 text-sm leading-7 text-stone-600 sm:text-base">
                 {service.longDescription}
               </p>
             </div>

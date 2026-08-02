@@ -27,12 +27,12 @@ export default function CreditGaugeSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Heading, Subtitle, Bullet List & CTA */}
           <div className="lg:col-span-6 flex flex-col justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-[1.15] mb-6">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-[1.15] mb-6">
               Home repairs made simple, <br />
               reliable, and stress-free.
             </h2>
 
-            <p className="text-stone-600 text-sm sm:text-base leading-relaxed mb-8">
+            <p className="text-stone-600 text-xs sm:text-sm md:text-base leading-relaxed mb-8">
               Over 10,000+ homeowners trust FixItNow for fast, dependable, and high-quality repairs across AC, plumbing, electrical, and household appliances.
             </p>
 

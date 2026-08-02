@@ -128,10 +128,10 @@ export default function HowItWorksPage() {
             <span className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3.5 py-1.5 text-xs font-bold text-amber-800">
               <Sparkles className="h-3.5 w-3.5" /> Simple, Transparent & Reliable
             </span>
-            <h1 className="mx-auto mt-6 max-w-4xl text-4xl font-extrabold tracking-[-0.045em] text-stone-950 sm:text-6xl lg:text-6xl">
+            <h1 className="mx-auto mt-6 max-w-4xl text-3xl font-extrabold tracking-[-0.045em] text-stone-950 sm:text-5xl lg:text-6xl">
               How FixItNow Works for Your Home.
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-stone-600 sm:text-lg">
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-stone-600 sm:text-base lg:text-lg">
               From instant booking to completed repair, see how we connect you with background-checked local experts in 4 easy steps.
             </p>
           </div>
@@ -186,10 +186,10 @@ export default function HowItWorksPage() {
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700">
                 Our Expert Quality Standard
               </p>
-              <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-stone-950 sm:text-4xl">
+              <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-stone-950 sm:text-3xl lg:text-4xl">
                 Every pro is vetted so you can rest easy.
               </h2>
-              <p className="mt-4 text-base text-stone-600">
+              <p className="mt-4 text-xs sm:text-sm md:text-base text-stone-600">
                 We believe bringing someone into your home requires total trust. Here is how we ensure top-quality service on every visit.
               </p>
             </div>
@@ -221,7 +221,7 @@ export default function HowItWorksPage() {
             <span className="inline-flex items-center gap-1.5 rounded-full bg-stone-100 px-3 py-1 text-xs font-bold text-stone-700">
               <HelpCircle className="h-3.5 w-3.5 text-amber-600" /> Got Questions?
             </span>
-            <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-stone-950 sm:text-4xl">
+            <h2 className="mt-4 text-2xl font-extrabold tracking-tight text-stone-950 sm:text-3xl lg:text-4xl">
               Frequently Asked Questions
             </h2>
           </div>
@@ -247,7 +247,7 @@ export default function HowItWorksPage() {
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-400">
               Ready to get started?
             </p>
-            <h2 className="mt-4 text-3xl font-extrabold tracking-tight sm:text-5xl">
+            <h2 className="mt-4 text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
               Your home repair is just a few clicks away.
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-stone-300 sm:text-base">

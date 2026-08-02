@@ -285,7 +285,7 @@ export function ServicesCatalog({
                 <Sparkles className="h-3.5 w-3.5" />
                 <span>Verified Repair Catalog</span>
               </div>
-              <h2 className="mt-1 text-2xl font-extrabold tracking-tight text-stone-950 sm:text-3xl">
+              <h2 className="mt-1 text-xl font-extrabold tracking-tight text-stone-950 sm:text-2xl lg:text-3xl">
                 Available Expert Services
               </h2>
             </div>

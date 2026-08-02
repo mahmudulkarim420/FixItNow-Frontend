@@ -106,7 +106,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-stone-900 leading-[1.18] sm:leading-[1.12] py-4 sm:py-0"
+            className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-stone-900 leading-[1.18] sm:leading-[1.12] py-4 sm:py-0"
           >
             Fix It Now, <br />
             Bring Comfort Home.
@@ -117,7 +117,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-4 sm:mt-6 text-xs sm:text-base text-stone-600 max-w-2xl mx-auto leading-relaxed font-normal px-2"
+            className="mt-4 sm:mt-6 text-xs sm:text-sm md:text-base text-stone-600 max-w-2xl mx-auto leading-relaxed font-normal px-2"
           >
             Book certified local experts for AC, plumbing, electrical, appliance, and everyday home repairs with clear upfront pricing.
           </motion.p>

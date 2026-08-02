@@ -54,7 +54,7 @@ export default function EmpowerSection() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-6 flex flex-col justify-center"
           >
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-[1.15] mb-6">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-[1.15] mb-6">
               Empowering Your <br />
               Home, Protecting Your <br />
               Budget.
@@ -68,7 +68,7 @@ export default function EmpowerSection() {
               <span>Transparent Upfront Pricing!</span>
             </div>
 
-            <p className="text-stone-600 text-sm sm:text-base leading-relaxed font-normal">
+            <p className="text-stone-600 text-xs sm:text-sm md:text-base leading-relaxed font-normal">
               We connect you with experienced, vetted local specialists who diagnose the root cause and repair with care. No hidden call-out fees, no inflated quotes — just clear, honest service for your peace of mind.
             </p>
           </motion.div>

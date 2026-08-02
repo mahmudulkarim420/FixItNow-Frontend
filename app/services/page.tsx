@@ -63,10 +63,10 @@ export default async function ServicesPage() {
                   <Sparkles className="h-3.5 w-3.5 text-amber-600" />
                   <span>FixItNow Expert Catalog</span>
                 </div>
-                <h1 className="mt-5 text-4xl font-extrabold tracking-[-0.04em] text-stone-950 sm:text-5xl lg:text-6xl lg:leading-[1.08]">
+                <h1 className="mt-5 text-3xl font-extrabold tracking-[-0.04em] text-stone-950 sm:text-5xl lg:text-6xl lg:leading-[1.08]">
                   Professional Repair & Maintenance Services
                 </h1>
-                <p className="mt-5 max-w-2xl text-base leading-7 text-stone-600 sm:text-lg">
+                <p className="mt-5 max-w-2xl text-sm leading-7 text-stone-600 sm:text-base lg:text-lg">
                   From urgent cooling breakdowns to everyday plumbing and electrical maintenance, book top-rated local specialists with transparent upfront pricing.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
