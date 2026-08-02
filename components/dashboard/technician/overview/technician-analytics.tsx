@@ -42,29 +42,29 @@ export function TechnicianAnalytics({ bookings = [] }: TechnicianAnalyticsProps)
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-5">
       {/* 1. Weekly Hours / Workload Bar Chart */}
-      <div className="md:col-span-2 lg:col-span-5 flex flex-col justify-between rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs">
-        <div className="flex items-center justify-between">
-          <h3 className="text-xs sm:text-sm font-bold text-stone-900">
+      <div className="md:col-span-2 lg:col-span-5 flex flex-col justify-between rounded-2xl sm:rounded-3xl border border-stone-200/80 bg-white p-3.5 sm:p-5 shadow-xs">
+        <div className="flex items-center justify-between gap-2">
+          <h3 className="text-xs sm:text-sm font-bold text-stone-900 truncate">
             Weekly Hours Worked
           </h3>
-          <span className="text-[11px] font-semibold text-stone-400">
+          <span className="text-[10px] sm:text-[11px] font-semibold text-stone-400 shrink-0">
             Total: {bookings.length > 0 ? `${bookings.length * 2.5} hrs` : "42.5 hrs"}
           </span>
         </div>
 
         {/* Custom Stylized Bar Chart */}
-        <div className="my-5 sm:my-6 flex items-end justify-between gap-1.5 sm:gap-2 h-40 sm:h-44 px-1 sm:px-2">
+        <div className="mt-4 sm:mt-5 flex items-end justify-between gap-1.5 sm:gap-2 h-36 sm:h-40 px-1">
           {WEEKLY_HOURS.map((item, idx) => (
-            <div key={idx} className="relative flex flex-col items-center flex-1 h-full justify-end group">
+            <div key={idx} className="flex flex-col items-center flex-1 h-full justify-end group">
               {item.label && (
-                <span className="absolute -top-7 rounded-full bg-stone-900 px-2 py-0.5 text-[9px] font-bold text-amber-400 shadow-xs animate-bounce">
+                <span className="mb-1 rounded-full bg-stone-900 px-1.5 py-0.5 text-[8.5px] sm:text-[9px] font-extrabold text-amber-400 shadow-xs whitespace-nowrap transition-transform group-hover:scale-110">
                   {item.label}
                 </span>
               )}
 
               <div
                 style={{ height: item.height }}
-                className={`w-full rounded-2xl transition-all duration-300 ${
+                className={`w-full rounded-xl sm:rounded-2xl transition-all duration-300 ${
                   item.primary
                     ? "bg-stone-900"
                     : item.active
@@ -72,7 +72,7 @@ export function TechnicianAnalytics({ bookings = [] }: TechnicianAnalyticsProps)
                     : "bg-stone-100 border border-dashed border-stone-300 group-hover:bg-stone-200"
                 }`}
               />
-              <span className="mt-2.5 text-[11px] sm:text-xs font-bold text-stone-400">
+              <span className="mt-2 text-[10px] sm:text-xs font-bold text-stone-400">
                 {item.day}
               </span>
             </div>

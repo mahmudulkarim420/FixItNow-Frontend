@@ -65,9 +65,9 @@ export function CustomerKpiCards({ user, bookings = [], payments = [], loading =
       </div>
 
       {/* 4 KPI Metric Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 lg:grid-cols-4 sm:gap-4">
         {/* Card 1: Active Repairs (Featured Gradient) */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-stone-900 via-stone-900 to-amber-950 p-4 sm:p-5 text-white shadow-md transition-transform hover:-translate-y-0.5">
+        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-stone-900 via-stone-900 to-amber-950 p-3.5 sm:p-5 text-white shadow-md transition-transform hover:-translate-y-0.5">
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-stone-300">
               Active Repairs
@@ -92,24 +92,24 @@ export function CustomerKpiCards({ user, bookings = [], payments = [], loading =
         </div>
 
         {/* Card 2: Completed Services */}
-        <div className="group rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md">
+        <div className="group rounded-2xl sm:rounded-3xl border border-stone-200/80 bg-white p-3.5 sm:p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-stone-500">
+            <span className="text-[11px] sm:text-xs font-semibold text-stone-500">
               Completed Services
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-200 bg-stone-50 text-stone-600 transition-colors group-hover:bg-stone-900 group-hover:text-white">
-              <ArrowUpRight className="h-4 w-4" />
+            <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full border border-stone-200 bg-stone-50 text-stone-600 transition-colors group-hover:bg-stone-900 group-hover:text-white">
+              <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </div>
           </div>
 
-          <div className="mt-3 sm:mt-4 flex items-baseline gap-2">
-            <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-stone-900">
+          <div className="mt-2.5 sm:mt-4 flex items-baseline gap-2">
+            <span className="text-2xl sm:text-4xl font-extrabold tracking-tight text-stone-900">
               {loading ? "..." : completedServicesCount}
             </span>
           </div>
 
-          <div className="mt-3 sm:mt-4 flex items-center gap-1.5">
-            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-bold text-emerald-700 border border-emerald-100">
+          <div className="mt-2.5 sm:mt-4 flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 sm:px-2.5 sm:py-1 text-[9px] sm:text-[10px] font-bold text-emerald-700 border border-emerald-100">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               Verified & Guaranteed
             </span>
@@ -117,50 +117,50 @@ export function CustomerKpiCards({ user, bookings = [], payments = [], loading =
         </div>
 
         {/* Card 3: Total Spent */}
-        <div className="group rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md">
+        <div className="group rounded-2xl sm:rounded-3xl border border-stone-200/80 bg-white p-3.5 sm:p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-stone-500">
+            <span className="text-[11px] sm:text-xs font-semibold text-stone-500">
               Total Investment
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-200 bg-stone-50 text-stone-600 transition-colors group-hover:bg-stone-900 group-hover:text-white">
-              <ArrowUpRight className="h-4 w-4" />
+            <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full border border-stone-200 bg-stone-50 text-stone-600 transition-colors group-hover:bg-stone-900 group-hover:text-white">
+              <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </div>
           </div>
 
-          <div className="mt-3 sm:mt-4 flex items-baseline gap-2">
-            <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-stone-900">
+          <div className="mt-2.5 sm:mt-4 flex items-baseline gap-2">
+            <span className="text-2xl sm:text-4xl font-extrabold tracking-tight text-stone-900 truncate">
               {loading ? "..." : `$${totalInvestment.toLocaleString("en-US", { minimumFractionDigits: 2 })}`}
             </span>
           </div>
 
-          <div className="mt-3 sm:mt-4 flex items-center gap-1.5">
-            <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-[10px] font-bold text-amber-700 border border-amber-100">
+          <div className="mt-2.5 sm:mt-4 flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 sm:px-2.5 sm:py-1 text-[9px] sm:text-[10px] font-bold text-amber-700 border border-amber-100">
               <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-              Across {bookings.length} total bookings
+              Across {bookings.length} bookings
             </span>
           </div>
         </div>
 
         {/* Card 4: Saved Technicians */}
-        <div className="group rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md">
+        <div className="group rounded-2xl sm:rounded-3xl border border-stone-200/80 bg-white p-3.5 sm:p-5 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-stone-500">
+            <span className="text-[11px] sm:text-xs font-semibold text-stone-500">
               Favorite Pros
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-full border border-stone-200 bg-stone-50 text-stone-600 transition-colors group-hover:bg-stone-900 group-hover:text-white">
-              <ArrowUpRight className="h-4 w-4" />
+            <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full border border-stone-200 bg-stone-50 text-stone-600 transition-colors group-hover:bg-stone-900 group-hover:text-white">
+              <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </div>
           </div>
 
-          <div className="mt-3 sm:mt-4 flex items-baseline gap-2">
-            <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-stone-900">
+          <div className="mt-2.5 sm:mt-4 flex items-baseline gap-2">
+            <span className="text-2xl sm:text-4xl font-extrabold tracking-tight text-stone-900">
               {loading ? "..." : 3}
             </span>
           </div>
 
-          <div className="mt-3 sm:mt-4 flex items-center gap-1.5">
-            <span className="inline-flex items-center gap-1 rounded-full bg-stone-100 px-2.5 py-1 text-[10px] font-bold text-stone-600">
-              Saved for quick rebook
+          <div className="mt-2.5 sm:mt-4 flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-1 rounded-full bg-stone-100 px-2 py-0.5 sm:px-2.5 sm:py-1 text-[9px] sm:text-[10px] font-bold text-stone-600">
+              Saved for rebook
             </span>
           </div>
         </div>
