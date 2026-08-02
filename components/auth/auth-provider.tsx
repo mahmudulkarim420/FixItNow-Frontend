@@ -10,6 +10,7 @@ import {
 } from "react";
 import { getCurrentUser, logoutUser } from "@/lib/api";
 import type { User } from "@/types";
+import { RootPreloader } from "@/components/auth/root-preloader";
 
 interface AuthContextType {
   user: User | null;
@@ -90,6 +91,7 @@ export function AuthProvider({
         logout,
       }}
     >
+      <RootPreloader />
       {children}
     </AuthContext.Provider>
   );

@@ -127,3 +127,41 @@ export function DashboardSkeleton() {
     </div>
   );
 }
+
+export function PaymentSuccessSkeleton() {
+  return (
+    <main className="mx-auto max-w-3xl px-4 pb-20 pt-28 sm:px-6 lg:pt-36 animate-pulse">
+      <div className="rounded-3xl border border-stone-200/80 bg-white p-6 sm:p-10 text-center shadow-xl backdrop-blur-md space-y-6">
+        {/* Success Icon Badge Skeleton */}
+        <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl bg-amber-200/80" />
+
+        <div className="mx-auto h-6 w-56 rounded-full bg-stone-200" />
+        <div className="mx-auto h-8 w-64 rounded-xl bg-stone-200" />
+        <div className="mx-auto h-4 w-80 rounded-md bg-stone-200" />
+
+        {/* Card Details Skeleton */}
+        <div className="mt-8 rounded-2xl border border-stone-200/80 bg-stone-50/70 p-5 text-left space-y-3.5">
+          <div className="flex items-center justify-between border-b border-stone-200/60 pb-3">
+            <div className="h-4 w-24 bg-stone-200 rounded-md" />
+            <div className="h-4 w-32 bg-stone-200 rounded-md" />
+          </div>
+          <div className="flex items-center justify-between border-b border-stone-200/60 pb-3">
+            <div className="h-4 w-20 bg-stone-200 rounded-md" />
+            <div className="h-4 w-40 bg-stone-200 rounded-md" />
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="h-4 w-28 bg-stone-200 rounded-md" />
+            <div className="h-6 w-20 bg-amber-200/80 rounded-md" />
+          </div>
+        </div>
+
+        {/* Action Buttons Skeleton */}
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="h-12 w-full sm:w-56 rounded-2xl bg-amber-500/50" />
+          <div className="h-12 w-full sm:w-48 rounded-2xl bg-stone-200" />
+        </div>
+      </div>
+    </main>
+  );
+}
+

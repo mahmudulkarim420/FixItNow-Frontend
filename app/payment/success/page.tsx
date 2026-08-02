@@ -7,6 +7,7 @@ import { Suspense, useEffect, useState } from "react";
 
 import Footer from "@/components/home/Footer";
 import { NavbarClient } from "@/components/shared/navbar-client";
+import { PaymentSuccessSkeleton } from "@/components/ui/skeletons";
 import { getBookingById } from "@/lib/bookings-payments-api";
 import type { Booking } from "@/types";
 
@@ -30,6 +31,10 @@ function PaymentSuccessContent() {
       setLoading(false);
     }
   }, [bookingId]);
+
+  if (loading) {
+    return <PaymentSuccessSkeleton />;
+  }
 
   return (
     <main className="mx-auto max-w-3xl px-4 pb-20 pt-28 sm:px-6 lg:pt-36">
@@ -119,7 +124,7 @@ export default function PaymentSuccessPage() {
   return (
     <div className="min-h-screen bg-[#F9F7F2] text-stone-900">
       <NavbarClient />
-      <Suspense fallback={<div className="min-h-[60vh] flex items-center justify-center text-xs font-bold text-stone-500">Loading payment status...</div>}>
+      <Suspense fallback={<PaymentSuccessSkeleton />}>
         <PaymentSuccessContent />
       </Suspense>
       <Footer />
