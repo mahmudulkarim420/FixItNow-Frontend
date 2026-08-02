@@ -517,7 +517,7 @@ export function ServiceDetail({ service, isAuthenticated = false }: ServiceDetai
                 <h3 className="text-xl font-extrabold text-stone-900 mb-6">
                   Similar Repair Services
                 </h3>
-                <div className="grid gap-4 sm:grid-cols-3">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3">
                   {relatedServices.map((rel) => (
                     <Link
                       key={rel.id}
