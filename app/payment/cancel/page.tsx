@@ -94,7 +94,7 @@ function PaymentCancelContent() {
 export default function PaymentCancelPage() {
   return (
     <div className="min-h-screen bg-[#F9F7F2] text-stone-900">
-      <NavbarClient user={null} />
+      <NavbarClient />
       <Suspense fallback={<div className="min-h-[60vh] flex items-center justify-center text-xs font-bold text-stone-500">Loading...</div>}>
         <PaymentCancelContent />
       </Suspense>

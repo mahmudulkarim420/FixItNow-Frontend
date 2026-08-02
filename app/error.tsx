@@ -22,7 +22,7 @@ export default function GlobalErrorPage({
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F9F7F2] text-stone-900 selection:bg-amber-400 selection:text-stone-950">
-      <NavbarClient user={null} />
+      <NavbarClient />
 
       <main className="flex-1 mx-auto flex items-center justify-center max-w-5xl px-6 py-24 sm:py-32 w-full">
         <div className="flex flex-col md:flex-row items-center justify-center gap-10 lg:gap-16 w-full">
