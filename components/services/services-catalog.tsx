@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { getCurrentUser } from "@/lib/api";
 import { getUserBookings } from "@/lib/bookings-payments-api";
 import {
   fetchServiceCategories,
@@ -88,13 +89,25 @@ export function ServicesCatalog({
   const isInitialMount = useRef(true);
 
   useEffect(() => {
-    if (!isAuthenticated) return;
-
-    getUserBookings()
-      .then((res) => {
-        if (Array.isArray(res)) setUserBookings(res);
-      })
-      .catch(() => null);
+    if (isAuthenticated) {
+      getUserBookings()
+        .then((res) => {
+          if (Array.isArray(res)) setUserBookings(res);
+        })
+        .catch(() => null);
+    } else {
+      getCurrentUser()
+        .then((u) => {
+          if (u) {
+            getUserBookings()
+              .then((res) => {
+                if (Array.isArray(res)) setUserBookings(res);
+              })
+              .catch(() => null);
+          }
+        })
+        .catch(() => null);
+    }
   }, [isAuthenticated]);
 
   useEffect(() => {

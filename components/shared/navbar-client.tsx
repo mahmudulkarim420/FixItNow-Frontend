@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import type { User } from "@/types";
 
 interface NavbarClientProps {
-  user: User | null;
+  user?: User | null;
 }
 
 const DESKTOP_NAV_LINKS = [
@@ -36,12 +36,8 @@ import { getCurrentUser } from "@/lib/api";
 
 export function NavbarClient({ user: initialUser }: NavbarClientProps) {
   const pathname = usePathname();
-  const [currentUser, setCurrentUser] = useState<User | null>(initialUser);
+  const [currentUser, setCurrentUser] = useState<User | null>(initialUser ?? null);
   const [hash, setHash] = useState("");
-
-  useEffect(() => {
-    setCurrentUser(initialUser);
-  }, [initialUser]);
 
   useEffect(() => {
     // Only verify session on client side if initialUser was not supplied from SSR
@@ -52,7 +48,7 @@ export function NavbarClient({ user: initialUser }: NavbarClientProps) {
         })
         .catch(() => null);
     }
-  }, [initialUser, pathname]);
+  }, [initialUser]);
 
   useEffect(() => {
     setHash(window.location.hash);

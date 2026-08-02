@@ -1,19 +1,17 @@
 import { NavbarClient } from "@/components/shared/navbar-client";
-import { getSessionUser } from "@/lib/auth";
 import type { User } from "@/types";
 
 /**
  * Server Component navbar.
  *
- * Reads the session on the server (via httpOnly cookies) and passes the user
- * (or null) down to the interactive client component, which conditionally
- * renders either the auth buttons (guest) or the profile dropdown (signed in).
+ * Passes optional supplied user down to NavbarClient. When user is not supplied
+ * (e.g. on static pages), NavbarClient resolves session client-side if a cookie exists.
  */
 interface NavbarProps {
   user?: User | null;
 }
 
-export default async function Navbar({ user: suppliedUser }: NavbarProps = {}) {
-  const user = suppliedUser === undefined ? await getSessionUser() : suppliedUser;
+export default function Navbar({ user }: NavbarProps = {}) {
   return <NavbarClient user={user} />;
 }
+

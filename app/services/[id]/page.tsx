@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 
 import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
-import { getSessionUser } from "@/lib/auth";
 import { ServiceDetail, ServiceNotFound } from "@/components/services/service-detail";
 import { fetchServiceByIdCached, mapApiServiceToUI } from "@/lib/services-api";
 import { getServiceById as getMockServiceById } from "@/lib/services-data";
@@ -10,8 +9,6 @@ import { getServiceById as getMockServiceById } from "@/lib/services-data";
 type ServicePageProps = {
   params: Promise<{ id: string }>;
 };
-
-export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -41,7 +38,6 @@ export async function generateMetadata({
 
 export default async function ServicePage({ params }: ServicePageProps) {
   const { id } = await params;
-  const userPromise = getSessionUser();
   let service = null;
 
   try {
@@ -53,12 +49,10 @@ export default async function ServicePage({ params }: ServicePageProps) {
     service = getMockServiceById(id) || null;
   }
 
-  const user = await userPromise;
-
   if (!service) {
     return (
       <div className="bg-[#F9F7F2]">
-        <Navbar user={user} />
+        <Navbar />
         <ServiceNotFound />
         <Footer />
       </div>
@@ -67,8 +61,8 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   return (
     <div className="bg-[#F9F7F2]">
-      <Navbar user={user} />
-      <ServiceDetail service={service} isAuthenticated={Boolean(user)} />
+      <Navbar />
+      <ServiceDetail service={service} />
       <Footer />
     </div>
   );

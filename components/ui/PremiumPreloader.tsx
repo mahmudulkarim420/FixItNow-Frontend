@@ -23,9 +23,9 @@ export function PremiumPreloader() {
   useEffect(() => {
     if (isLoaded) return;
 
-    // First visit: record session flag and dismiss after brief branded flash
+    // First visit: record session flag and dismiss immediately without artificial delay
     sessionStorage.setItem("fixitnow_preloader_seen", "true");
-    const timer = setTimeout(dismissLoader, 150);
+    const timer = setTimeout(dismissLoader, 0);
     return () => clearTimeout(timer);
   }, [isLoaded, dismissLoader]);
 
