@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import { PremiumPreloader } from "@/components/ui/PremiumPreloader";
+import { AuthProvider } from "@/components/auth/auth-provider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -81,7 +82,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         <PremiumPreloader />
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
         <Toaster />
       </body>
     </html>

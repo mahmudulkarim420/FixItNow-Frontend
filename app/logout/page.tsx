@@ -4,15 +4,16 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { PremiumPreloader } from "@/components/ui/PremiumPreloader";
-import { logoutUser } from "@/lib/api";
+import { useAuth } from "@/components/auth/auth-provider";
 
 export default function LogoutPage() {
   const router = useRouter();
+  const { logout } = useAuth();
 
   useEffect(() => {
     async function performLogout() {
       try {
-        await logoutUser();
+        await logout();
         toast.success("Signed out successfully");
       } catch {
         toast.error("Signed out");
@@ -23,7 +24,7 @@ export default function LogoutPage() {
     }
 
     performLogout();
-  }, [router]);
+  }, [router, logout]);
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-stone-50">

@@ -26,7 +26,7 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
-import { getCurrentUser } from "@/lib/api";
+import { useAuth } from "@/components/auth/auth-provider";
 import {
   cancelBooking,
   createBooking,
@@ -96,17 +96,14 @@ export function ServiceDetail({ service, isAuthenticated = false }: ServiceDetai
       });
   }, [service.id]);
 
+  const { user: authUser } = useAuth();
+  const isAuthed = isAuthenticated || Boolean(authUser);
+
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthed) {
       refreshActiveBooking();
-    } else {
-      getCurrentUser()
-        .then((u) => {
-          if (u) refreshActiveBooking();
-        })
-        .catch(() => null);
     }
-  }, [isAuthenticated, refreshActiveBooking]);
+  }, [isAuthed, refreshActiveBooking]);
 
   // Live status polling when booking is in REQUESTED state
   useEffect(() => {

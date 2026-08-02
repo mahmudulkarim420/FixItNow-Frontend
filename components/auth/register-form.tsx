@@ -12,11 +12,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { ApiError, registerUser } from "@/lib/api";
+import { useAuth } from "@/components/auth/auth-provider";
 import { ROLE_HOME } from "@/lib/auth-constants";
 import { registerSchema, type RegisterValues } from "@/lib/validations/auth";
 
 export function RegisterForm() {
   const router = useRouter();
+  const { setSessionUser } = useAuth();
   const [submitting, setSubmitting] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -83,11 +85,13 @@ export function RegisterForm() {
       toast.success(`Account created! Welcome, ${user.name.split(" ")[0]}.`);
 
       try {
-        await import("@/lib/api").then(({ loginUser }) =>
+        const authedUser = await import("@/lib/api").then(({ loginUser }) =>
           loginUser({ email: values.email, password: values.password }),
         );
+        setSessionUser(authedUser || user);
         router.push(ROLE_HOME[user.role]);
       } catch {
+        setSessionUser(user);
         router.push("/login");
       }
       router.refresh();

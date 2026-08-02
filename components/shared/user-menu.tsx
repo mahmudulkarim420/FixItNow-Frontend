@@ -14,6 +14,7 @@ import { toast } from "sonner";
 
 import { Avatar } from "@/components/shared/avatar";
 import { logoutUser } from "@/lib/api";
+import { useAuth } from "@/components/auth/auth-provider";
 import { ROLE_HOME } from "@/lib/auth-constants";
 import { cn } from "@/lib/utils";
 import type { User } from "@/types";
@@ -43,6 +44,7 @@ export function UserMenu({ user }: UserMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const pathname = usePathname();
+  const { logout } = useAuth();
   const [loggingOut, setLoggingOut] = useState(false);
 
   const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -118,7 +120,7 @@ export function UserMenu({ user }: UserMenuProps) {
   async function handleLogout() {
     setLoggingOut(true);
     try {
-      await logoutUser();
+      await logout();
       toast.success("Signed out successfully");
       router.push("/login");
       router.refresh();

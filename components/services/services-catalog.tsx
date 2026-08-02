@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { getCurrentUser } from "@/lib/api";
+import { useAuth } from "@/components/auth/auth-provider";
 import { getUserBookings } from "@/lib/bookings-payments-api";
 import {
   fetchServiceCategories,
@@ -88,27 +88,17 @@ export function ServicesCatalog({
 
   const isInitialMount = useRef(true);
 
+  const { user: authUser } = useAuth();
+  const isAuthed = isAuthenticated || Boolean(authUser);
+
   useEffect(() => {
-    if (isAuthenticated) {
-      getUserBookings()
-        .then((res) => {
-          if (Array.isArray(res)) setUserBookings(res);
-        })
-        .catch(() => null);
-    } else {
-      getCurrentUser()
-        .then((u) => {
-          if (u) {
-            getUserBookings()
-              .then((res) => {
-                if (Array.isArray(res)) setUserBookings(res);
-              })
-              .catch(() => null);
-          }
-        })
-        .catch(() => null);
-    }
-  }, [isAuthenticated]);
+    if (!isAuthed) return;
+    getUserBookings()
+      .then((res) => {
+        if (Array.isArray(res)) setUserBookings(res);
+      })
+      .catch(() => null);
+  }, [isAuthed]);
 
   useEffect(() => {
     const syncSaved = () => {

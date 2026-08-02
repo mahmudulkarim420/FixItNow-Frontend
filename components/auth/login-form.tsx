@@ -14,9 +14,12 @@ import { ApiError, loginUser } from "@/lib/api";
 import { loginSchema, type LoginValues } from "@/lib/validations/auth";
 import { ROLE_HOME } from "@/lib/auth-constants";
 
+import { useAuth } from "@/components/auth/auth-provider";
+
 export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { setSessionUser } = useAuth();
   const [submitting, setSubmitting] = useState(false);
 
   const {
@@ -32,6 +35,7 @@ export function LoginForm() {
     setSubmitting(true);
     try {
       const user = await loginUser(values);
+      setSessionUser(user);
       toast.success(`Welcome back, ${user.name.split(" ")[0]}!`);
 
       const redirectTarget = searchParams.get("redirect");

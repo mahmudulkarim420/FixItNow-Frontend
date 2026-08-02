@@ -32,23 +32,13 @@ const MOBILE_TABS = [
   { id: "contact", name: "Contact", href: "/contact", icon: MessageCircle },
 ];
 
-import { getCurrentUser } from "@/lib/api";
+import { useAuth } from "@/components/auth/auth-provider";
 
 export function NavbarClient({ user: initialUser }: NavbarClientProps) {
   const pathname = usePathname();
-  const [currentUser, setCurrentUser] = useState<User | null>(initialUser ?? null);
+  const { user: authUser } = useAuth();
+  const currentUser = initialUser !== undefined ? initialUser : authUser;
   const [hash, setHash] = useState("");
-
-  useEffect(() => {
-    // Only verify session on client side if initialUser was not supplied from SSR
-    if (initialUser === undefined) {
-      getCurrentUser()
-        .then((u) => {
-          if (u) setCurrentUser(u);
-        })
-        .catch(() => null);
-    }
-  }, [initialUser]);
 
   useEffect(() => {
     setHash(window.location.hash);
