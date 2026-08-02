@@ -108,11 +108,11 @@ export function NavbarClient({ user: initialUser }: NavbarClientProps) {
                 <UserMenu user={currentUser} />
               ) : (
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <Link href="/login" className="hidden rounded-full px-4 py-2 text-xs font-bold text-stone-700 transition hover:bg-stone-100 sm:inline-flex">
+                  {/* <Link href="/login" className="hidden rounded-full px-4 py-2 text-xs font-bold text-stone-700 transition hover:bg-stone-100 sm:inline-flex">
                     Log in
-                  </Link>
-                  <Link href="/register" className="inline-flex rounded-full bg-stone-900 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-stone-800 sm:px-5">
-                    Register
+                  </Link> */}
+                  <Link href="/login" className="inline-flex rounded-full bg-stone-900 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-stone-800 sm:px-5">
+                    Login
                   </Link>
                 </div>
               )}
