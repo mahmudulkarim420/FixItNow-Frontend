@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
 import { ServiceDetail, ServiceNotFound } from "@/components/services/service-detail";
+import { BreadcrumbsJsonLd, ServiceJsonLd } from "@/components/seo/json-ld";
 import { fetchServiceByIdCached, mapApiServiceToUI } from "@/lib/services-api";
 import { getServiceById as getMockServiceById } from "@/lib/services-data";
+
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://fixitnow.co").replace(/\/$/, "");
 
 type ServicePageProps = {
   params: Promise<{ id: string }>;
@@ -14,26 +18,43 @@ export async function generateMetadata({
   params,
 }: ServicePageProps): Promise<Metadata> {
   const { id } = await params;
+  let service = null;
 
   try {
     const apiService = await fetchServiceByIdCached(id);
     if (apiService) {
-      return {
-        title: `${apiService.title} | FixItNow Home Services`,
-        description: apiService.description,
-      };
+      service = mapApiServiceToUI(apiService);
     }
   } catch {
-    const mock = getMockServiceById(id);
-    if (mock) {
-      return {
-        title: `${mock.name} | FixItNow Home Services`,
-        description: mock.description,
-      };
-    }
+    service = getMockServiceById(id) || null;
   }
 
-  return { title: "Service Details | FixItNow" };
+  if (!service) {
+    return {
+      title: "Service Not Found | FixItNow",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  return {
+    title: `${service.name} — Expert Home Repair Services`,
+    description: service.description || service.tagline,
+    alternates: {
+      canonical: `/services/${id}`,
+    },
+    openGraph: {
+      title: `${service.name} — FixItNow Home Services`,
+      description: service.description || service.tagline,
+      url: `${SITE_URL}/services/${id}`,
+      images: service.image ? [{ url: service.image, alt: service.name }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${service.name} — FixItNow Home Services`,
+      description: service.description || service.tagline,
+      images: service.image ? [service.image] : undefined,
+    },
+  };
 }
 
 export default async function ServicePage({ params }: ServicePageProps) {
@@ -61,6 +82,14 @@ export default async function ServicePage({ params }: ServicePageProps) {
 
   return (
     <div className="bg-[#F9F7F2]">
+      <ServiceJsonLd service={service} baseUrl={SITE_URL} />
+      <BreadcrumbsJsonLd
+        items={[
+          { name: "Home", url: SITE_URL },
+          { name: "Services", url: `${SITE_URL}/services` },
+          { name: service.name, url: `${SITE_URL}/services/${id}` },
+        ]}
+      />
       <Navbar />
       <ServiceDetail service={service} />
       <Footer />

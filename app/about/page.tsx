@@ -6,9 +6,19 @@ import { ArrowRight, HeartHandshake, Leaf, ShieldCheck, Sparkles, Users } from "
 import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
 
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://fixitnow.co").replace(/\/$/, "");
+
 export const metadata: Metadata = {
-  title: "About FixItNow",
-  description: "Learn how FixItNow is making home repairs more transparent, human, and dependable.",
+  title: "About Us — Transparent & Dependable Home Care",
+  description: "Learn how FixItNow connects homeowners with vetted local repair experts for clear upfront pricing and 30-day guaranteed repairs.",
+  alternates: {
+    canonical: "/about",
+  },
+  openGraph: {
+    title: "About FixItNow — Dependable Home Repair Services",
+    description: "Learn how FixItNow is making home repairs more transparent, human, and dependable.",
+    url: `${SITE_URL}/about`,
+  },
 };
 
 const values = [

@@ -15,10 +15,21 @@ import {
 import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
 
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://fixitnow.co").replace(/\/$/, "");
+
 export const metadata: Metadata = {
-  title: "How It Works",
+  title: "How It Works — Simple & Transparent Home Repairs",
   description:
-    "Learn how FixItNow connects you with certified local repair professionals in 4 simple steps.",
+    "Learn how FixItNow connects you with background-checked local repair professionals in 4 simple steps with clear upfront pricing.",
+  alternates: {
+    canonical: "/how-it-works",
+  },
+  openGraph: {
+    title: "How FixItNow Works for Your Home",
+    description:
+      "From instant booking to completed repair, see how we connect you with verified local experts in 4 easy steps.",
+    url: `${SITE_URL}/how-it-works`,
+  },
 };
 
 const steps = [

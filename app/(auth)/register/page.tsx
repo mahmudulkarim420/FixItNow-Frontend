@@ -1,10 +1,18 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { RegisterForm } from "@/components/auth/register-form";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Create account · FixItNow",
-  description: "Create your FixItNow account.",
+  description: "Create your FixItNow account to book repair services or register as a technician.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+  alternates: {
+    canonical: "/register",
+  },
 };
 
 export default function RegisterPage() {

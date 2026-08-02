@@ -1,11 +1,19 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
 import { LoginForm } from "@/components/auth/login-form";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Sign in · FixItNow",
-  description: "Sign in to your FixItNow account.",
+  description: "Sign in to your FixItNow account to manage bookings, services, and appointments.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+  alternates: {
+    canonical: "/login",
+  },
 };
 
 export default function LoginPage() {

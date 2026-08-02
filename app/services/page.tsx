@@ -5,12 +5,24 @@ import { BadgeCheck, CalendarCheck, ShieldCheck, Sparkles, Star, Wrench } from "
 import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
 import { ServicesCatalog } from "@/components/services/services-catalog";
+import { BreadcrumbsJsonLd } from "@/components/seo/json-ld";
 import { fetchServiceCategoriesCached, fetchServices } from "@/lib/services-api";
 
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://fixitnow.co").replace(/\/$/, "");
+
 export const metadata: Metadata = {
-  title: "Professional Repair & Maintenance Services",
+  title: "Professional Home Repair & Maintenance Services Catalog",
   description:
-    "Explore trusted AC, plumbing, electrical, appliance, and home care services with clear upfront pricing.",
+    "Explore trusted AC, plumbing, electrical, appliance, and home care services. Book verified local specialists with transparent upfront pricing.",
+  alternates: {
+    canonical: "/services",
+  },
+  openGraph: {
+    title: "Professional Home Repair Services Catalog — FixItNow",
+    description:
+      "Explore trusted AC, plumbing, electrical, appliance, and home care services with clear upfront pricing.",
+    url: `${SITE_URL}/services`,
+  },
 };
 
 const trustPoints = [
@@ -30,6 +42,12 @@ export default async function ServicesPage() {
 
   return (
     <div className="min-h-screen bg-[#F9F7F2] text-stone-900 selection:bg-amber-200 selection:text-amber-950">
+      <BreadcrumbsJsonLd
+        items={[
+          { name: "Home", url: SITE_URL },
+          { name: "Services", url: `${SITE_URL}/services` },
+        ]}
+      />
       <Navbar />
       <main className="pt-20 sm:pt-24">
         {/* Header / Hero Section */}

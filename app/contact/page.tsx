@@ -5,9 +5,19 @@ import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
 import { ContactForm } from "@/components/shared/contact-form";
 
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://fixitnow.co").replace(/\/$/, "");
+
 export const metadata: Metadata = {
-  title: "Contact FixItNow",
-  description: "Contact the FixItNow team for booking help, service questions, or professional partnership inquiries.",
+  title: "Contact Us — Support & Booking Inquiries",
+  description: "Get in touch with the FixItNow care team for appointment support, repair service questions, or technician partnerships.",
+  alternates: {
+    canonical: "/contact",
+  },
+  openGraph: {
+    title: "Contact FixItNow — Real People, Ready to Help",
+    description: "Get in touch with the FixItNow care team for appointment support, repair service questions, or technician partnerships.",
+    url: `${SITE_URL}/contact`,
+  },
 };
 
 const contactItems = [
