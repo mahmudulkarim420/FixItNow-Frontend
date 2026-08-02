@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import type { RepairService } from "@/lib/services-data";
+import type { RepairService } from "@/lib/mock-services-data";
 
 const SAVED_STORAGE_KEY = "fixitnow_saved_services";
 

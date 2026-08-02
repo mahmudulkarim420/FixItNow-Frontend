@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { fetchServices } from "@/lib/services-api";
-import { services as mockServices } from "@/lib/services-data";
+import { services as mockServices } from "@/lib/mock-services-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://fixitnow.co").replace(/\/$/, "");
 

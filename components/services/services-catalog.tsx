@@ -29,7 +29,7 @@ import {
   fetchServices,
   mapApiServiceToUI,
 } from "@/lib/services-api";
-import { services as mockServices, type RepairService } from "@/lib/services-data";
+import { services as mockServices, type RepairService } from "@/lib/mock-services-data";
 import { getSavedServices, toggleSaveService } from "@/lib/saved-services";
 import { cn } from "@/lib/utils";
 import type { ApiServiceCategory, Booking, GetServicesResponse } from "@/types";

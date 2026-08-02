@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { getApiBaseUrl } from "@/lib/api";
-import type { RepairService, ServiceCategory } from "@/lib/services-data";
+import type { RepairService, ServiceCategory } from "@/lib/mock-services-data";
 import type {
   ApiService,
   ApiServiceCategory,

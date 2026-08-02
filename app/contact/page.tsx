@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Clock3, Mail, MapPin, Phone, Sparkles } from "lucide-react";
 
-import Footer from "@/components/home/Footer";
-import Navbar from "@/components/home/Navbar";
+import Footer from "@/components/home/footer-section";
+import Navbar from "@/components/home/navbar";
 import { ContactForm } from "@/components/shared/contact-form";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://fixitnow.co").replace(/\/$/, "");

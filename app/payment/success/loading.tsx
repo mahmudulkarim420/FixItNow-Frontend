@@ -1,4 +1,4 @@
-import Footer from "@/components/home/Footer";
+import Footer from "@/components/home/footer-section";
 import { NavbarClient } from "@/components/shared/navbar-client";
 import { PaymentSuccessSkeleton } from "@/components/ui/skeletons";
 

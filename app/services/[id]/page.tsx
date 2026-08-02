@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import Footer from "@/components/home/Footer";
-import Navbar from "@/components/home/Navbar";
+import Footer from "@/components/home/footer-section";
+import Navbar from "@/components/home/navbar";
 import { ServiceDetail, ServiceNotFound } from "@/components/services/service-detail";
 import { BreadcrumbsJsonLd, ServiceJsonLd } from "@/components/seo/json-ld";
 import { fetchServiceByIdCached, mapApiServiceToUI } from "@/lib/services-api";
-import { getServiceById as getMockServiceById } from "@/lib/services-data";
+import { getServiceById as getMockServiceById } from "@/lib/mock-services-data";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://fixitnow.co").replace(/\/$/, "");
 

@@ -1,6 +1,6 @@
-import { AdminKpiCards } from "@/components/dashboard/admin/overview/admin-kpi-cards";
+import { AdminKpiCards } from "@/components/dashboard/admin/overview/admin-stat-cards";
 import { AdminAnalyticsSection } from "@/components/dashboard/admin/overview/admin-analytics-section";
-import { AdminTeamWidget } from "@/components/dashboard/admin/overview/admin-team-widget";
+import { AdminTeamWidget } from "@/components/dashboard/admin/overview/admin-user-activity-widget";
 
 export const metadata = {
   title: "Dashboard Overview · FixItNow Admin",

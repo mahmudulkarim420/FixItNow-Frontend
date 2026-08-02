@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import Navbar from "@/components/home/Navbar";
-import HeroSection from "@/components/home/HeroSection";
-import ProcessSection from "@/components/home/ProcessSection";
-import CtaBanner from "@/components/home/CtaBanner";
-import EmpowerSection from "@/components/home/EmpowerSection";
-import CreditGaugeSection from "@/components/home/CreditGaugeSection";
-import TestimonialsSection from "@/components/home/TestimonialsSection";
-import Footer from "@/components/home/Footer";
+import Navbar from "@/components/home/navbar";
+import HeroSection from "@/components/home/hero-section";
+import ProcessSection from "@/components/home/process-section";
+import CtaBanner from "@/components/home/cta-banner";
+import EmpowerSection from "@/components/home/empower-section";
+import CreditGaugeSection from "@/components/home/credit-gauge-section";
+import TestimonialsSection from "@/components/home/testimonials-section";
+import Footer from "@/components/home/footer-section";
 import { OrganizationJsonLd, WebSiteJsonLd } from "@/components/seo/json-ld";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://fixitnow.co").replace(/\/$/, "");

@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TechnicianKpiCards } from "@/components/dashboard/technician/overview/technician-kpi-cards";
-import { TechnicianAnalytics } from "@/components/dashboard/technician/overview/technician-analytics";
-import { TechnicianWidget } from "@/components/dashboard/technician/overview/technician-widget";
+import { TechnicianKpiCards } from "@/components/dashboard/technician/overview/technician-stat-cards";
+import { TechnicianAnalytics } from "@/components/dashboard/technician/overview/technician-workload-chart";
+import { TechnicianWidget } from "@/components/dashboard/technician/overview/dispatch-queue-widget";
 import { getTechnicianBookings } from "@/lib/technician-api";
 import { getCurrentUser } from "@/lib/api";
 import type { Booking, TechnicianProfile, User } from "@/types";

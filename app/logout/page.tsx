@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { PremiumPreloader } from "@/components/ui/PremiumPreloader";
+import { PremiumPreloader } from "@/components/ui/premium-preloader";
 import { useAuth } from "@/components/auth/auth-provider";
 
 export default function LogoutPage() {

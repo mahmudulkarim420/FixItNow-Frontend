@@ -16,7 +16,7 @@ import {
 import { AddServiceModal } from "@/components/dashboard/admin/modals/add-service-modal";
 import { DeleteConfirmModal } from "@/components/dashboard/admin/modals/delete-confirm-modal";
 import { fetchServices, mapApiServiceToUI } from "@/lib/services-api";
-import type { RepairService } from "@/lib/services-data";
+import type { RepairService } from "@/lib/mock-services-data";
 import { toast } from "sonner";
 
 export default function AdminServicesPage() {

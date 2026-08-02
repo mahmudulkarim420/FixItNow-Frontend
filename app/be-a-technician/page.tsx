@@ -16,8 +16,8 @@ import {
   Sparkles,
   Calendar,
 } from "lucide-react";
-import Navbar from "@/components/home/Navbar";
-import Footer from "@/components/home/Footer";
+import Navbar from "@/components/home/navbar";
+import Footer from "@/components/home/footer-section";
 import { useAuth } from "@/components/auth/auth-provider";
 import {
   applyForTechnician,

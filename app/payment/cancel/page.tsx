@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { AlertTriangle, ArrowRight, CreditCard, Home, Loader2, RefreshCw } from "lucide-react";
 import { Suspense, useState } from "react";
 
-import Footer from "@/components/home/Footer";
+import Footer from "@/components/home/footer-section";
 import { NavbarClient } from "@/components/shared/navbar-client";
 import { createCheckoutSession } from "@/lib/bookings-payments-api";
 

@@ -1,5 +1,5 @@
-import Navbar from "@/components/home/Navbar";
-import Footer from "@/components/home/Footer";
+import Navbar from "@/components/home/navbar";
+import Footer from "@/components/home/footer-section";
 import { ProfileLayout } from "@/components/profile/profile-layout";
 import { getTechnicianProfile } from "@/lib/api";
 import { requireUser } from "@/lib/auth";

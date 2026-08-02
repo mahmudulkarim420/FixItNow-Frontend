@@ -3,8 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, HeartHandshake, Leaf, ShieldCheck, Sparkles, Users } from "lucide-react";
 
-import Footer from "@/components/home/Footer";
-import Navbar from "@/components/home/Navbar";
+import Footer from "@/components/home/footer-section";
+import Navbar from "@/components/home/navbar";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://fixitnow.co").replace(/\/$/, "");
 

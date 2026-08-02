@@ -5,7 +5,7 @@ import { ChevronRight, Home, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect } from "react";
 
-import Footer from "@/components/home/Footer";
+import Footer from "@/components/home/footer-section";
 import { NavbarClient } from "@/components/shared/navbar-client";
 
 export default function GlobalErrorPage({

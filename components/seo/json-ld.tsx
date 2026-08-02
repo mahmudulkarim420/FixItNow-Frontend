@@ -1,4 +1,4 @@
-import type { RepairService } from "@/lib/services-data";
+import type { RepairService } from "@/lib/mock-services-data";
 
 interface JsonLdProps {
   data: Record<string, unknown>;

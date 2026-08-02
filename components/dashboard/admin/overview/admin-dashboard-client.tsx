@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { AdminSidebar } from "@/components/dashboard/admin/layout/admin-sidebar";
 import { AdminHeader } from "@/components/dashboard/admin/layout/admin-header";
-import { AdminKpiCards } from "@/components/dashboard/admin/overview/admin-kpi-cards";
+import { AdminKpiCards } from "@/components/dashboard/admin/overview/admin-stat-cards";
 import { AdminAnalyticsSection } from "@/components/dashboard/admin/overview/admin-analytics-section";
-import { AdminTeamWidget } from "@/components/dashboard/admin/overview/admin-team-widget";
+import { AdminTeamWidget } from "@/components/dashboard/admin/overview/admin-user-activity-widget";
 import type { User } from "@/types";
 
 interface AdminDashboardClientProps {

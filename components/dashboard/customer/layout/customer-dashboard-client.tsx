@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { CustomerSidebar } from "@/components/dashboard/customer/layout/customer-sidebar";
 import { CustomerHeader } from "@/components/dashboard/customer/layout/customer-header";
-import { CustomerKpiCards } from "@/components/dashboard/customer/overview/customer-kpi-cards";
-import { CustomerAnalytics } from "@/components/dashboard/customer/overview/customer-analytics";
-import { CustomerWidget } from "@/components/dashboard/customer/overview/customer-widget";
+import { CustomerKpiCards } from "@/components/dashboard/customer/overview/customer-stat-cards";
+import { CustomerAnalytics } from "@/components/dashboard/customer/overview/customer-spending-chart";
+import { CustomerWidget } from "@/components/dashboard/customer/overview/favorite-pros-widget";
 import type { User } from "@/types";
 
 interface CustomerDashboardClientProps {

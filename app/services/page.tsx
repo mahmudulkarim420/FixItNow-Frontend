@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { BadgeCheck, CalendarCheck, ShieldCheck, Sparkles, Star, Wrench } from "lucide-react";
 
-import Footer from "@/components/home/Footer";
-import Navbar from "@/components/home/Navbar";
+import Footer from "@/components/home/footer-section";
+import Navbar from "@/components/home/navbar";
 import { ServicesCatalog } from "@/components/services/services-catalog";
 import { BreadcrumbsJsonLd } from "@/components/seo/json-ld";
 import { fetchServiceCategoriesCached, fetchServices } from "@/lib/services-api";

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Star, ShieldCheck, Heart, Loader2, ArrowUpRight, Wrench } from "lucide-react";
 import { getSavedServices, toggleSaveService } from "@/lib/saved-services";
 import { fetchServices, mapApiServiceToUI } from "@/lib/services-api";
-import type { RepairService } from "@/lib/services-data";
+import type { RepairService } from "@/lib/mock-services-data";
 
 export default function CustomerSavedProsPage() {
   const [savedPros, setSavedPros] = useState<RepairService[]>([]);

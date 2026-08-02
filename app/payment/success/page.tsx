@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { ArrowRight, Calendar, Check, Clock, Home, ShieldCheck, Sparkles, UserCheck } from "lucide-react";
 import { Suspense, useEffect, useState } from "react";
 
-import Footer from "@/components/home/Footer";
+import Footer from "@/components/home/footer-section";
 import { NavbarClient } from "@/components/shared/navbar-client";
 import { PaymentSuccessSkeleton } from "@/components/ui/skeletons";
 import { getBookingById } from "@/lib/bookings-payments-api";

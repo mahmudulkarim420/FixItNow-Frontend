@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CustomerKpiCards } from "@/components/dashboard/customer/overview/customer-kpi-cards";
-import { CustomerAnalytics } from "@/components/dashboard/customer/overview/customer-analytics";
-import { CustomerWidget } from "@/components/dashboard/customer/overview/customer-widget";
+import { CustomerKpiCards } from "@/components/dashboard/customer/overview/customer-stat-cards";
+import { CustomerAnalytics } from "@/components/dashboard/customer/overview/customer-spending-chart";
+import { CustomerWidget } from "@/components/dashboard/customer/overview/favorite-pros-widget";
 import { getUserBookings, getUserPaymentHistory } from "@/lib/bookings-payments-api";
 import type { User, Booking, Payment } from "@/types";
 

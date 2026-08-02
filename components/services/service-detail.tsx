@@ -35,7 +35,7 @@ import {
   getUserBookings,
 } from "@/lib/bookings-payments-api";
 import { fetchServices, fetchTechnicianProfile, mapApiServiceToUI } from "@/lib/services-api";
-import type { RepairService } from "@/lib/services-data";
+import type { RepairService } from "@/lib/mock-services-data";
 import { cn } from "@/lib/utils";
 import type { Booking, TechnicianProfile } from "@/types";
 
