@@ -17,7 +17,7 @@ export function CustomerLayoutClient({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] p-3 sm:p-5 text-stone-900 font-sans">
+    <div className="min-h-screen bg-[#FAF8F5] dark:bg-slate-950 p-3 sm:p-5 text-stone-900 dark:text-slate-100 font-sans transition-colors duration-200">
       <div className="mx-auto max-w-[1600px] flex flex-col lg:flex-row gap-5">
         {/* Left Sidebar (Shared for all customer routes) */}
         <CustomerSidebar

@@ -6,16 +6,16 @@ import { Search, CalendarCheck, Sparkles } from "lucide-react";
 
 export default function ProcessSection() {
   return (
-    <section id="how-it-works" className="py-20 lg:py-28 relative bg-[#F9F7F2] scroll-mt-24">
+    <section id="how-it-works" className="py-20 lg:py-28 relative bg-[#F9F7F2] dark:bg-slate-950 scroll-mt-24 transition-colors duration-200">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
           {/* Left Column: Heading & Paragraph */}
           <div className="lg:col-span-5 pt-4">
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-[1.15] mb-6">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 dark:text-slate-100 tracking-tight leading-[1.15] mb-6">
               Our Simple 3-Step <br />
               Home Repair Process
             </h2>
-            <p className="text-stone-600 text-xs sm:text-sm md:text-base leading-relaxed">
+            <p className="text-stone-600 dark:text-slate-300 text-xs sm:text-sm md:text-base leading-relaxed">
               Getting your home back in top shape is quick, transparent, and hassle-free. Here is how we connect you with trusted local repair specialists.
             </p>
           </div>
@@ -30,7 +30,7 @@ export default function ProcessSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="rounded-2xl overflow-hidden bg-white/90 border border-stone-200/70 p-4 shadow-xs"
+                className="rounded-2xl overflow-hidden bg-white/90 dark:bg-slate-900/90 border border-stone-200/70 dark:border-slate-800 p-4 shadow-2xs"
               >
                 <div className="relative h-44 w-full rounded-xl overflow-hidden mb-4">
                   <Image
@@ -42,12 +42,12 @@ export default function ProcessSection() {
                     loading="lazy"
                     className="object-cover"
                   />
-                  <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-amber-100/90 text-amber-900 text-xs font-bold shadow-xs flex items-center gap-1.5">
+                  <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-amber-100/90 dark:bg-amber-950/90 text-amber-900 dark:text-amber-300 text-xs font-bold shadow-2xs flex items-center gap-1.5 border border-amber-200/60 dark:border-amber-800">
                     <span>1. SELECT</span>
-                    <Search className="w-3.5 h-3.5 text-amber-700" />
+                    <Search className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />
                   </div>
                 </div>
-                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-stone-600 dark:text-slate-300 leading-relaxed font-normal">
                   Browse upfront pricing and select the exact AC, plumbing, electrical, or appliance repair you need.
                 </p>
               </motion.div>
@@ -58,7 +58,7 @@ export default function ProcessSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="rounded-2xl overflow-hidden bg-white/90 border border-stone-200/70 p-4 shadow-xs"
+                className="rounded-2xl overflow-hidden bg-white/90 dark:bg-slate-900/90 border border-stone-200/70 dark:border-slate-800 p-4 shadow-2xs"
               >
                 <div className="relative h-44 w-full rounded-xl overflow-hidden mb-4">
                   <Image
@@ -70,12 +70,12 @@ export default function ProcessSection() {
                     loading="lazy"
                     className="object-cover"
                   />
-                  <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-amber-100/90 text-amber-900 text-xs font-bold shadow-xs flex items-center gap-1.5">
+                  <div className="absolute bottom-3 left-3 px-3 py-1 rounded-full bg-amber-100/90 dark:bg-amber-950/90 text-amber-900 dark:text-amber-300 text-xs font-bold shadow-2xs flex items-center gap-1.5 border border-amber-200/60 dark:border-amber-800">
                     <span>2. SCHEDULE</span>
-                    <CalendarCheck className="w-3.5 h-3.5 text-amber-700" />
+                    <CalendarCheck className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />
                   </div>
                 </div>
-                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-stone-600 dark:text-slate-300 leading-relaxed font-normal">
                   Get matched with a certified, background-checked local specialist for your preferred date and time slot.
                 </p>
               </motion.div>
@@ -87,7 +87,7 @@ export default function ProcessSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="rounded-2xl overflow-hidden bg-white/90 border border-stone-200/70 p-4 shadow-xs grid grid-cols-1 sm:grid-cols-12 gap-4 items-center"
+              className="rounded-2xl overflow-hidden bg-white/90 dark:bg-slate-900/90 border border-stone-200/70 dark:border-slate-800 p-4 shadow-2xs grid grid-cols-1 sm:grid-cols-12 gap-4 items-center"
             >
               {/* Photo on left */}
               <div className="relative h-48 sm:h-52 sm:col-span-7 rounded-xl overflow-hidden">
@@ -104,11 +104,11 @@ export default function ProcessSection() {
 
               {/* RESTORE details on right */}
               <div className="sm:col-span-5 p-2">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/90 text-amber-900 text-xs font-bold mb-3">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100/90 dark:bg-amber-950/90 text-amber-900 dark:text-amber-300 text-xs font-bold mb-3 border border-amber-200/60 dark:border-amber-800">
                   <span>3. RESTORE</span>
-                  <Sparkles className="w-3.5 h-3.5 text-amber-700" />
+                  <Sparkles className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />
                 </div>
-                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-normal">
+                <p className="text-xs sm:text-sm text-stone-600 dark:text-slate-300 leading-relaxed font-normal">
                   Our expert completes the job safely and tidily, backed by our 30-day workmanship guarantee.
                 </p>
               </div>

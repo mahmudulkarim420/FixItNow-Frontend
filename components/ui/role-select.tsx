@@ -37,7 +37,7 @@ export interface RoleSelectProps {
 export function RoleSelect({ value, onChange, error }: RoleSelectProps) {
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-sm font-medium text-zinc-700">I am a...</span>
+      <span className="text-sm font-medium text-zinc-700 dark:text-slate-300">I am a...</span>
       <div className="grid grid-cols-2 gap-3">
         {OPTIONS.map((option) => {
           const active = value === option.value;
@@ -51,31 +51,31 @@ export function RoleSelect({ value, onChange, error }: RoleSelectProps) {
                 "flex min-h-32 flex-col items-start gap-2 rounded-xl border p-3.5 text-left transition-all duration-200 sm:p-4",
                 "focus:outline-none focus-visible:ring-4 focus-visible:ring-amber-500/20",
                 active
-                  ? "border-amber-500 bg-amber-50 ring-2 ring-amber-500/30"
-                  : "border-black/10 bg-white/60 hover:-translate-y-0.5 hover:border-amber-300 hover:bg-amber-50/40",
+                  ? "border-amber-500 bg-amber-50 dark:bg-amber-950/40 ring-2 ring-amber-500/30"
+                  : "border-black/10 dark:border-slate-700 bg-white/60 dark:bg-slate-900/60 hover:-translate-y-0.5 hover:border-amber-300 dark:hover:border-amber-500/50 hover:bg-amber-50/40 dark:hover:bg-slate-800",
               )}
             >
               <span
                 className={cn(
                   "flex h-9 w-9 items-center justify-center rounded-lg",
                   active
-                    ? "bg-amber-500 text-white"
-                    : "bg-zinc-100 text-zinc-500",
+                    ? "bg-amber-500 text-white dark:text-slate-950"
+                    : "bg-zinc-100 dark:bg-slate-800 text-zinc-500 dark:text-slate-400",
                 )}
               >
                 {option.icon}
               </span>
-              <span className="text-sm font-semibold text-zinc-900">
+              <span className="text-sm font-semibold text-zinc-900 dark:text-slate-100">
                 {option.label}
               </span>
-              <span className="text-xs text-zinc-500">
+              <span className="text-xs text-zinc-500 dark:text-slate-400">
                 {option.description}
               </span>
             </button>
           );
         })}
       </div>
-      {error && <p className="text-xs font-medium text-red-600">{error}</p>}
+      {error && <p className="text-xs font-medium text-red-600 dark:text-red-400">{error}</p>}
     </div>
   );
 }

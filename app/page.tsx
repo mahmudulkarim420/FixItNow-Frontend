@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-stone-900 flex flex-col font-sans selection:bg-amber-200 selection:text-amber-900">
+    <div className="min-h-screen bg-[#FAF8F5] dark:bg-slate-950 text-stone-900 dark:text-slate-100 flex flex-col font-sans selection:bg-amber-200 selection:text-amber-900 transition-colors duration-200">
       <OrganizationJsonLd baseUrl={SITE_URL} />
       <WebSiteJsonLd baseUrl={SITE_URL} />
       {/* 1. Navbar */}

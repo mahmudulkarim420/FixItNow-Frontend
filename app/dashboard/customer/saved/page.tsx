@@ -54,42 +54,42 @@ export default function CustomerSavedProsPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-stone-900 dark:text-slate-100">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-stone-900">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-stone-900 dark:text-slate-100">
             Saved Technicians & Services
           </h1>
-          <p className="mt-0.5 text-xs sm:text-sm font-medium text-stone-500">
+          <p className="mt-0.5 text-xs sm:text-sm font-medium text-stone-500 dark:text-slate-400">
             Quickly rebook trusted, verified local technicians saved in your favorites list.
           </p>
         </div>
 
         <Link
           href="/services"
-          className="flex items-center gap-1.5 rounded-2xl bg-stone-900 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-stone-800 self-start sm:self-auto"
+          className="flex items-center gap-1.5 rounded-2xl bg-stone-900 dark:bg-amber-500 dark:text-slate-950 px-4 py-2.5 text-xs font-bold text-white shadow-2xs transition hover:bg-stone-800 dark:hover:bg-amber-400 self-start sm:self-auto cursor-pointer"
         >
-          <Wrench className="h-4 w-4 text-amber-400" />
+          <Wrench className="h-4 w-4 text-amber-400 dark:text-slate-950" />
           <span>Explore Service Catalog</span>
         </Link>
       </div>
 
       {loading ? (
-        <div className="flex items-center justify-center p-12 text-stone-500">
+        <div className="flex items-center justify-center p-12 text-stone-500 dark:text-slate-400 bg-white dark:bg-slate-900 rounded-3xl border border-stone-200/80 dark:border-slate-800">
           <Loader2 className="h-6 w-6 animate-spin text-amber-500 mr-2" />
           <span className="text-xs font-bold">Loading your saved services...</span>
         </div>
       ) : savedPros.length === 0 ? (
-        <div className="rounded-3xl border border-dashed border-stone-300 bg-white p-12 text-center">
-          <Heart className="h-8 w-8 text-stone-300 mx-auto mb-2" />
-          <p className="text-stone-700 font-bold text-sm">No saved services yet</p>
-          <p className="text-stone-400 text-xs mt-1">
+        <div className="rounded-3xl border border-dashed border-stone-300 dark:border-slate-700 bg-white dark:bg-slate-900 p-12 text-center">
+          <Heart className="h-8 w-8 text-stone-300 dark:text-slate-600 mx-auto mb-2" />
+          <p className="text-stone-700 dark:text-slate-300 font-bold text-sm">No saved services yet</p>
+          <p className="text-stone-400 dark:text-slate-500 text-xs mt-1">
             Click the wishlist heart icon on any service in our catalog to save it here for fast rebooking.
           </p>
           <Link
             href="/services"
-            className="mt-4 inline-flex items-center gap-1.5 rounded-2xl bg-stone-900 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-stone-800"
+            className="mt-4 inline-flex items-center gap-1.5 rounded-2xl bg-stone-900 dark:bg-amber-500 dark:text-slate-950 px-4 py-2 text-xs font-bold text-white shadow-2xs hover:bg-stone-800 dark:hover:bg-amber-400 cursor-pointer"
           >
             Explore Verified Pros
           </Link>
@@ -100,7 +100,7 @@ export default function CustomerSavedProsPage() {
           {savedPros.map((pro) => (
             <div
               key={pro.id}
-              className="group rounded-3xl border border-stone-200/80 bg-white p-5 shadow-xs transition-all hover:shadow-md hover:-translate-y-0.5 flex flex-col justify-between"
+              className="group rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs transition-all hover:shadow-md hover:-translate-y-0.5 flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-start justify-between">
@@ -109,14 +109,14 @@ export default function CustomerSavedProsPage() {
                     <img
                       src={pro.technician?.image || pro.image}
                       alt={pro.technician?.name || pro.name}
-                      className="h-12 w-12 rounded-2xl object-cover ring-2 ring-stone-100 shadow-xs"
+                      className="h-12 w-12 rounded-2xl object-cover ring-2 ring-stone-100 dark:ring-slate-700 shadow-2xs"
                     />
                     <div>
                       <div className="flex items-center gap-1">
-                        <h3 className="text-base font-bold text-stone-900">{pro.technician?.name || pro.name}</h3>
+                        <h3 className="text-base font-bold text-stone-900 dark:text-slate-100">{pro.technician?.name || pro.name}</h3>
                         <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0" />
                       </div>
-                      <p className="text-xs text-stone-400 font-medium">{pro.name}</p>
+                      <p className="text-xs text-stone-400 dark:text-slate-500 font-medium">{pro.name}</p>
                     </div>
                   </div>
 
@@ -130,24 +130,24 @@ export default function CustomerSavedProsPage() {
                 </div>
 
                 <div className="mt-4 flex items-center justify-between text-xs font-bold">
-                  <span className="text-amber-600 flex items-center gap-1">
+                  <span className="text-amber-600 dark:text-amber-400 flex items-center gap-1">
                     <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
                     <span>{pro.rating} ★ ({pro.reviews} reviews)</span>
                   </span>
-                  <span className="text-stone-900 font-extrabold">${pro.price}.00</span>
+                  <span className="text-stone-900 dark:text-slate-100 font-extrabold">${pro.price}.00</span>
                 </div>
               </div>
 
-              <div className="mt-5 pt-3 border-t border-stone-100 flex items-center justify-between gap-2">
-                <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider">
+              <div className="mt-5 pt-3 border-t border-stone-100 dark:border-slate-800 flex items-center justify-between gap-2">
+                <span className="text-[10px] font-bold text-stone-400 dark:text-slate-500 uppercase tracking-wider">
                   {pro.category}
                 </span>
                 <Link
                   href={`/services/${pro.id}`}
-                  className="flex items-center gap-1.5 rounded-xl bg-stone-900 px-4 py-2 text-xs font-bold text-white shadow-xs hover:bg-stone-800 transition-colors"
+                  className="flex items-center gap-1.5 rounded-xl bg-stone-900 dark:bg-amber-500 dark:text-slate-950 px-4 py-2 text-xs font-bold text-white shadow-2xs hover:bg-stone-800 dark:hover:bg-amber-400 transition-colors cursor-pointer"
                 >
                   <span>Book Service</span>
-                  <ArrowUpRight className="h-3.5 w-3.5 text-amber-400" />
+                  <ArrowUpRight className="h-3.5 w-3.5 text-amber-400 dark:text-slate-950" />
                 </Link>
               </div>
             </div>

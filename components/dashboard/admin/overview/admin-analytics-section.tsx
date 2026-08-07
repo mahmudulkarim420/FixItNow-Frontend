@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Video, Plus, Wrench, Layers, Layout, Zap, CheckCircle2, Clock } from "lucide-react";
+import { Video, Wrench } from "lucide-react";
 import { getAdminBookings } from "@/lib/admin-api";
 import type { Booking } from "@/types";
 
@@ -51,9 +51,9 @@ export function AdminAnalyticsSection() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-5">
       {/* 1. Service Activity Analytics Bar Chart */}
-      <div className="md:col-span-2 lg:col-span-5 flex flex-col justify-between rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs">
+      <div className="md:col-span-2 lg:col-span-5 flex flex-col justify-between rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 shadow-2xs">
         <div className="flex items-center justify-between">
-          <h3 className="text-xs sm:text-sm font-bold text-stone-900">Service Activity & Weekly Dispatches</h3>
+          <h3 className="text-xs sm:text-sm font-bold text-stone-900 dark:text-slate-100">Service Activity & Weekly Dispatches</h3>
         </div>
 
         {/* Custom Bar Chart */}
@@ -61,7 +61,7 @@ export function AdminAnalyticsSection() {
           {weeklyData.map((item, idx) => (
             <div key={idx} className="relative flex flex-col items-center flex-1 h-full justify-end group">
               {item.label && (
-                <span className="absolute -top-7 rounded-full bg-stone-900 px-2 py-0.5 text-[9px] font-bold text-amber-400 shadow-xs animate-bounce whitespace-nowrap z-10">
+                <span className="absolute -top-7 rounded-full bg-stone-900 dark:bg-slate-800 px-2 py-0.5 text-[9px] font-bold text-amber-400 shadow-2xs animate-bounce whitespace-nowrap z-10 border border-stone-800 dark:border-slate-700">
                   {item.label}
                 </span>
               )}
@@ -70,13 +70,13 @@ export function AdminAnalyticsSection() {
                 style={{ height: item.height }}
                 className={`w-full rounded-2xl transition-all duration-300 ${
                   item.primary
-                    ? "bg-stone-900"
+                    ? "bg-stone-900 dark:bg-amber-500"
                     : item.active
-                    ? "bg-amber-500 shadow-xs"
-                    : "bg-stone-100 border border-dashed border-stone-300 group-hover:bg-stone-200"
+                    ? "bg-amber-500 dark:bg-amber-400 shadow-2xs"
+                    : "bg-stone-100 dark:bg-slate-800 border border-dashed border-stone-300 dark:border-slate-700 group-hover:bg-stone-200 dark:group-hover:bg-slate-700"
                 }`}
               />
-              <span className="mt-2.5 text-[11px] sm:text-xs font-bold text-stone-400">
+              <span className="mt-2.5 text-[11px] sm:text-xs font-bold text-stone-400 dark:text-slate-400">
                 {item.day}
               </span>
             </div>
@@ -85,14 +85,14 @@ export function AdminAnalyticsSection() {
       </div>
 
       {/* 2. Reminders Card */}
-      <div className="md:col-span-1 lg:col-span-3 flex flex-col justify-between rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs">
+      <div className="md:col-span-1 lg:col-span-3 flex flex-col justify-between rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 shadow-2xs">
         <div>
-          <h3 className="text-xs sm:text-sm font-bold text-stone-900">Dispatch Reminders</h3>
+          <h3 className="text-xs sm:text-sm font-bold text-stone-900 dark:text-slate-100">Dispatch Reminders</h3>
           <div className="mt-3 sm:mt-4 space-y-1">
-            <h4 className="text-sm sm:text-base font-bold text-stone-900 leading-snug">
+            <h4 className="text-sm sm:text-base font-bold text-stone-900 dark:text-slate-100 leading-snug">
               Field Technician Standup
             </h4>
-            <p className="text-xs font-medium text-stone-400">
+            <p className="text-xs font-medium text-stone-400 dark:text-slate-400">
               Today: 02.00 PM - 02.30 PM
             </p>
           </div>
@@ -100,39 +100,39 @@ export function AdminAnalyticsSection() {
 
         <button
           type="button"
-          className="mt-5 sm:mt-6 w-full flex items-center justify-center gap-2 rounded-2xl bg-stone-900 py-2.5 sm:py-3 text-xs font-bold text-white shadow-sm transition-all hover:bg-stone-800 active:scale-95 cursor-pointer"
+          className="mt-5 sm:mt-6 w-full flex items-center justify-center gap-2 rounded-2xl bg-stone-900 dark:bg-amber-500 dark:text-slate-950 py-2.5 sm:py-3 text-xs font-bold text-white shadow-2xs transition-all hover:bg-stone-800 dark:hover:bg-amber-400 active:scale-95 cursor-pointer"
         >
-          <Video className="h-4 w-4 text-amber-400" />
+          <Video className="h-4 w-4 text-amber-400 dark:text-slate-950" />
           <span>Start Standup</span>
         </button>
       </div>
 
       {/* 3. Recent Service Bookings */}
-      <div className="md:col-span-1 lg:col-span-4 rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs">
+      <div className="md:col-span-1 lg:col-span-4 rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 shadow-2xs">
         <div className="flex items-center justify-between mb-3.5 sm:mb-4">
-          <h3 className="text-xs sm:text-sm font-bold text-stone-900">Recent Service Requests</h3>
+          <h3 className="text-xs sm:text-sm font-bold text-stone-900 dark:text-slate-100">Recent Service Requests</h3>
         </div>
 
         <div className="space-y-3">
           {recentServiceBookings.length === 0 ? (
-            <p className="text-xs text-stone-400 font-medium py-6 text-center">
+            <p className="text-xs text-stone-400 dark:text-slate-400 font-medium py-6 text-center">
               No recent service requests in database yet.
             </p>
           ) : (
             recentServiceBookings.map((b) => (
               <div
                 key={b.id}
-                className="flex items-center justify-between group rounded-2xl p-1.5 transition-colors hover:bg-stone-50"
+                className="flex items-center justify-between group rounded-2xl p-1.5 transition-colors hover:bg-stone-50 dark:hover:bg-slate-800/80"
               >
                 <div className="flex items-center gap-3 overflow-hidden">
-                  <div className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600 border border-amber-100 shadow-xs">
+                  <div className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-800 shadow-2xs">
                     <Wrench className="h-3.5 w-3.5 sm:h-4 sm:w-4 stroke-[2.5]" />
                   </div>
                   <div className="overflow-hidden">
-                    <h4 className="text-xs font-bold text-stone-900 group-hover:text-amber-600 transition-colors truncate">
+                    <h4 className="text-xs font-bold text-stone-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors truncate">
                       {b.service?.title || "Home Repair Service"}
                     </h4>
-                    <p className="text-[10px] font-medium text-stone-400 truncate">
+                    <p className="text-[10px] font-medium text-stone-400 dark:text-slate-400 truncate">
                       Customer: {b.customer?.name || b.contactNumber}
                     </p>
                   </div>

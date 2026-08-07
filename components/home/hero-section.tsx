@@ -24,15 +24,15 @@ export default function HeroSection() {
   ];
 
   return (
-    <section className="relative pt-24 sm:pt-32 pb-16 lg:pt-36 lg:pb-28 overflow-hidden bg-[#FAF8F5]">
+    <section className="relative pt-24 sm:pt-32 pb-16 lg:pt-36 lg:pb-28 overflow-hidden bg-[#FAF8F5] dark:bg-slate-950 transition-colors duration-200">
       {/* Background Subtle Grid Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:3rem_3rem] sm:bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_20%,#000_70%,transparent_100%)] opacity-60 pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#334155_1px,transparent_1px),linear-gradient(to_bottom,#334155_1px,transparent_1px)] bg-[size:3rem_3rem] sm:bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_20%,#000_70%,transparent_100%)] opacity-60 dark:opacity-25 pointer-events-none" />
 
       {/* Bright Ambient Golden Glow */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-64 sm:h-80 bg-amber-300/40 blur-[40px] sm:blur-[60px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-64 sm:h-80 bg-amber-300/40 dark:bg-amber-500/10 blur-[40px] sm:blur-[60px] rounded-full pointer-events-none" />
 
       {/* Bottom Warm Gradient Transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 sm:h-64 bg-gradient-to-t from-[#FCD34D]/80 via-[#FDE68A]/40 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-48 sm:h-64 bg-gradient-to-t from-[#FCD34D]/80 via-[#FDE68A]/40 to-transparent dark:from-slate-950 dark:via-slate-900/40 dark:to-transparent pointer-events-none" />
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Hero Title & Floating Badges Container */}
@@ -44,11 +44,11 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="absolute -top-3 sm:-top-6 left-0 sm:-left-12 lg:-left-16 flex flex-col items-end z-20"
           >
-            <div className="animate-float-1 flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#DDF4FF] border border-[#BDE8FF] shadow-xs text-[#00A3FF] text-[10px] sm:text-xs font-bold">
+            <div className="animate-float-1 flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#DDF4FF] border border-[#BDE8FF] dark:bg-sky-950/80 dark:border-sky-800/80 shadow-xs text-[#00A3FF] dark:text-sky-300 text-[10px] sm:text-xs font-bold">
               <Wrench className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>AC & Cooling</span>
             </div>
-            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#00A3FF] fill-current mr-3 sm:mr-4 -mt-0.5 sm:-mt-1 drop-shadow-xs" viewBox="0 0 24 24">
+            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#00A3FF] dark:text-sky-400 fill-current mr-3 sm:mr-4 -mt-0.5 sm:-mt-1 drop-shadow-xs" viewBox="0 0 24 24">
               <path d="M3 3l7 18 3-7 7-3L3 3z" />
             </svg>
           </motion.div>
@@ -60,11 +60,11 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="absolute -top-3 sm:-top-6 right-0 sm:-right-10 lg:-right-12 flex flex-col items-start z-20"
           >
-            <div className="animate-float-2 flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#FFF3D6] border border-[#FFE7B3] shadow-xs text-[#E59800] text-[10px] sm:text-xs font-bold">
+            <div className="animate-float-2 flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#FFF3D6] border border-[#FFE7B3] dark:bg-amber-950/80 dark:border-amber-800/80 shadow-xs text-[#E59800] dark:text-amber-300 text-[10px] sm:text-xs font-bold">
               <Droplets className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>Plumbing Care</span>
             </div>
-            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#E59800] fill-current ml-2 -mt-0.5 sm:-mt-1 drop-shadow-xs" viewBox="0 0 24 24">
+            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#E59800] dark:text-amber-400 fill-current ml-2 -mt-0.5 sm:-mt-1 drop-shadow-xs" viewBox="0 0 24 24">
               <path d="M3 3l7 18 3-7 7-3L3 3z" />
             </svg>
           </motion.div>
@@ -76,10 +76,10 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="absolute -bottom-10 left-0 sm:-left-12 lg:-left-16 flex flex-col items-end z-20"
           >
-            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#8B5CF6] fill-current mr-2 -mb-0.5 sm:-mb-1 rotate-90 drop-shadow-xs z-10" viewBox="0 0 24 24">
+            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#8B5CF6] dark:text-purple-400 fill-current mr-2 -mb-0.5 sm:-mb-1 rotate-90 drop-shadow-xs z-10" viewBox="0 0 24 24">
               <path d="M3 3l7 18 3-7 7-3L3 3z" />
             </svg>
-            <div className="animate-float-3 flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#F0EBFF] border border-[#E1D5FF] shadow-xs text-[#8B5CF6] text-[10px] sm:text-xs font-bold">
+            <div className="animate-float-3 flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#F0EBFF] border border-[#E1D5FF] dark:bg-purple-950/80 dark:border-purple-800/80 shadow-xs text-[#8B5CF6] dark:text-purple-300 text-[10px] sm:text-xs font-bold">
               <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>Electrical Safety</span>
             </div>
@@ -92,10 +92,10 @@ export default function HeroSection() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="absolute -bottom-10 right-0 sm:-right-10 lg:-right-12 flex flex-col items-start z-20"
           >
-            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#FF5252] fill-current ml-2 -mb-0.5 sm:-mb-1 -rotate-45 drop-shadow-xs z-10" viewBox="0 0 24 24">
+            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[#FF5252] dark:text-rose-400 fill-current ml-2 -mb-0.5 sm:-mb-1 -rotate-45 drop-shadow-xs z-10" viewBox="0 0 24 24">
               <path d="M3 3l7 18 3-7 7-3L3 3z" />
             </svg>
-            <div className="animate-float-4 flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#FFEBEB] border border-[#FFD6D6] shadow-xs text-[#FF5252] text-[10px] sm:text-xs font-bold">
+            <div className="animate-float-4 flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl bg-[#FFEBEB] border border-[#FFD6D6] dark:bg-rose-950/80 dark:border-rose-800/80 shadow-xs text-[#FF5252] dark:text-rose-300 text-[10px] sm:text-xs font-bold">
               <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>Appliance Repair</span>
             </div>
@@ -106,7 +106,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-stone-900 leading-[1.18] sm:leading-[1.12] py-4 sm:py-0"
+            className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-stone-900 dark:text-slate-100 leading-[1.18] sm:leading-[1.12] py-4 sm:py-0"
           >
             Fix It Now, <br />
             Bring Comfort Home.
@@ -117,7 +117,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-4 sm:mt-6 text-xs sm:text-sm md:text-base text-stone-600 max-w-2xl mx-auto leading-relaxed font-normal px-2"
+            className="mt-4 sm:mt-6 text-xs sm:text-sm md:text-base text-stone-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal px-2"
           >
             Book certified local experts for AC, plumbing, electrical, appliance, and everyday home repairs with clear upfront pricing.
           </motion.p>
@@ -153,17 +153,17 @@ export default function HeroSection() {
                 key={idx}
                 whileHover={{ y: -4 }}
                 transition={{ duration: 0.2 }}
-                className="p-5 sm:p-7 rounded-2xl bg-white border border-stone-200/60 shadow-xs flex flex-col justify-between"
+                className="p-5 sm:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-stone-200/60 dark:border-slate-800 shadow-xs flex flex-col justify-between"
               >
                 <div>
                   {/* Golden Icon & Title */}
                   <div className="flex items-center gap-2.5 text-[#F59E0B] font-extrabold text-lg sm:text-xl mb-2.5">
                     <Icon className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.2] shrink-0" />
-                    <h3>{card.title}</h3>
+                    <h3 className="text-stone-900 dark:text-slate-100">{card.title}</h3>
                   </div>
 
                   {/* Description */}
-                  <p className="text-stone-500 text-xs sm:text-sm leading-relaxed font-normal">
+                  <p className="text-stone-500 dark:text-slate-400 text-xs sm:text-sm leading-relaxed font-normal">
                     {card.description}
                   </p>
                 </div>

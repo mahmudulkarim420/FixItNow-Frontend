@@ -145,40 +145,40 @@ export default function AdminTechniciansPage() {
   const paginatedTechs = filteredTechs.slice(startIndex, startIndex + itemsPerPage);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-stone-900 dark:text-slate-100">
       {/* Title & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-stone-900">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-stone-900 dark:text-slate-100">
             Technicians & Field Staff
           </h1>
-          <p className="mt-0.5 text-xs sm:text-sm font-medium text-stone-500">
+          <p className="mt-0.5 text-xs sm:text-sm font-medium text-stone-500 dark:text-slate-400">
             Verify technician skill profiles, monitor job completion ratings, and manage dispatches.
           </p>
         </div>
       </div>
 
       {/* Filter & Controls Bar */}
-      <div className="space-y-3 rounded-3xl border border-stone-200/80 bg-white p-4 shadow-xs">
+      <div className="space-y-3 rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-2xs">
         {/* Search Input Bar */}
         <div className="flex items-center gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400 dark:text-slate-500" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search technician name, email, skill..."
-              className="w-full rounded-2xl border border-stone-200/80 bg-stone-50 py-2 pl-10 pr-4 text-xs font-medium text-stone-900 placeholder:text-stone-400 outline-none focus:border-amber-500 focus:bg-white"
+              className="w-full rounded-2xl border border-stone-200/80 dark:border-slate-800 bg-stone-50 dark:bg-slate-800 py-2 pl-10 pr-4 text-xs font-medium text-stone-900 dark:text-slate-100 placeholder:text-stone-400 dark:placeholder:text-slate-500 outline-none focus:border-amber-500 focus:bg-white dark:focus:bg-slate-800"
             />
           </div>
         </div>
 
         {/* Verification & Skill Pills */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-1 border-t border-stone-100">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-1 border-t border-stone-100 dark:border-slate-800">
           {/* Verification Filter Pills */}
           <div className="flex items-center gap-1.5 py-1">
-            <span className="text-[11px] font-bold text-stone-400 flex items-center gap-1 mr-1">
+            <span className="text-[11px] font-bold text-stone-400 dark:text-slate-500 flex items-center gap-1 mr-1">
               <Filter className="h-3 w-3 text-amber-500" /> Status:
             </span>
             {(["ALL", "VERIFIED", "PENDING"] as const).map((v) => (
@@ -187,8 +187,8 @@ export default function AdminTechniciansPage() {
                 onClick={() => setVerifyFilter(v)}
                 className={`rounded-2xl px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
                   verifyFilter === v
-                    ? "bg-amber-500 text-stone-950 shadow-xs"
-                    : "bg-stone-50 text-stone-600 hover:bg-stone-100"
+                    ? "bg-amber-500 text-stone-950 shadow-2xs"
+                    : "bg-stone-50 dark:bg-slate-800 text-stone-600 dark:text-slate-300 hover:bg-stone-100 dark:hover:bg-slate-700"
                 }`}
               >
                 {v === "ALL" ? "All Staff" : v === "VERIFIED" ? "Verified Pros" : "Pending Verify"}
@@ -198,15 +198,15 @@ export default function AdminTechniciansPage() {
 
           {/* Skill Specialty Pills */}
           <div className="flex items-center gap-1.5 overflow-x-auto">
-            <span className="text-[11px] font-bold text-stone-400 mr-1">Skill:</span>
+            <span className="text-[11px] font-bold text-stone-400 dark:text-slate-500 mr-1">Skill:</span>
             {["ALL", "HVAC", "Plumbing", "Electrical"].map((skill) => (
               <button
                 key={skill}
                 onClick={() => setSkillFilter(skill)}
                 className={`rounded-2xl px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
                   skillFilter === skill
-                    ? "bg-stone-900 text-amber-400 shadow-xs"
-                    : "bg-stone-50 text-stone-600 hover:bg-stone-100"
+                    ? "bg-stone-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 shadow-2xs"
+                    : "bg-stone-50 dark:bg-slate-800 text-stone-600 dark:text-slate-300 hover:bg-stone-100 dark:hover:bg-slate-700"
                 }`}
               >
                 {skill}
@@ -217,15 +217,15 @@ export default function AdminTechniciansPage() {
       </div>
 
       {loading ? (
-        <div className="p-12 flex flex-col items-center justify-center gap-2 text-stone-500 bg-white rounded-3xl border border-stone-200/80">
+        <div className="p-12 flex flex-col items-center justify-center gap-2 text-stone-500 dark:text-slate-400 bg-white dark:bg-slate-900 rounded-3xl border border-stone-200/80 dark:border-slate-800">
           <Loader2 className="h-6 w-6 animate-spin text-amber-500" />
           <span className="text-xs font-bold">Loading technician roster...</span>
         </div>
       ) : filteredTechs.length === 0 ? (
-        <div className="p-12 flex flex-col items-center justify-center gap-2 text-stone-400 bg-white rounded-3xl border border-stone-200/80 text-center">
-          <UserX className="h-10 w-10 text-stone-300 stroke-[1.5]" />
-          <h3 className="text-sm font-bold text-stone-700">No Technicians Found</h3>
-          <p className="text-xs text-stone-400 max-w-sm">
+        <div className="p-12 flex flex-col items-center justify-center gap-2 text-stone-400 dark:text-slate-500 bg-white dark:bg-slate-900 rounded-3xl border border-stone-200/80 dark:border-slate-800 text-center">
+          <UserX className="h-10 w-10 text-stone-300 dark:text-slate-600 stroke-[1.5]" />
+          <h3 className="text-sm font-bold text-stone-700 dark:text-slate-300">No Technicians Found</h3>
+          <p className="text-xs text-stone-400 dark:text-slate-500 max-w-sm">
             {searchTerm || verifyFilter !== "ALL" || skillFilter !== "ALL"
               ? "No technicians match your filter criteria."
               : "No technicians registered in database yet."}
@@ -238,7 +238,7 @@ export default function AdminTechniciansPage() {
             {paginatedTechs.map((tech) => (
               <div
                 key={tech.id}
-                className="rounded-3xl border border-stone-200/80 bg-white p-5 shadow-xs transition-all hover:shadow-md flex flex-col justify-between"
+                className="rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-2xs transition-all hover:shadow-md flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-start justify-between">
@@ -247,26 +247,26 @@ export default function AdminTechniciansPage() {
                       <img
                         src={tech.avatar}
                         alt={tech.name}
-                        className="h-12 w-12 rounded-2xl object-cover ring-2 ring-stone-100 shadow-xs"
+                        className="h-12 w-12 rounded-2xl object-cover ring-2 ring-stone-100 dark:ring-slate-700 shadow-2xs"
                       />
                       <div>
                         <div className="flex items-center gap-1.5">
-                          <h3 className="text-base font-bold text-stone-900">{tech.name}</h3>
+                          <h3 className="text-base font-bold text-stone-900 dark:text-slate-100">{tech.name}</h3>
                           {tech.isVerified ? (
                             <ShieldCheck className="h-4 w-4 text-emerald-500" />
                           ) : (
                             <AlertTriangle className="h-4 w-4 text-amber-500" />
                           )}
                         </div>
-                        <p className="text-xs text-stone-400 font-medium">{tech.email}</p>
+                        <p className="text-xs text-stone-400 dark:text-slate-500 font-medium">{tech.email}</p>
                       </div>
                     </div>
 
                     <span
                       className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${
                         tech.isVerified
-                          ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
-                          : "bg-amber-50 text-amber-700 border border-amber-100"
+                          ? "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-800"
+                          : "bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-100 dark:border-amber-800"
                       }`}
                     >
                       {tech.isVerified ? "Verified Pro" : "Pending Verify"}
@@ -278,7 +278,7 @@ export default function AdminTechniciansPage() {
                     {tech.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="rounded-full bg-stone-100 px-2.5 py-0.5 text-[10px] font-bold text-stone-700"
+                        className="rounded-full bg-stone-100 dark:bg-slate-800 px-2.5 py-0.5 text-[10px] font-bold text-stone-700 dark:text-slate-300"
                       >
                         🔧 {skill}
                       </span>
@@ -286,10 +286,10 @@ export default function AdminTechniciansPage() {
                   </div>
                 </div>
 
-                <div className="mt-5 pt-3 border-t border-stone-100 flex items-center justify-end text-right">
+                <div className="mt-5 pt-3 border-t border-stone-100 dark:border-slate-800 flex items-center justify-end text-right">
                   <div>
-                    <span className="text-xs font-extrabold text-stone-900 block">{tech.hourlyRate}</span>
-                    <span className="block text-[10px] font-semibold text-amber-600">{tech.rating}</span>
+                    <span className="text-xs font-extrabold text-stone-900 dark:text-slate-100 block">{tech.hourlyRate}</span>
+                    <span className="block text-[10px] font-semibold text-amber-600 dark:text-amber-400">{tech.rating}</span>
                   </div>
                 </div>
               </div>
@@ -297,20 +297,20 @@ export default function AdminTechniciansPage() {
           </div>
 
           {/* Pagination Controls Footer */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 rounded-3xl border border-stone-200/80 bg-white p-4 shadow-xs">
-            <span className="text-xs font-semibold text-stone-500">
-              Showing <span className="font-extrabold text-stone-900">{startIndex + 1}</span>–
-              <span className="font-extrabold text-stone-900">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-2xs text-stone-900 dark:text-slate-100">
+            <span className="text-xs font-semibold text-stone-500 dark:text-slate-400">
+              Showing <span className="font-extrabold text-stone-900 dark:text-slate-100">{startIndex + 1}</span>–
+              <span className="font-extrabold text-stone-900 dark:text-slate-100">
                 {Math.min(startIndex + itemsPerPage, filteredTechs.length)}
               </span>{" "}
-              of <span className="font-extrabold text-stone-900">{filteredTechs.length}</span> technicians
+              of <span className="font-extrabold text-stone-900 dark:text-slate-100">{filteredTechs.length}</span> technicians
             </span>
 
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                 disabled={currentPage === 1}
-                className="flex h-9 w-9 items-center justify-center rounded-2xl border border-stone-200 bg-white text-stone-600 hover:bg-stone-50 disabled:opacity-40 cursor-pointer transition-colors"
+                className="flex h-9 w-9 items-center justify-center rounded-2xl border border-stone-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-stone-600 dark:text-slate-300 hover:bg-stone-50 dark:hover:bg-slate-700 disabled:opacity-40 cursor-pointer transition-colors"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -322,8 +322,8 @@ export default function AdminTechniciansPage() {
                     onClick={() => setCurrentPage(pageNum)}
                     className={`h-9 w-9 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
                       currentPage === pageNum
-                        ? "bg-amber-500 text-stone-950 shadow-xs"
-                        : "bg-stone-50 text-stone-600 hover:bg-stone-100"
+                        ? "bg-amber-500 text-stone-950 shadow-2xs"
+                        : "bg-stone-50 dark:bg-slate-800 text-stone-600 dark:text-slate-300 hover:bg-stone-100 dark:hover:bg-slate-700"
                     }`}
                   >
                     {pageNum}
@@ -334,7 +334,7 @@ export default function AdminTechniciansPage() {
               <button
                 onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className="flex h-9 w-9 items-center justify-center rounded-2xl border border-stone-200 bg-white text-stone-600 hover:bg-stone-50 disabled:opacity-40 cursor-pointer transition-colors"
+                className="flex h-9 w-9 items-center justify-center rounded-2xl border border-stone-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-stone-600 dark:text-slate-300 hover:bg-stone-50 dark:hover:bg-slate-700 disabled:opacity-40 cursor-pointer transition-colors"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>

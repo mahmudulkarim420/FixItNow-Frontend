@@ -90,7 +90,6 @@ function formatDate(dateStr?: string): string {
 
 export default function TestimonialsSection() {
   const [reviews, setReviews] = useState<DisplayReview[]>(FALLBACK_REVIEWS);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function loadTopReviews() {
@@ -109,8 +108,6 @@ export default function TestimonialsSection() {
               ? `— ${customerName} (Service: ${serviceTitle})`
               : `— ${customerName}, ${serviceTitle}`;
 
-            // Asymmetrical layout grid spans
-            // Index 0: col-span-7 (Yellow), 1: col-span-5 (White), 2: col-span-5 (White), 3: col-span-7 (Yellow), etc.
             const isYellowBg = idx % 3 === 0 || idx % 4 === 0;
             const colSpan =
               idx % 4 === 0 || idx % 4 === 3
@@ -134,8 +131,6 @@ export default function TestimonialsSection() {
         }
       } catch (error) {
         console.error("Failed to load top reviews:", error);
-      } finally {
-        setIsLoading(false);
       }
     }
 
@@ -143,14 +138,14 @@ export default function TestimonialsSection() {
   }, []);
 
   return (
-    <section id="testimonials" className="py-20 lg:py-28 relative bg-[#F9F7F2]">
+    <section id="testimonials" className="py-20 lg:py-28 relative bg-[#F9F7F2] dark:bg-slate-900 transition-colors duration-200">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight mb-4">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 dark:text-slate-100 tracking-tight mb-4">
             {"What Homeowners Are Saying"}
           </h2>
-          <p className="text-stone-600 text-xs sm:text-sm md:text-base leading-relaxed">
+          <p className="text-stone-600 dark:text-slate-300 text-xs sm:text-sm md:text-base leading-relaxed">
             Read top authentic reviews from real clients who restored their home comfort with FixItNow.
           </p>
         </div>
@@ -166,14 +161,14 @@ export default function TestimonialsSection() {
               transition={{ duration: 0.4, delay: idx * 0.08 }}
               className={`${review.colSpan} p-6 sm:p-7 rounded-2xl border transition-all duration-200 flex flex-col justify-between hover:shadow-md ${
                 review.isYellowBg
-                  ? "bg-[#FFF9E6] border-amber-200/90 shadow-2xs"
-                  : "bg-white border-amber-200/50 shadow-2xs"
+                  ? "bg-[#FFF9E6] border-amber-200/90 dark:bg-amber-950/30 dark:border-amber-800/60 shadow-2xs"
+                  : "bg-white border-amber-200/50 dark:bg-slate-800/90 dark:border-slate-700/80 shadow-2xs"
               }`}
             >
               <div>
                 {/* Header: Avatar + Name + Star Rating */}
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0 border border-stone-200 bg-stone-100">
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden shrink-0 border border-stone-200 dark:border-slate-700 bg-stone-100 dark:bg-slate-800">
                     <Image
                       src={review.avatar}
                       alt={review.name}
@@ -185,7 +180,7 @@ export default function TestimonialsSection() {
                     />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-stone-900 leading-tight">
+                    <h3 className="text-lg font-bold text-stone-900 dark:text-slate-100 leading-tight">
                       {review.name}
                     </h3>
                     {/* Dynamic Star Rating */}
@@ -196,14 +191,14 @@ export default function TestimonialsSection() {
                           className={`w-4 h-4 ${
                             i < review.rating
                               ? "fill-amber-400 text-amber-400"
-                              : "fill-stone-200 text-stone-200"
+                              : "fill-stone-200 text-stone-200 dark:fill-slate-700 dark:text-slate-700"
                           }`}
                           viewBox="0 0 24 24"
                         >
                           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                         </svg>
                       ))}
-                      <span className="text-xs font-semibold text-stone-500 ml-1">
+                      <span className="text-xs font-semibold text-stone-500 dark:text-slate-400 ml-1">
                         {review.rating}.0
                       </span>
                     </div>
@@ -211,18 +206,18 @@ export default function TestimonialsSection() {
                 </div>
 
                 {/* Review Text */}
-                <p className="text-stone-600 text-sm leading-relaxed mb-3">
+                <p className="text-stone-600 dark:text-slate-300 text-sm leading-relaxed mb-3">
                   &ldquo;{review.text}&rdquo;
                 </p>
 
                 {/* Author Sign */}
-                <p className="text-stone-600 text-sm font-medium mb-6">
+                <p className="text-stone-600 dark:text-slate-400 text-sm font-medium mb-6">
                   {review.authorSign}
                 </p>
               </div>
 
               {/* Date */}
-              <div className="text-sm font-bold text-stone-900">
+              <div className="text-sm font-bold text-stone-900 dark:text-slate-100">
                 {review.date}
               </div>
             </motion.div>

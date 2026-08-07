@@ -49,14 +49,14 @@ export function Avatar({
           src={src}
           alt={name}
           className={cn(
-            "rounded-full object-cover ring-2 ring-white shadow-sm",
+            "rounded-full object-cover ring-2 ring-white dark:ring-slate-800 shadow-xs",
             SIZE_CLASSES[size],
           )}
         />
       ) : (
         <span
           className={cn(
-            "inline-flex items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-amber-600 font-bold text-white ring-2 ring-white shadow-sm",
+            "inline-flex items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-amber-600 font-bold text-white ring-2 ring-white dark:ring-slate-800 shadow-xs",
             SIZE_CLASSES[size],
           )}
         >
@@ -67,7 +67,7 @@ export function Avatar({
       {showStatus && (
         <span
           className={cn(
-            "absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-white",
+            "absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-white dark:border-slate-800",
             isActive ? "bg-emerald-500" : "bg-rose-500",
           )}
           aria-label={isActive ? "Active" : "Banned"}

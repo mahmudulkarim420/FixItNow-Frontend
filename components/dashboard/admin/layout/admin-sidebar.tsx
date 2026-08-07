@@ -46,7 +46,7 @@ const NAV_GROUPS: NavGroup[] = [
         href: "/dashboard/admin/bookings",
         icon: Calendar,
         badge: "Live",
-        badgeColor: "bg-amber-100 text-amber-900 font-bold",
+        badgeColor: "bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 font-bold",
       },
       {
         name: "Services",
@@ -68,14 +68,14 @@ const NAV_GROUPS: NavGroup[] = [
         href: "/dashboard/admin/applications",
         icon: UserCheck,
         badge: "New",
-        badgeColor: "bg-amber-100 text-amber-900 font-bold",
+        badgeColor: "bg-amber-100 dark:bg-amber-950/80 text-amber-900 dark:text-amber-300 font-bold",
       },
       {
         name: "Technicians",
         href: "/dashboard/admin/technicians",
         icon: UserCheck,
         badge: "Verify",
-        badgeColor: "bg-emerald-100 text-emerald-800 font-bold",
+        badgeColor: "bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 font-bold",
       },
       {
         name: "Users",
@@ -145,7 +145,7 @@ export function AdminSidebar({ mobileOpen, onCloseMobile }: AdminSidebarProps) {
         {/* Brand Logo Header */}
         <div className="flex items-center justify-between px-2 py-2 mb-4 shrink-0">
           <Link href="/" onClick={onCloseMobile} className="flex items-center gap-3 group">
-            <div className="relative h-10 w-10 rounded-full overflow-hidden shrink-0 flex items-center justify-center border border-stone-200 bg-white">
+            <div className="relative h-10 w-10 rounded-full overflow-hidden shrink-0 flex items-center justify-center border border-stone-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-2xs">
               <Image
                 src="/logo.png"
                 alt="FixItNow Logo"
@@ -154,10 +154,10 @@ export function AdminSidebar({ mobileOpen, onCloseMobile }: AdminSidebarProps) {
               />
             </div>
             <div>
-              <span className="font-bold text-xl tracking-tight text-stone-900">
+              <span className="font-bold text-xl tracking-tight text-stone-900 dark:text-slate-100">
                 FixItNow<span className="text-amber-500 font-extrabold">.</span>
               </span>
-              <span className="block text-[10px] font-semibold text-stone-400 uppercase tracking-wider">
+              <span className="block text-[10px] font-semibold text-stone-400 dark:text-slate-400 uppercase tracking-wider">
                 Admin Console
               </span>
             </div>
@@ -169,7 +169,7 @@ export function AdminSidebar({ mobileOpen, onCloseMobile }: AdminSidebarProps) {
               type="button"
               onClick={onCloseMobile}
               aria-label="Close sidebar"
-              className="lg:hidden flex h-8 w-8 items-center justify-center rounded-xl text-stone-400 hover:bg-stone-100 hover:text-stone-700 transition-colors"
+              className="lg:hidden flex h-8 w-8 items-center justify-center rounded-xl text-stone-400 dark:text-slate-400 hover:bg-stone-100 dark:hover:bg-slate-800 hover:text-stone-700 dark:hover:text-slate-200 transition-colors"
             >
               <X className="h-5 w-5" />
             </button>
@@ -180,7 +180,7 @@ export function AdminSidebar({ mobileOpen, onCloseMobile }: AdminSidebarProps) {
         <div className="space-y-5 flex-1">
           {NAV_GROUPS.map((group) => (
             <div key={group.title}>
-              <p className="px-3 text-[10px] font-extrabold text-stone-400 uppercase tracking-wider mb-1.5">
+              <p className="px-3 text-[10px] font-extrabold text-stone-400 dark:text-slate-400 uppercase tracking-wider mb-1.5">
                 {group.title}
               </p>
               <nav className="space-y-0.5">
@@ -196,15 +196,15 @@ export function AdminSidebar({ mobileOpen, onCloseMobile }: AdminSidebarProps) {
                       className={cn(
                         "group flex items-center justify-between rounded-2xl px-3 py-2.5 text-xs font-semibold transition-all duration-200",
                         isActive
-                          ? "bg-amber-500 text-stone-950 shadow-xs font-bold"
-                          : "text-stone-600 hover:bg-stone-100 hover:text-stone-900"
+                          ? "bg-amber-500 text-stone-950 shadow-2xs font-bold"
+                          : "text-stone-600 dark:text-slate-300 hover:bg-stone-100 dark:hover:bg-slate-800/80 hover:text-stone-900 dark:hover:text-slate-100"
                       )}
                     >
                       <div className="flex items-center gap-2.5">
                         <Icon
                           className={cn(
                             "h-4 w-4 transition-transform duration-200 group-hover:scale-110",
-                            isActive ? "text-stone-950" : "text-stone-400 group-hover:text-stone-900"
+                            isActive ? "text-stone-950" : "text-stone-400 dark:text-slate-400 group-hover:text-stone-900 dark:group-hover:text-slate-100"
                           )}
                         />
                         <span>{item.name}</span>
@@ -228,14 +228,14 @@ export function AdminSidebar({ mobileOpen, onCloseMobile }: AdminSidebarProps) {
           ))}
 
           {/* Logout Action */}
-          <div className="pt-2 border-t border-stone-100">
+          <div className="pt-2 border-t border-stone-100 dark:border-slate-800">
             <button
               type="button"
               onClick={handleLogout}
-              className="w-full group flex items-center justify-between rounded-2xl px-3 py-2.5 text-xs font-semibold text-rose-600 transition-all duration-200 hover:bg-rose-50 cursor-pointer"
+              className="w-full group flex items-center justify-between rounded-2xl px-3 py-2.5 text-xs font-semibold text-rose-600 dark:text-rose-400 transition-all duration-200 hover:bg-rose-50 dark:hover:bg-rose-950/30 cursor-pointer"
             >
               <div className="flex items-center gap-2.5">
-                <LogOut className="h-4 w-4 text-rose-500 transition-transform group-hover:scale-110" />
+                <LogOut className="h-4 w-4 text-rose-500 dark:text-rose-400 transition-transform group-hover:scale-110" />
                 <span>Logout</span>
               </div>
             </button>
@@ -248,7 +248,7 @@ export function AdminSidebar({ mobileOpen, onCloseMobile }: AdminSidebarProps) {
   return (
     <>
       {/* 1. Desktop Permanent Sidebar */}
-      <aside className="hidden lg:flex w-64 shrink-0 flex-col justify-between rounded-3xl bg-white p-4 sm:p-5 border border-stone-200/70 shadow-sm min-h-[calc(100vh-2.5rem)]">
+      <aside className="hidden lg:flex w-64 shrink-0 flex-col justify-between rounded-3xl bg-white dark:bg-slate-900 p-4 sm:p-5 border border-stone-200/70 dark:border-slate-800 shadow-2xs min-h-[calc(100vh-2.5rem)] transition-colors">
         {SidebarContent}
       </aside>
 
@@ -271,7 +271,7 @@ export function AdminSidebar({ mobileOpen, onCloseMobile }: AdminSidebarProps) {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 280 }}
-              className="fixed inset-y-0 left-0 w-72 bg-white p-4 shadow-2xl flex flex-col justify-between"
+              className="fixed inset-y-0 left-0 w-72 bg-white dark:bg-slate-900 p-4 shadow-2xl flex flex-col justify-between"
             >
               {SidebarContent}
             </motion.div>

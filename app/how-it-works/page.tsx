@@ -39,7 +39,7 @@ const steps = [
     description:
       "Choose from AC repair, plumbing, electrical, appliance, or home care. See clear upfront starting prices before you book.",
     icon: Search,
-    color: "bg-sky-500/10 text-sky-600 border-sky-200",
+    color: "bg-sky-500/10 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-800",
   },
   {
     step: "02",
@@ -47,7 +47,7 @@ const steps = [
     description:
       "Pick a convenient appointment slot that fits your schedule, or select emergency same-day dispatch for urgent leaks and cooling issues.",
     icon: CalendarCheck,
-    color: "bg-amber-500/10 text-amber-600 border-amber-200",
+    color: "bg-amber-500/10 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800",
   },
   {
     step: "03",
@@ -55,7 +55,7 @@ const steps = [
     description:
       "A background-checked, licensed specialist arrives equipped with tools and parts, inspects the problem, and confirms the repair plan.",
     icon: Wrench,
-    color: "bg-indigo-500/10 text-indigo-600 border-indigo-200",
+    color: "bg-indigo-500/10 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800",
   },
   {
     step: "04",
@@ -63,7 +63,7 @@ const steps = [
     description:
       "Work is completed cleanly and tested for full performance. All repairs are backed by our 30-day 100% satisfaction guarantee.",
     icon: ShieldCheck,
-    color: "bg-emerald-500/10 text-emerald-600 border-emerald-200",
+    color: "bg-emerald-500/10 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800",
   },
 ];
 
@@ -115,23 +115,23 @@ const faqs = [
 
 export default function HowItWorksPage() {
   return (
-    <div className="min-h-screen bg-[#F9F7F2] text-stone-900 selection:bg-amber-200 selection:text-amber-950">
+    <div className="min-h-screen bg-[#F9F7F2] dark:bg-slate-950 text-stone-900 dark:text-slate-100 selection:bg-amber-200 selection:text-amber-950 transition-colors duration-200">
       <Navbar />
 
       <main className="pt-20 sm:pt-24">
         {/* Header Hero Section */}
         <section className="relative overflow-hidden px-4 pb-12 pt-12 sm:px-6 sm:pb-16 sm:pt-20 lg:px-8">
-          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#e7e5e4_1px,transparent_1px),linear-gradient(to_bottom,#e7e5e4_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-35 [mask-image:radial-gradient(ellipse_65%_75%_at_50%_30%,#000,transparent)]" />
-          <div className="pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full bg-amber-300/35 blur-3xl" />
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#e7e5e4_1px,transparent_1px),linear-gradient(to_bottom,#e7e5e4_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#334155_1px,transparent_1px),linear-gradient(to_bottom,#334155_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-35 dark:opacity-20 [mask-image:radial-gradient(ellipse_65%_75%_at_50%_30%,#000,transparent)]" />
+          <div className="pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full bg-amber-300/35 dark:bg-amber-500/10 blur-3xl" />
 
           <div className="relative mx-auto max-w-7xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3.5 py-1.5 text-xs font-bold text-amber-800">
+            <span className="inline-flex items-center gap-2 rounded-full border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/60 px-3.5 py-1.5 text-xs font-bold text-amber-800 dark:text-amber-300">
               <Sparkles className="h-3.5 w-3.5" /> Simple, Transparent & Reliable
             </span>
-            <h1 className="mx-auto mt-6 max-w-4xl text-3xl font-extrabold tracking-[-0.045em] text-stone-950 sm:text-5xl lg:text-6xl">
+            <h1 className="mx-auto mt-6 max-w-4xl text-3xl font-extrabold tracking-[-0.045em] text-stone-950 dark:text-slate-100 sm:text-5xl lg:text-6xl">
               How FixItNow Works for Your Home.
             </h1>
-            <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-stone-600 sm:text-base lg:text-lg">
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-stone-600 dark:text-slate-300 sm:text-base lg:text-lg">
               From instant booking to completed repair, see how we connect you with background-checked local experts in 4 easy steps.
             </p>
           </div>
@@ -143,11 +143,11 @@ export default function HowItWorksPage() {
             {steps.map(({ step, title, description, icon: Icon, color }) => (
               <div
                 key={step}
-                className="relative flex flex-col justify-between rounded-3xl border border-stone-200/80 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md sm:p-7"
+                className="relative flex flex-col justify-between rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xs transition hover:-translate-y-1 hover:shadow-md sm:p-7"
               >
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="text-2xl font-black tracking-tight text-stone-300">
+                    <span className="text-2xl font-black tracking-tight text-stone-300 dark:text-slate-600">
                       {step}
                     </span>
                     <div
@@ -156,10 +156,10 @@ export default function HowItWorksPage() {
                       <Icon className="h-5.5 w-5.5" />
                     </div>
                   </div>
-                  <h3 className="mt-6 text-lg font-bold text-stone-900">
+                  <h3 className="mt-6 text-lg font-bold text-stone-900 dark:text-slate-100">
                     {title}
                   </h3>
-                  <p className="mt-2.5 text-xs leading-6 text-stone-500 sm:text-sm">
+                  <p className="mt-2.5 text-xs leading-6 text-stone-500 dark:text-slate-400 sm:text-sm">
                     {description}
                   </p>
                 </div>
@@ -171,7 +171,7 @@ export default function HowItWorksPage() {
           <div className="mt-10 flex justify-center">
             <Link
               href="/services"
-              className="inline-flex items-center gap-2 rounded-full bg-amber-500 px-7 py-3.5 text-sm font-bold text-stone-950 shadow-md transition hover:bg-amber-400"
+              className="inline-flex items-center gap-2 rounded-full bg-amber-500 dark:bg-amber-500 dark:text-slate-950 px-7 py-3.5 text-sm font-bold text-stone-950 shadow-md transition hover:bg-amber-400"
             >
               <span>Browse All Services</span>
               <ArrowRight className="h-4 w-4" />
@@ -180,16 +180,16 @@ export default function HowItWorksPage() {
         </section>
 
         {/* Trust & Vetting Standards */}
-        <section className="border-y border-stone-200/80 bg-white/70 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+        <section className="border-y border-stone-200/80 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
           <div className="mx-auto max-w-7xl">
             <div className="max-w-3xl">
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-700 dark:text-amber-400">
                 Our Expert Quality Standard
               </p>
-              <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-stone-950 sm:text-3xl lg:text-4xl">
+              <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-stone-950 dark:text-slate-100 sm:text-3xl lg:text-4xl">
                 Every pro is vetted so you can rest easy.
               </h2>
-              <p className="mt-4 text-xs sm:text-sm md:text-base text-stone-600">
+              <p className="mt-4 text-xs sm:text-sm md:text-base text-stone-600 dark:text-slate-300">
                 We believe bringing someone into your home requires total trust. Here is how we ensure top-quality service on every visit.
               </p>
             </div>
@@ -198,15 +198,15 @@ export default function HowItWorksPage() {
               {trustPillars.map(({ title, description, icon: Icon }) => (
                 <div
                   key={title}
-                  className="rounded-2xl border border-stone-200/80 bg-white p-6 shadow-xs"
+                  className="rounded-2xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xs"
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 text-amber-700">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-400">
                     <Icon className="h-5 w-5" />
                   </div>
-                  <h3 className="mt-4 text-sm font-bold text-stone-900">
+                  <h3 className="mt-4 text-sm font-bold text-stone-900 dark:text-slate-100">
                     {title}
                   </h3>
-                  <p className="mt-2 text-xs leading-5 text-stone-500">
+                  <p className="mt-2 text-xs leading-5 text-stone-500 dark:text-slate-400">
                     {description}
                   </p>
                 </div>
@@ -218,10 +218,10 @@ export default function HowItWorksPage() {
         {/* FAQ Section */}
         <section className="mx-auto max-w-5xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
           <div className="text-center">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-stone-100 px-3 py-1 text-xs font-bold text-stone-700">
-              <HelpCircle className="h-3.5 w-3.5 text-amber-600" /> Got Questions?
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-stone-100 dark:bg-slate-800 px-3 py-1 text-xs font-bold text-stone-700 dark:text-slate-300">
+              <HelpCircle className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" /> Got Questions?
             </span>
-            <h2 className="mt-4 text-2xl font-extrabold tracking-tight text-stone-950 sm:text-3xl lg:text-4xl">
+            <h2 className="mt-4 text-2xl font-extrabold tracking-tight text-stone-950 dark:text-slate-100 sm:text-3xl lg:text-4xl">
               Frequently Asked Questions
             </h2>
           </div>
@@ -230,10 +230,10 @@ export default function HowItWorksPage() {
             {faqs.map(({ q, a }) => (
               <div
                 key={q}
-                className="rounded-2xl border border-stone-200/80 bg-white p-6 shadow-xs"
+                className="rounded-2xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xs"
               >
-                <h3 className="text-base font-bold text-stone-900">{q}</h3>
-                <p className="mt-2.5 text-xs leading-6 text-stone-600 sm:text-sm">
+                <h3 className="text-base font-bold text-stone-900 dark:text-slate-100">{q}</h3>
+                <p className="mt-2.5 text-xs leading-6 text-stone-600 dark:text-slate-400 sm:text-sm">
                   {a}
                 </p>
               </div>
@@ -242,7 +242,7 @@ export default function HowItWorksPage() {
         </section>
 
         {/* Final CTA Banner */}
-        <section className="bg-stone-900 px-4 py-16 text-white sm:px-6 sm:py-20 lg:px-8">
+        <section className="bg-stone-900 dark:bg-slate-900 border-t border-stone-800 dark:border-slate-800 px-4 py-16 text-white sm:px-6 sm:py-20 lg:px-8">
           <div className="mx-auto max-w-7xl text-center">
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-amber-400">
               Ready to get started?
@@ -250,7 +250,7 @@ export default function HowItWorksPage() {
             <h2 className="mt-4 text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
               Your home repair is just a few clicks away.
             </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-stone-300 sm:text-base">
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-stone-300 dark:text-slate-300 sm:text-base">
               Book a verified specialist today with clear pricing and our 30-day service guarantee.
             </p>
             <div className="mt-8 flex justify-center">

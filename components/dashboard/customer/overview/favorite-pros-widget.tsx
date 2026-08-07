@@ -34,12 +34,12 @@ export function CustomerWidget() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-5">
       {/* 1. Favorite / Saved Technicians (5 cols wide on desktop) */}
-      <div className="md:col-span-2 lg:col-span-5 rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs">
+      <div className="md:col-span-2 lg:col-span-5 rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 shadow-2xs">
         <div className="flex items-center justify-between mb-3.5 sm:mb-4">
-          <h3 className="text-xs sm:text-sm font-bold text-stone-900">
+          <h3 className="text-xs sm:text-sm font-bold text-stone-900 dark:text-slate-100">
             Favorite Technicians
           </h3>
-          <Link href="/services" className="text-[11px] font-bold text-amber-600 hover:underline">
+          <Link href="/services" className="text-[11px] font-bold text-amber-600 dark:text-amber-400 hover:underline">
             View Catalog →
           </Link>
         </div>
@@ -48,36 +48,36 @@ export function CustomerWidget() {
           {SAVED_PROS.map((pro) => (
             <div
               key={pro.id}
-              className="flex items-center justify-between gap-2 rounded-2xl p-2 bg-stone-50/80 border border-stone-100 transition-colors hover:bg-stone-100/80"
+              className="flex items-center justify-between gap-2 rounded-2xl p-2 bg-stone-50/80 dark:bg-slate-800/80 border border-stone-100 dark:border-slate-700 transition-colors hover:bg-stone-100/80 dark:hover:bg-slate-800"
             >
               <div className="flex items-center gap-3 overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={pro.avatar}
                   alt={pro.name}
-                  className="h-9 w-9 rounded-xl object-cover ring-1 ring-stone-200 shrink-0"
+                  className="h-9 w-9 rounded-xl object-cover ring-1 ring-stone-200 dark:ring-slate-700 shrink-0"
                 />
                 <div className="overflow-hidden">
                   <div className="flex items-center gap-1">
-                    <h4 className="text-xs font-bold text-stone-900 truncate">
+                    <h4 className="text-xs font-bold text-stone-900 dark:text-slate-100 truncate">
                       {pro.name}
                     </h4>
                     <ShieldCheck className="h-3 w-3 text-emerald-500 shrink-0" />
                   </div>
-                  <p className="text-[10px] font-medium text-stone-400 truncate">
+                  <p className="text-[10px] font-medium text-stone-400 dark:text-slate-400 truncate">
                     {pro.specialty} • {pro.jobsDone} jobs
                   </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
-                <span className="flex items-center gap-0.5 text-[10px] font-extrabold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">
+                <span className="flex items-center gap-0.5 text-[10px] font-extrabold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 rounded-full border border-amber-200/50 dark:border-amber-800/50">
                   <Star className="h-3 w-3 fill-amber-500 text-amber-500" />
                   <span>{pro.rating}</span>
                 </span>
                 <Link
                   href="/services"
-                  className="rounded-xl bg-stone-900 px-2.5 py-1 text-[10px] font-bold text-white transition hover:bg-stone-800"
+                  className="rounded-xl bg-stone-900 dark:bg-amber-500 dark:text-slate-950 px-2.5 py-1 text-[10px] font-bold text-white transition hover:bg-stone-800 dark:hover:bg-amber-400"
                 >
                   Book
                 </Link>
@@ -88,8 +88,8 @@ export function CustomerWidget() {
       </div>
 
       {/* 2. Home Maintenance Health Score semi-circle gauge (4 cols wide on desktop) */}
-      <div className="md:col-span-1 lg:col-span-4 rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs flex flex-col justify-between">
-        <h3 className="text-xs sm:text-sm font-bold text-stone-900">Home Health Score</h3>
+      <div className="md:col-span-1 lg:col-span-4 rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 shadow-2xs flex flex-col justify-between">
+        <h3 className="text-xs sm:text-sm font-bold text-stone-900 dark:text-slate-100">Home Health Score</h3>
 
         {/* Semi Circle Gauge SVG */}
         <div className="relative my-3 sm:my-4 flex flex-col items-center justify-center">
@@ -98,7 +98,7 @@ export function CustomerWidget() {
             <path
               d="M 25 100 A 75 75 0 0 1 175 100"
               fill="none"
-              stroke="#EAE8E4"
+              className="stroke-[#EAE8E4] dark:stroke-slate-800"
               strokeWidth="18"
               strokeLinecap="round"
             />
@@ -114,17 +114,17 @@ export function CustomerWidget() {
           </svg>
 
           <div className="absolute top-12 sm:top-14 text-center">
-            <span className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
+            <span className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-slate-100 tracking-tight">
               85%
             </span>
-            <span className="block text-[10px] sm:text-[11px] font-semibold text-emerald-600">
+            <span className="block text-[10px] sm:text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
               Optimal Health
             </span>
           </div>
         </div>
 
         {/* Legends at bottom */}
-        <div className="flex items-center justify-around text-[10px] font-bold text-stone-600 border-t border-stone-100 pt-3">
+        <div className="flex items-center justify-around text-[10px] font-bold text-stone-600 dark:text-slate-300 border-t border-stone-100 dark:border-slate-800 pt-3">
           <div className="flex items-center gap-1.5">
             <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
             <span>HVAC Checked</span>
@@ -141,7 +141,7 @@ export function CustomerWidget() {
       </div>
 
       {/* 3. Emergency 24/7 Dispatch Card (3 cols wide on desktop) */}
-      <div className="md:col-span-1 lg:col-span-3 relative overflow-hidden rounded-3xl bg-stone-900 p-4 sm:p-5 text-white shadow-md flex flex-col justify-between min-h-[180px]">
+      <div className="md:col-span-1 lg:col-span-3 relative overflow-hidden rounded-3xl bg-stone-900 dark:bg-slate-900 border border-stone-800 dark:border-slate-800 p-4 sm:p-5 text-white shadow-md flex flex-col justify-between min-h-[180px]">
         <div className="absolute -right-10 -bottom-10 h-32 w-32 rounded-full bg-amber-500/20 blur-2xl" />
 
         <div className="relative z-10">
@@ -149,7 +149,7 @@ export function CustomerWidget() {
             <Zap className="h-4 w-4 fill-amber-400" />
             <h3 className="text-xs font-bold uppercase tracking-wider">24/7 Emergency Dispatch</h3>
           </div>
-          <p className="text-[11px] font-medium text-stone-300 mt-1">
+          <p className="text-[11px] font-medium text-stone-300 dark:text-slate-300 mt-1">
             Major pipe leak or electrical outage? Emergency techs available now.
           </p>
         </div>

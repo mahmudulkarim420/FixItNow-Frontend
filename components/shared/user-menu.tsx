@@ -13,7 +13,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { Avatar } from "@/components/shared/avatar";
-import { logoutUser } from "@/lib/api";
 import { useAuth } from "@/components/auth/auth-provider";
 import { ROLE_HOME } from "@/lib/auth-constants";
 import { cn } from "@/lib/utils";
@@ -30,9 +29,9 @@ const ROLE_LABELS: Record<User["role"], string> = {
 };
 
 const ROLE_BADGE_STYLES: Record<User["role"], string> = {
-  CUSTOMER: "bg-sky-50 text-sky-700 ring-sky-600/20",
-  TECHNICIAN: "bg-amber-50 text-amber-700 ring-amber-600/20",
-  ADMIN: "bg-rose-50 text-rose-700 ring-rose-600/20",
+  CUSTOMER: "bg-sky-50 text-sky-700 ring-sky-600/20 dark:bg-sky-950/60 dark:text-sky-300 dark:ring-sky-500/30",
+  TECHNICIAN: "bg-amber-50 text-amber-700 ring-amber-600/20 dark:bg-amber-950/60 dark:text-amber-300 dark:ring-amber-500/30",
+  ADMIN: "bg-rose-50 text-rose-700 ring-rose-600/20 dark:bg-rose-950/60 dark:text-rose-300 dark:ring-rose-500/30",
 };
 
 /** Hover intent delay (ms) — prevents flicker when crossing gaps. */
@@ -165,9 +164,10 @@ export function UserMenu({ user }: UserMenuProps) {
         aria-expanded={open}
         className={cn(
           "group flex items-center gap-2 rounded-full border border-stone-200/70 bg-white/80 py-1 pl-1 pr-2 sm:pr-3",
-          "shadow-xs transition-all duration-200 hover:border-amber-300 hover:bg-amber-50/50",
+          "shadow-2xs transition-all duration-200 hover:border-amber-300 hover:bg-amber-50/50",
+          "dark:border-slate-800 dark:bg-slate-900/90 dark:hover:border-amber-500/50 dark:hover:bg-slate-800",
           "focus:outline-none focus-visible:ring-4 focus-visible:ring-amber-500/20",
-          open && "border-amber-300 bg-amber-50/50",
+          open && "border-amber-300 bg-amber-50/50 dark:border-amber-500 dark:bg-slate-800",
         )}
       >
         <Avatar
@@ -178,17 +178,17 @@ export function UserMenu({ user }: UserMenuProps) {
           status={user.status}
         />
         <span className="hidden sm:flex flex-col items-start leading-tight">
-          <span className="max-w-[120px] truncate text-xs font-semibold text-stone-900">
+          <span className="max-w-[120px] truncate text-xs font-semibold text-stone-900 dark:text-slate-100">
             {user.name}
           </span>
-          <span className="text-[10px] font-medium text-stone-500">
+          <span className="text-[10px] font-medium text-stone-500 dark:text-slate-400">
             {ROLE_LABELS[user.role]}
           </span>
         </span>
         <ChevronDown
           className={cn(
-            "hidden sm:block h-4 w-4 text-stone-400 transition-transform duration-200",
-            open && "rotate-180 text-amber-600",
+            "hidden sm:block h-4 w-4 text-stone-400 transition-transform duration-200 dark:text-slate-400",
+            open && "rotate-180 text-amber-600 dark:text-amber-400",
           )}
         />
       </button>
@@ -198,6 +198,7 @@ export function UserMenu({ user }: UserMenuProps) {
         role="menu"
         className={cn(
           "absolute right-0 mt-2 w-64 origin-top-right overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-xl shadow-black/5",
+          "dark:border-slate-800 dark:bg-slate-900 dark:shadow-black/40",
           "transition-all duration-200 ease-out",
           open
             ? "visible opacity-100 translate-y-0 scale-100"
@@ -205,13 +206,13 @@ export function UserMenu({ user }: UserMenuProps) {
         )}
       >
         {/* Header */}
-        <div className="flex items-center gap-3 border-b border-stone-100 bg-gradient-to-br from-stone-50 to-amber-50/40 px-4 py-3.5">
+        <div className="flex items-center gap-3 border-b border-stone-100 bg-gradient-to-br from-stone-50 to-amber-50/40 px-4 py-3.5 dark:border-slate-800 dark:from-slate-900 dark:to-amber-950/20">
           <Avatar name={user.name} src={user.avatar} size="md" />
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold text-stone-900">
+            <p className="truncate text-sm font-semibold text-stone-900 dark:text-slate-100">
               {user.name}
             </p>
-            <p className="truncate text-xs text-stone-500">{user.email}</p>
+            <p className="truncate text-xs text-stone-500 dark:text-slate-400">{user.email}</p>
           </div>
         </div>
 
@@ -241,9 +242,9 @@ export function UserMenu({ user }: UserMenuProps) {
                   setOpen(false);
                   router.push(item.href);
                 }}
-                className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-stone-700 transition-colors hover:bg-amber-50 hover:text-amber-700"
+                className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-stone-700 transition-colors hover:bg-amber-50 hover:text-amber-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-amber-400"
               >
-                <Icon className="h-4 w-4 text-stone-400" />
+                <Icon className="h-4 w-4 text-stone-400 dark:text-slate-400" />
                 {item.label}
               </button>
             );
@@ -251,13 +252,13 @@ export function UserMenu({ user }: UserMenuProps) {
         </nav>
 
         {/* Logout */}
-        <div className="border-t border-stone-100 p-2">
+        <div className="border-t border-stone-100 p-2 dark:border-slate-800">
           <button
             type="button"
             role="menuitem"
             onClick={handleLogout}
             disabled={loggingOut}
-            className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-rose-600 transition-colors hover:bg-rose-50 disabled:opacity-60"
+            className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-rose-600 transition-colors hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-950/30 disabled:opacity-60"
           >
             <LogOut className="h-4 w-4" />
             {loggingOut ? "Signing out..." : "Sign out"}

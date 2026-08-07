@@ -14,13 +14,13 @@ export interface ButtonProps
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "bg-amber-500 text-white hover:bg-amber-600 focus-visible:ring-amber-500/40 shadow-sm shadow-amber-500/20",
+    "bg-amber-500 text-white dark:text-slate-950 hover:bg-amber-600 dark:hover:bg-amber-400 focus-visible:ring-amber-500/40 shadow-2xs shadow-amber-500/20",
   secondary:
-    "bg-zinc-900 text-white hover:bg-zinc-800 focus-visible:ring-zinc-900/40",
+    "bg-zinc-900 text-white hover:bg-zinc-800 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700 focus-visible:ring-zinc-900/40",
   ghost:
-    "bg-transparent text-zinc-700 hover:bg-black/5 focus-visible:ring-zinc-400/40",
+    "bg-transparent text-zinc-700 dark:text-slate-300 hover:bg-black/5 dark:hover:bg-white/10 focus-visible:ring-zinc-400/40",
   outline:
-    "bg-white/60 text-zinc-900 border border-black/10 hover:bg-white focus-visible:ring-zinc-400/40",
+    "bg-white/60 dark:bg-slate-900/60 text-zinc-900 dark:text-slate-100 border border-black/10 dark:border-slate-700 hover:bg-white dark:hover:bg-slate-800 focus-visible:ring-zinc-400/40",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {

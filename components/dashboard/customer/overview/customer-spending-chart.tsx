@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Clock, Phone, ArrowUpRight } from "lucide-react";
+import { Clock, Phone } from "lucide-react";
 import type { Booking, Payment } from "@/types";
 
 interface CustomerAnalyticsProps {
@@ -23,17 +23,17 @@ export function CustomerAnalytics({ bookings = [], payments = [], loading = fals
   const getStatusBadgeClass = (status: string) => {
     switch (status) {
       case "IN_PROGRESS":
-        return "bg-amber-50 text-amber-700 border-amber-100";
+        return "bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-100 dark:border-amber-800";
       case "ACCEPTED":
       case "SCHEDULED":
-        return "bg-blue-50 text-blue-700 border-blue-100";
+        return "bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border-blue-100 dark:border-blue-800";
       case "COMPLETED":
       case "PAID":
-        return "bg-emerald-50 text-emerald-700 border-emerald-100";
+        return "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-100 dark:border-emerald-800";
       case "CANCELLED":
-        return "bg-rose-50 text-rose-700 border-rose-100";
+        return "bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-100 dark:border-rose-800";
       default:
-        return "bg-stone-50 text-stone-700 border-stone-100";
+        return "bg-stone-50 dark:bg-slate-800 text-stone-700 dark:text-slate-300 border-stone-100 dark:border-slate-700";
     }
   };
 
@@ -50,12 +50,12 @@ export function CustomerAnalytics({ bookings = [], payments = [], loading = fals
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-5">
       {/* 1. Monthly Repair Expense Bar Chart */}
-      <div className="md:col-span-2 lg:col-span-5 flex flex-col justify-between rounded-2xl sm:rounded-3xl border border-stone-200/80 bg-white p-3.5 sm:p-5 shadow-xs">
+      <div className="md:col-span-2 lg:col-span-5 flex flex-col justify-between rounded-2xl sm:rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-3.5 sm:p-5 shadow-2xs">
         <div className="flex items-center justify-between gap-2">
-          <h3 className="text-xs sm:text-sm font-bold text-stone-900 truncate">
+          <h3 className="text-xs sm:text-sm font-bold text-stone-900 dark:text-slate-100 truncate">
             Maintenance Spending
           </h3>
-          <span className="text-[10px] sm:text-[11px] font-semibold text-stone-400 shrink-0">
+          <span className="text-[10px] sm:text-[11px] font-semibold text-stone-400 dark:text-slate-400 shrink-0">
             Avg: $235 / mo
           </span>
         </div>
@@ -65,7 +65,7 @@ export function CustomerAnalytics({ bookings = [], payments = [], loading = fals
           {monthlyData.map((item, idx) => (
             <div key={idx} className="flex flex-col items-center flex-1 h-full justify-end group">
               {item.label && (
-                <span className="mb-1 rounded-full bg-stone-900 px-1.5 py-0.5 text-[8.5px] sm:text-[9px] font-extrabold text-amber-400 shadow-xs whitespace-nowrap transition-transform group-hover:scale-110">
+                <span className="mb-1 rounded-full bg-stone-900 dark:bg-slate-800 px-1.5 py-0.5 text-[8.5px] sm:text-[9px] font-extrabold text-amber-400 shadow-2xs whitespace-nowrap transition-transform group-hover:scale-110 border border-stone-800 dark:border-slate-700">
                   {item.label}
                 </span>
               )}
@@ -74,13 +74,13 @@ export function CustomerAnalytics({ bookings = [], payments = [], loading = fals
                 style={{ height: item.height }}
                 className={`w-full rounded-xl sm:rounded-2xl transition-all duration-300 ${
                   item.primary
-                    ? "bg-stone-900"
+                    ? "bg-stone-900 dark:bg-amber-500"
                     : item.active
-                    ? "bg-amber-500 shadow-xs"
-                    : "bg-stone-100 border border-dashed border-stone-300 group-hover:bg-stone-200"
+                    ? "bg-amber-500 dark:bg-amber-400 shadow-2xs"
+                    : "bg-stone-100 dark:bg-slate-800 border border-dashed border-stone-300 dark:border-slate-700 group-hover:bg-stone-200 dark:group-hover:bg-slate-700"
                 }`}
               />
-              <span className="mt-2 text-[10px] sm:text-xs font-bold text-stone-400">
+              <span className="mt-2 text-[10px] sm:text-xs font-bold text-stone-400 dark:text-slate-400">
                 {item.day}
               </span>
             </div>
@@ -89,20 +89,20 @@ export function CustomerAnalytics({ bookings = [], payments = [], loading = fals
       </div>
 
       {/* 2. Live Active Dispatch Status Card */}
-      <div className="md:col-span-1 lg:col-span-3 flex flex-col justify-between rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs">
+      <div className="md:col-span-1 lg:col-span-3 flex flex-col justify-between rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 shadow-2xs">
         <div>
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-xs sm:text-sm font-bold text-stone-900">Active Live Dispatch</h3>
-            <span className="rounded-full bg-amber-500/10 text-amber-700 px-2 py-0.5 text-[10px] font-bold animate-pulse">
+            <h3 className="text-xs sm:text-sm font-bold text-stone-900 dark:text-slate-100">Active Live Dispatch</h3>
+            <span className="rounded-full bg-amber-500/10 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200/60 dark:border-amber-800 px-2 py-0.5 text-[10px] font-bold animate-pulse">
               {activeBooking ? activeBooking.status.replace("_", " ") : "Standby"}
             </span>
           </div>
 
           {loading ? (
-            <div className="mt-3 text-xs text-stone-400 font-medium">Loading active status...</div>
+            <div className="mt-3 text-xs text-stone-400 dark:text-slate-400 font-medium">Loading active status...</div>
           ) : activeBooking ? (
             <div className="mt-3 space-y-2">
-              <h4 className="text-sm sm:text-base font-bold text-stone-900 leading-snug">
+              <h4 className="text-sm sm:text-base font-bold text-stone-900 dark:text-slate-100 leading-snug">
                 {activeBooking.service?.title || "Home Repair Dispatch"}
               </h4>
 
@@ -111,77 +111,77 @@ export function CustomerAnalytics({ bookings = [], payments = [], loading = fals
                 <img
                   src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80"
                   alt={activeBooking.technicianProfile?.user?.name || "Technician"}
-                  className="h-7 w-7 rounded-xl object-cover ring-1 ring-stone-200"
+                  className="h-7 w-7 rounded-xl object-cover ring-1 ring-stone-200 dark:ring-slate-700"
                 />
                 <div className="flex flex-col">
-                  <span className="text-xs font-bold text-stone-900 leading-tight">
+                  <span className="text-xs font-bold text-stone-900 dark:text-slate-100 leading-tight">
                     {activeBooking.technicianProfile?.user?.name || "Assigned Field Tech"}
                   </span>
-                  <span className="text-[9px] font-medium text-stone-400">Certified Specialist</span>
+                  <span className="text-[9px] font-medium text-stone-400 dark:text-slate-400">Certified Specialist</span>
                 </div>
               </div>
 
-              <div className="space-y-1 text-xs text-stone-500">
+              <div className="space-y-1 text-xs text-stone-500 dark:text-slate-400">
                 <p className="flex items-center gap-1.5 font-medium">
-                  <Clock className="h-3.5 w-3.5 text-stone-400 shrink-0" />
+                  <Clock className="h-3.5 w-3.5 text-stone-400 dark:text-slate-400 shrink-0" />
                   <span>{activeBooking.scheduledDate} • {activeBooking.timeSlot}</span>
                 </p>
               </div>
             </div>
           ) : (
-            <div className="mt-4 p-3 rounded-2xl bg-stone-50 border border-stone-100 text-center">
-              <p className="text-xs font-bold text-stone-700">No Active Repair En Route</p>
-              <p className="text-[10px] text-stone-400 mt-0.5">Need help? Book a local verified pro anytime.</p>
+            <div className="mt-4 p-3 rounded-2xl bg-stone-50 dark:bg-slate-800/80 border border-stone-100 dark:border-slate-700 text-center">
+              <p className="text-xs font-bold text-stone-700 dark:text-slate-200">No Active Repair En Route</p>
+              <p className="text-[10px] text-stone-400 dark:text-slate-400 mt-0.5">Need help? Book a local verified pro anytime.</p>
             </div>
           )}
         </div>
 
         <Link
           href="/services"
-          className="mt-5 sm:mt-6 w-full flex items-center justify-center gap-2 rounded-2xl bg-stone-900 py-2.5 sm:py-3 text-xs font-bold text-white shadow-sm transition-all hover:bg-stone-800 active:scale-95"
+          className="mt-5 sm:mt-6 w-full flex items-center justify-center gap-2 rounded-2xl bg-stone-900 dark:bg-amber-500 dark:text-slate-950 py-2.5 sm:py-3 text-xs font-bold text-white shadow-xs transition-all hover:bg-stone-800 dark:hover:bg-amber-400 active:scale-95"
         >
-          <Phone className="h-4 w-4 text-amber-400" />
+          <Phone className="h-4 w-4 text-amber-400 dark:text-slate-950" />
           <span>Book Repair</span>
         </Link>
       </div>
 
       {/* 3. Recent Bookings Queue */}
-      <div className="md:col-span-1 lg:col-span-4 rounded-3xl border border-stone-200/80 bg-white p-4 sm:p-5 shadow-xs">
+      <div className="md:col-span-1 lg:col-span-4 rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 sm:p-5 shadow-2xs">
         <div className="flex items-center justify-between mb-3.5 sm:mb-4">
-          <h3 className="text-xs sm:text-sm font-bold text-stone-900">Recent Bookings</h3>
-          <Link href="/dashboard/customer/bookings" className="text-[10px] font-bold text-amber-600 hover:underline">
+          <h3 className="text-xs sm:text-sm font-bold text-stone-900 dark:text-slate-100">Recent Bookings</h3>
+          <Link href="/dashboard/customer/bookings" className="text-[10px] font-bold text-amber-600 dark:text-amber-400 hover:underline">
             View All →
           </Link>
         </div>
 
         <div className="space-y-3">
           {loading ? (
-            <p className="text-xs text-stone-400 font-medium py-4 text-center">Loading recent dispatches...</p>
+            <p className="text-xs text-stone-400 dark:text-slate-400 font-medium py-4 text-center">Loading recent dispatches...</p>
           ) : recentBookings.length > 0 ? (
             recentBookings.map((b) => (
               <div
                 key={b.id}
-                className="flex items-center justify-between gap-2 group rounded-2xl p-1.5 transition-colors hover:bg-stone-50"
+                className="flex items-center justify-between gap-2 group rounded-2xl p-1.5 transition-colors hover:bg-stone-50 dark:hover:bg-slate-800/80"
               >
                 <div className="flex items-center gap-2.5 overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80"
                     alt={b.technicianProfile?.user?.name || "Tech"}
-                    className="h-8 w-8 sm:h-9 sm:w-9 rounded-xl object-cover shadow-xs ring-2 ring-stone-100 shrink-0"
+                    className="h-8 w-8 sm:h-9 sm:w-9 rounded-xl object-cover shadow-2xs ring-2 ring-stone-100 dark:ring-slate-700 shrink-0"
                   />
                   <div className="overflow-hidden">
-                    <h4 className="text-xs font-bold text-stone-900 group-hover:text-amber-600 transition-colors truncate">
+                    <h4 className="text-xs font-bold text-stone-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors truncate">
                       {b.service?.title || "Home Repair Service"}
                     </h4>
-                    <p className="text-[10px] font-medium text-stone-400 truncate">
+                    <p className="text-[10px] font-medium text-stone-400 dark:text-slate-400 truncate">
                       {b.scheduledDate}
                     </p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-xs font-extrabold text-stone-900">
+                  <span className="text-xs font-extrabold text-stone-900 dark:text-slate-100">
                     ${b.servicePrice || b.service?.price || 0}
                   </span>
                   <span
@@ -195,7 +195,7 @@ export function CustomerAnalytics({ bookings = [], payments = [], loading = fals
               </div>
             ))
           ) : (
-            <p className="text-xs text-stone-400 font-medium py-4 text-center">No bookings found yet.</p>
+            <p className="text-xs text-stone-400 dark:text-slate-400 font-medium py-4 text-center">No bookings found yet.</p>
           )}
         </div>
       </div>

@@ -90,48 +90,48 @@ export default function AdminServicesPage() {
   const paginatedServices = filteredServices.slice(startIndex, startIndex + itemsPerPage);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-stone-900 dark:text-slate-100">
       {/* Title & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-stone-900">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight text-stone-900 dark:text-slate-100">
             Services Catalog
           </h1>
-          <p className="mt-0.5 text-xs sm:text-sm font-medium text-stone-500">
+          <p className="mt-0.5 text-xs sm:text-sm font-medium text-stone-500 dark:text-slate-400">
             Manage repair service offerings, pricing rates, and category associations.
           </p>
         </div>
 
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="flex items-center gap-1.5 rounded-2xl bg-stone-900 px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-stone-800 cursor-pointer"
+          className="flex items-center gap-1.5 rounded-2xl bg-stone-900 dark:bg-amber-500 dark:text-slate-950 px-4 py-2.5 text-xs font-bold text-white shadow-2xs transition hover:bg-stone-800 dark:hover:bg-amber-400 cursor-pointer"
         >
-          <Plus className="h-4 w-4 text-amber-400" />
+          <Plus className="h-4 w-4 text-amber-400 dark:text-slate-950" />
           <span>Add New Service</span>
         </button>
       </div>
 
       {/* Filter & Controls Bar */}
-      <div className="space-y-3 rounded-3xl border border-stone-200/80 bg-white p-4 shadow-xs">
+      <div className="space-y-3 rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-2xs">
         {/* Search Input Bar */}
         <div className="flex items-center gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-stone-400 dark:text-slate-500" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search service title, category..."
-              className="w-full rounded-2xl border border-stone-200/80 bg-stone-50 py-2 pl-10 pr-4 text-xs font-medium text-stone-900 placeholder:text-stone-400 outline-none focus:border-amber-500 focus:bg-white"
+              className="w-full rounded-2xl border border-stone-200/80 dark:border-slate-800 bg-stone-50 dark:bg-slate-800 py-2 pl-10 pr-4 text-xs font-medium text-stone-900 dark:text-slate-100 placeholder:text-stone-400 dark:placeholder:text-slate-500 outline-none focus:border-amber-500 focus:bg-white dark:focus:bg-slate-800"
             />
           </div>
         </div>
 
         {/* Category & Sorting Pills */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-1 border-t border-stone-100">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-1 border-t border-stone-100 dark:border-slate-800">
           {/* Category Filter Pills */}
           <div className="flex items-center gap-1.5 overflow-x-auto py-1">
-            <span className="text-[11px] font-bold text-stone-400 flex items-center gap-1 mr-1">
+            <span className="text-[11px] font-bold text-stone-400 dark:text-slate-500 flex items-center gap-1 mr-1">
               <Filter className="h-3 w-3 text-amber-500" /> Category:
             </span>
             {["ALL", "Cooling", "Plumbing", "Electrical", "Appliances", "Home Care"].map((cat) => (
@@ -140,8 +140,8 @@ export default function AdminServicesPage() {
                 onClick={() => setCategoryFilter(cat)}
                 className={`rounded-2xl px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
                   categoryFilter === cat
-                    ? "bg-amber-500 text-stone-950 shadow-xs"
-                    : "bg-stone-50 text-stone-600 hover:bg-stone-100"
+                    ? "bg-amber-500 text-stone-950 shadow-2xs"
+                    : "bg-stone-50 dark:bg-slate-800 text-stone-600 dark:text-slate-300 hover:bg-stone-100 dark:hover:bg-slate-700"
                 }`}
               >
                 {cat}
@@ -151,15 +151,15 @@ export default function AdminServicesPage() {
 
           {/* Sort Order Pills */}
           <div className="flex items-center gap-1.5">
-            <span className="text-[11px] font-bold text-stone-400 flex items-center gap-1 mr-1">
-              <ArrowUpDown className="h-3 w-3 text-stone-500" /> Sort:
+            <span className="text-[11px] font-bold text-stone-400 dark:text-slate-500 flex items-center gap-1 mr-1">
+              <ArrowUpDown className="h-3 w-3 text-stone-500 dark:text-slate-400" /> Sort:
             </span>
             <button
               onClick={() => setSortOrder("DEFAULT")}
               className={`rounded-2xl px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
                 sortOrder === "DEFAULT"
-                  ? "bg-stone-900 text-amber-400 shadow-xs"
-                  : "bg-stone-50 text-stone-600 hover:bg-stone-100"
+                  ? "bg-stone-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 shadow-2xs"
+                  : "bg-stone-50 dark:bg-slate-800 text-stone-600 dark:text-slate-300 hover:bg-stone-100 dark:hover:bg-slate-700"
               }`}
             >
               Default
@@ -168,8 +168,8 @@ export default function AdminServicesPage() {
               onClick={() => setSortOrder("LOW_TO_HIGH")}
               className={`rounded-2xl px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
                 sortOrder === "LOW_TO_HIGH"
-                  ? "bg-stone-900 text-amber-400 shadow-xs"
-                  : "bg-stone-50 text-stone-600 hover:bg-stone-100"
+                  ? "bg-stone-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 shadow-2xs"
+                  : "bg-stone-50 dark:bg-slate-800 text-stone-600 dark:text-slate-300 hover:bg-stone-100 dark:hover:bg-slate-700"
               }`}
             >
               Price: Low → High
@@ -178,8 +178,8 @@ export default function AdminServicesPage() {
               onClick={() => setSortOrder("HIGH_TO_LOW")}
               className={`rounded-2xl px-3 py-1 text-xs font-bold transition-all cursor-pointer ${
                 sortOrder === "HIGH_TO_LOW"
-                  ? "bg-stone-900 text-amber-400 shadow-xs"
-                  : "bg-stone-50 text-stone-600 hover:bg-stone-100"
+                  ? "bg-stone-900 dark:bg-amber-500 text-amber-400 dark:text-slate-950 shadow-2xs"
+                  : "bg-stone-50 dark:bg-slate-800 text-stone-600 dark:text-slate-300 hover:bg-stone-100 dark:hover:bg-slate-700"
               }`}
             >
               Price: High → Low
@@ -189,15 +189,15 @@ export default function AdminServicesPage() {
       </div>
 
       {loading ? (
-        <div className="p-12 flex flex-col items-center justify-center gap-2 text-stone-500 bg-white rounded-3xl border border-stone-200/80">
+        <div className="p-12 flex flex-col items-center justify-center gap-2 text-stone-500 dark:text-slate-400 bg-white dark:bg-slate-900 rounded-3xl border border-stone-200/80 dark:border-slate-800">
           <Loader2 className="h-6 w-6 animate-spin text-amber-500" />
           <span className="text-xs font-bold">Loading services catalog...</span>
         </div>
       ) : filteredServices.length === 0 ? (
-        <div className="p-12 flex flex-col items-center justify-center gap-2 text-stone-400 bg-white rounded-3xl border border-stone-200/80 text-center">
-          <PackageX className="h-10 w-10 text-stone-300 stroke-[1.5]" />
-          <h3 className="text-sm font-bold text-stone-700">No Services Found</h3>
-          <p className="text-xs text-stone-400 max-w-sm">
+        <div className="p-12 flex flex-col items-center justify-center gap-2 text-stone-400 dark:text-slate-500 bg-white dark:bg-slate-900 rounded-3xl border border-stone-200/80 dark:border-slate-800 text-center">
+          <PackageX className="h-10 w-10 text-stone-300 dark:text-slate-600 stroke-[1.5]" />
+          <h3 className="text-sm font-bold text-stone-700 dark:text-slate-300">No Services Found</h3>
+          <p className="text-xs text-stone-400 dark:text-slate-500 max-w-sm">
             {searchTerm || categoryFilter !== "ALL"
               ? "No services match your search and filter criteria."
               : "No services exist in the catalog."}
@@ -210,11 +210,11 @@ export default function AdminServicesPage() {
             {paginatedServices.map((srv) => (
               <div
                 key={srv.id}
-                className="group overflow-hidden rounded-3xl border border-stone-200/80 bg-white p-4 shadow-xs transition-all hover:shadow-md hover:-translate-y-0.5 flex flex-col justify-between"
+                className="group overflow-hidden rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-2xs transition-all hover:shadow-md hover:-translate-y-0.5 flex flex-col justify-between"
               >
                 <div>
                   {/* Image Banner */}
-                  <div className="relative h-40 w-full overflow-hidden rounded-2xl bg-stone-100 mb-3">
+                  <div className="relative h-40 w-full overflow-hidden rounded-2xl bg-stone-100 dark:bg-slate-800 mb-3">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={srv.image}
@@ -227,26 +227,26 @@ export default function AdminServicesPage() {
                   </div>
 
                   <div className="space-y-1">
-                    <span className="text-[10px] font-mono font-bold text-stone-400 block truncate max-w-[180px]">{srv.id}</span>
-                    <h3 className="text-sm font-bold text-stone-900 leading-snug group-hover:text-amber-600 transition-colors">
+                    <span className="text-[10px] font-mono font-bold text-stone-400 dark:text-slate-500 block truncate max-w-[180px]">{srv.id}</span>
+                    <h3 className="text-sm font-bold text-stone-900 dark:text-slate-100 leading-snug group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
                       {srv.name}
                     </h3>
                   </div>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between">
+                <div className="mt-4 pt-3 border-t border-stone-100 dark:border-slate-800 flex items-center justify-between">
                   <div>
-                    <span className="text-base font-extrabold text-stone-900">${srv.price}</span>
-                    <span className="block text-[10px] font-medium text-stone-400">{srv.duration}</span>
+                    <span className="text-base font-extrabold text-stone-900 dark:text-slate-100">${srv.price}</span>
+                    <span className="block text-[10px] font-medium text-stone-400 dark:text-slate-500">{srv.duration}</span>
                   </div>
 
                   <div className="flex items-center gap-1.5">
-                    <button className="flex h-8 w-8 items-center justify-center rounded-xl border border-stone-200 bg-stone-50 text-stone-600 hover:bg-stone-900 hover:text-white transition-colors cursor-pointer">
+                    <button className="flex h-8 w-8 items-center justify-center rounded-xl border border-stone-200 dark:border-slate-700 bg-stone-50 dark:bg-slate-800 text-stone-600 dark:text-slate-300 hover:bg-stone-900 dark:hover:bg-amber-500 hover:text-white dark:hover:text-slate-950 transition-colors cursor-pointer">
                       <Edit3 className="h-3.5 w-3.5" />
                     </button>
                     <button
                       onClick={() => setDeletingService(srv)}
-                      className="flex h-8 w-8 items-center justify-center rounded-xl border border-rose-100 bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white transition-colors cursor-pointer"
+                      className="flex h-8 w-8 items-center justify-center rounded-xl border border-rose-100 dark:border-rose-900/60 bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white transition-colors cursor-pointer"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>
@@ -257,20 +257,20 @@ export default function AdminServicesPage() {
           </div>
 
           {/* Pagination Controls Footer */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 rounded-3xl border border-stone-200/80 bg-white p-4 shadow-xs">
-            <span className="text-xs font-semibold text-stone-500">
-              Showing <span className="font-extrabold text-stone-900">{startIndex + 1}</span>–
-              <span className="font-extrabold text-stone-900">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-2xs text-stone-900 dark:text-slate-100">
+            <span className="text-xs font-semibold text-stone-500 dark:text-slate-400">
+              Showing <span className="font-extrabold text-stone-900 dark:text-slate-100">{startIndex + 1}</span>–
+              <span className="font-extrabold text-stone-900 dark:text-slate-100">
                 {Math.min(startIndex + itemsPerPage, filteredServices.length)}
               </span>{" "}
-              of <span className="font-extrabold text-stone-900">{filteredServices.length}</span> services
+              of <span className="font-extrabold text-stone-900 dark:text-slate-100">{filteredServices.length}</span> services
             </span>
 
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
                 disabled={currentPage === 1}
-                className="flex h-9 w-9 items-center justify-center rounded-2xl border border-stone-200 bg-white text-stone-600 hover:bg-stone-50 disabled:opacity-40 cursor-pointer transition-colors"
+                className="flex h-9 w-9 items-center justify-center rounded-2xl border border-stone-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-stone-600 dark:text-slate-300 hover:bg-stone-50 dark:hover:bg-slate-700 disabled:opacity-40 cursor-pointer transition-colors"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -282,8 +282,8 @@ export default function AdminServicesPage() {
                     onClick={() => setCurrentPage(pageNum)}
                     className={`h-9 w-9 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
                       currentPage === pageNum
-                        ? "bg-amber-500 text-stone-950 shadow-xs"
-                        : "bg-stone-50 text-stone-600 hover:bg-stone-100"
+                        ? "bg-amber-500 text-stone-950 shadow-2xs"
+                        : "bg-stone-50 dark:bg-slate-800 text-stone-600 dark:text-slate-300 hover:bg-stone-100 dark:hover:bg-slate-700"
                     }`}
                   >
                     {pageNum}
@@ -294,7 +294,7 @@ export default function AdminServicesPage() {
               <button
                 onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
                 disabled={currentPage === totalPages}
-                className="flex h-9 w-9 items-center justify-center rounded-2xl border border-stone-200 bg-white text-stone-600 hover:bg-stone-50 disabled:opacity-40 cursor-pointer transition-colors"
+                className="flex h-9 w-9 items-center justify-center rounded-2xl border border-stone-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-stone-600 dark:text-slate-300 hover:bg-stone-50 dark:hover:bg-slate-700 disabled:opacity-40 cursor-pointer transition-colors"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>

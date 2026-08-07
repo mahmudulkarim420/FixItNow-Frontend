@@ -22,17 +22,17 @@ export default function CreditGaugeSection() {
   ];
 
   return (
-    <section className="py-20 lg:py-28 relative bg-[#F9F7F2]">
+    <section className="py-20 lg:py-28 relative bg-[#F9F7F2] dark:bg-slate-950 transition-colors duration-200">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Heading, Subtitle, Bullet List & CTA */}
           <div className="lg:col-span-6 flex flex-col justify-center">
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 tracking-tight leading-[1.15] mb-6">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-stone-900 dark:text-slate-100 tracking-tight leading-[1.15] mb-6">
               Home repairs made simple, <br />
               reliable, and stress-free.
             </h2>
 
-            <p className="text-stone-600 text-xs sm:text-sm md:text-base leading-relaxed mb-8">
+            <p className="text-stone-600 dark:text-slate-300 text-xs sm:text-sm md:text-base leading-relaxed mb-8">
               Over 10,000+ homeowners trust FixItNow for fast, dependable, and high-quality repairs across AC, plumbing, electrical, and household appliances.
             </p>
 
@@ -42,10 +42,10 @@ export default function CreditGaugeSection() {
                 const Icon = item.icon;
                 return (
                   <div key={idx} className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-full bg-amber-100/90 text-amber-700 flex items-center justify-center shrink-0">
+                    <div className="w-7 h-7 rounded-full bg-amber-100/90 dark:bg-amber-950/80 text-amber-700 dark:text-amber-400 flex items-center justify-center shrink-0">
                       <Icon className="w-4 h-4" />
                     </div>
-                    <span className="text-sm font-semibold text-stone-800">{item.text}</span>
+                    <span className="text-sm font-semibold text-stone-800 dark:text-slate-200">{item.text}</span>
                   </div>
                 );
               })}
@@ -65,27 +65,27 @@ export default function CreditGaugeSection() {
 
           {/* Right Column: Visual Service Quality Gauge Meter Card */}
           <div className="lg:col-span-6 relative flex justify-center">
-            <div className="relative w-full max-w-lg p-8 sm:p-10 rounded-3xl bg-white border border-stone-200/80 shadow-md">
+            <div className="relative w-full max-w-lg p-8 sm:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-stone-200/80 dark:border-slate-800 shadow-md">
               {/* Floating Performance Pills */}
               {/* Avg Rating Pill Top Right */}
-              <div className="absolute top-6 right-6 px-3.5 py-1.5 rounded-full bg-stone-50 border border-stone-200 shadow-xs flex items-center gap-2 text-xs font-semibold">
+              <div className="absolute top-6 right-6 px-3.5 py-1.5 rounded-full bg-stone-50 border border-stone-200 dark:bg-slate-800 dark:border-slate-700 shadow-2xs flex items-center gap-2 text-xs font-semibold">
                 <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                <span className="text-stone-500">Rating</span>
-                <span className="text-stone-900 font-bold">4.9 / 5.0</span>
+                <span className="text-stone-500 dark:text-slate-400">Rating</span>
+                <span className="text-stone-900 dark:text-slate-100 font-bold">4.9 / 5.0</span>
               </div>
 
               {/* Arrival Time Pill Middle Left */}
-              <div className="absolute top-24 left-6 px-3 py-1.5 rounded-full bg-stone-50 border border-stone-200 shadow-xs flex items-center gap-2 text-xs font-semibold">
+              <div className="absolute top-24 left-6 px-3 py-1.5 rounded-full bg-stone-50 border border-stone-200 dark:bg-slate-800 dark:border-slate-700 shadow-2xs flex items-center gap-2 text-xs font-semibold">
                 <Clock className="w-3.5 h-3.5 text-sky-500" />
-                <span className="text-stone-500">Avg Arrival</span>
-                <span className="text-stone-900 font-bold">45 min</span>
+                <span className="text-stone-500 dark:text-slate-400">Avg Arrival</span>
+                <span className="text-stone-900 dark:text-slate-100 font-bold">45 min</span>
               </div>
 
               {/* Satisfaction Pill Bottom Left */}
-              <div className="absolute bottom-10 left-6 px-3 py-1.5 rounded-full bg-stone-50 border border-stone-200 shadow-xs flex items-center gap-2 text-xs font-semibold">
+              <div className="absolute bottom-10 left-6 px-3 py-1.5 rounded-full bg-stone-50 border border-stone-200 dark:bg-slate-800 dark:border-slate-700 shadow-2xs flex items-center gap-2 text-xs font-semibold">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                <span className="text-stone-500">First Visit Fix</span>
-                <span className="text-stone-900 font-bold">99.4%</span>
+                <span className="text-stone-500 dark:text-slate-400">First Visit Fix</span>
+                <span className="text-stone-900 dark:text-slate-100 font-bold">99.4%</span>
               </div>
 
               {/* Semicircular SVG Gauge Meter */}
@@ -103,7 +103,7 @@ export default function CreditGaugeSection() {
                     <path
                       d="M 20 100 A 80 80 0 0 1 180 100"
                       fill="none"
-                      stroke="#F3F4F6"
+                      className="stroke-[#F3F4F6] dark:stroke-slate-800"
                       strokeWidth="20"
                       strokeLinecap="round"
                     />
@@ -117,8 +117,8 @@ export default function CreditGaugeSection() {
                     />
                     {/* Gauge Needle */}
                     <g transform="translate(100, 100) rotate(55)">
-                      <polygon points="-4,-5 0,-70 4,-5" fill="#18181B" />
-                      <circle cx="0" cy="0" r="7" fill="#18181B" />
+                      <polygon points="-4,-5 0,-70 4,-5" className="fill-[#18181B] dark:fill-slate-100" />
+                      <circle cx="0" cy="0" r="7" className="fill-[#18181B] dark:fill-slate-100" />
                       <circle cx="0" cy="0" r="3" fill="#F59E0B" />
                     </g>
                   </svg>
@@ -126,10 +126,10 @@ export default function CreditGaugeSection() {
 
                 {/* Score Text */}
                 <div className="text-center mt-2">
-                  <div className="text-xs uppercase font-extrabold tracking-widest text-stone-900">
+                  <div className="text-xs uppercase font-extrabold tracking-widest text-stone-900 dark:text-slate-100">
                     SERVICE QUALITY INDEX
                   </div>
-                  <div className="text-xs font-semibold text-emerald-600 mt-1">
+                  <div className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-1">
                     Top Rated Household Platform
                   </div>
                 </div>

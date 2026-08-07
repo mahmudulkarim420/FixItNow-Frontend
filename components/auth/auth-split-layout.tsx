@@ -11,7 +11,7 @@ export function AuthSplitLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className={`flex min-h-screen w-full bg-[#F9F7F2] ${
+      className={`flex min-h-screen w-full bg-[#F9F7F2] dark:bg-slate-950 transition-colors duration-200 ${
         isRegister ? "lg:flex-row-reverse" : "lg:flex-row"
       }`}
     >
@@ -24,9 +24,9 @@ export function AuthSplitLayout({ children }: { children: React.ReactNode }) {
           {/* Mobile header logo */}
           <Link
             href="/"
-            className="mb-8 inline-flex items-center justify-center gap-2.5 text-stone-900 lg:hidden group"
+            className="mb-8 inline-flex items-center justify-center gap-2.5 text-stone-900 dark:text-slate-100 lg:hidden group"
           >
-            <div className="relative h-10 w-10 rounded-full overflow-hidden shrink-0 flex items-center justify-center border border-stone-200 bg-white shadow-2xs">
+            <div className="relative h-10 w-10 rounded-full overflow-hidden shrink-0 flex items-center justify-center border border-stone-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-2xs">
               <Image
                 src="/logo.png"
                 alt="FixItNow Logo"
@@ -34,7 +34,7 @@ export function AuthSplitLayout({ children }: { children: React.ReactNode }) {
                 className="object-cover transition-transform group-hover:scale-105"
               />
             </div>
-            <span className="text-xl font-extrabold tracking-tight text-stone-900">
+            <span className="text-xl font-extrabold tracking-tight text-stone-900 dark:text-slate-100">
               FixItNow<span className="text-amber-500 font-extrabold">.</span>
             </span>
           </Link>
