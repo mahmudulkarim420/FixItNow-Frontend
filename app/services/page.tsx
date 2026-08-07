@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { BadgeCheck, CalendarCheck, ShieldCheck, Sparkles, Star, Wrench } from "lucide-react";
@@ -117,10 +118,25 @@ export default async function ServicesPage() {
           </div>
         </section>
 
-        <ServicesCatalog
-          initialCategories={initialCategories}
-          initialServicesRes={initialServicesRes}
-        />
+        <Suspense
+          fallback={
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+              <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
+                {Array.from({ length: 8 }).map((_, idx) => (
+                  <div
+                    key={idx}
+                    className="h-80 rounded-3xl border border-stone-200/80 dark:border-slate-800 bg-white/70 dark:bg-slate-900/70 animate-pulse"
+                  />
+                ))}
+              </div>
+            </div>
+          }
+        >
+          <ServicesCatalog
+            initialCategories={initialCategories}
+            initialServicesRes={initialServicesRes}
+          />
+        </Suspense>
       </main>
       <Footer />
     </div>
