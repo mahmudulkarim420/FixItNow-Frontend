@@ -113,7 +113,7 @@ export function RegisterForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5" noValidate>
       <div className="flex flex-col items-center justify-center gap-2 mb-2">
-        <label className="text-xs font-bold text-stone-700">Profile Picture (Optional)</label>
+        <label className="text-xs font-bold text-stone-700 dark:text-white/80">Profile Picture (Optional)</label>
         <div className="relative group cursor-pointer" onClick={() => fileInputRef.current?.click()}>
           <div className="relative h-20 w-20 rounded-full overflow-hidden border-2 border-stone-200 bg-amber-50 flex items-center justify-center shadow-xs transition group-hover:border-amber-400">
             {avatarPreview ? (
@@ -156,7 +156,7 @@ export function RegisterForm() {
           className="hidden"
         />
 
-        <p className="text-[11px] text-stone-500">
+        <p className="text-[11px] text-stone-500 dark:text-white/80">
           Click circle to choose photo (Max 3MB)
         </p>
       </div>

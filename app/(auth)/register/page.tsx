@@ -22,7 +22,7 @@ export default function RegisterPage() {
         <span className="mx-auto mb-1 inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">
           Get started
         </span>
-        <h1 className="text-2xl font-bold tracking-tight text-zinc-900">
+        <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
           Create your account
         </h1>
         <p className="text-sm text-zinc-500">
