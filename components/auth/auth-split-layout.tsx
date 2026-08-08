@@ -31,6 +31,7 @@ export function AuthSplitLayout({ children }: { children: React.ReactNode }) {
                 src="/logo.png"
                 alt="FixItNow Logo"
                 fill
+                sizes="40px"
                 className="object-cover transition-transform group-hover:scale-105"
               />
             </div>

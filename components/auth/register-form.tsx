@@ -121,6 +121,7 @@ export function RegisterForm() {
                 src={avatarPreview}
                 alt="Profile Preview"
                 fill
+                sizes="80px"
                 className="object-cover"
               />
             ) : (

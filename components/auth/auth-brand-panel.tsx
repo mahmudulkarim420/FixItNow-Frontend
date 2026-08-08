@@ -20,6 +20,7 @@ export function AuthBrandPanel() {
         src={bgImage}
         alt="FixItNow Authentication Banner"
         fill
+        sizes="(max-width: 1024px) 100vw, 50vw"
         priority
         className="object-cover opacity-30"
       />
@@ -37,6 +38,7 @@ export function AuthBrandPanel() {
               src="/logo.png"
               alt="FixItNow Logo"
               fill
+              sizes="44px"
               className="object-cover transition-transform group-hover:scale-105"
             />
           </div>

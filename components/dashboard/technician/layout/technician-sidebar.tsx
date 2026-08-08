@@ -123,6 +123,7 @@ export function TechnicianSidebar({ mobileOpen, onCloseMobile }: TechnicianSideb
                 src="/logo.png"
                 alt="FixItNow Logo"
                 fill
+                sizes="40px"
                 className="object-cover transition-transform group-hover:scale-105"
               />
             </div>
