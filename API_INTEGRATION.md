@@ -161,6 +161,25 @@ List endpoints accept these **query params** (see [`validations/index.ts`](src/v
 
 Base path: `/api/auth` — see [`auth.route.ts`](src/modules/auth/auth.route.ts:81)
 
+### `GET /auth/google`
+
+**Access:** Public
+
+**Description:** Initiates Google OAuth 2.0 flow. Redirects user to Google OAuth consent page.
+
+**Query Parameters:**
+- `redirect` *(optional)*: Relative frontend route to redirect to after successful authentication (e.g. `/bookings`, `/dashboard/technician`).
+
+---
+
+### `GET /auth/google/callback`
+
+**Access:** Public (Google redirect)
+
+**Description:** Handles Google OAuth authorization callback, exchanges code for verified profile, creates or links user in database, signs existing JWT `accessToken` & `refreshToken` cookies, and redirects user to the frontend.
+
+---
+
 ### `POST /auth/register`
 
 **Access:** Public
